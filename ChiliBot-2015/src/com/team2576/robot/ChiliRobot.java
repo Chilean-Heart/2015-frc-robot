@@ -1,4 +1,4 @@
-package com.team2576;
+package com.team2576.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 
