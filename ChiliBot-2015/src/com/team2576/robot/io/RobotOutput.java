@@ -1,5 +1,11 @@
 package com.team2576.robot.io;
 
+import com.team2576.lib.Kapellmeister;
+import com.team2576.robot.ChiliConstants;
+
+import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.Talon;
+
 /**
 *
 * @author Lucas
@@ -8,6 +14,20 @@ package com.team2576.robot.io;
 public class RobotOutput implements IOComponent {
 	
 	private static RobotOutput instance;
+	private Object[] data;
+	
+	private final Talon front_left, rear_left, front_right, rear_right;
+	private final Jaguar winch;
+	
+	public RobotOutput() {
+		front_left = new Talon(ChiliConstants.front_left_motor);
+		rear_left = new Talon(ChiliConstants.rear_left_motor);
+		front_right = new Talon(ChiliConstants.front_right_motor);
+		rear_right = new Talon(ChiliConstants.rear_right_motor);
+		winch = new Jaguar(ChiliConstants.winch_motor);
+	}
+	
+	
 
 	public static RobotOutput getInstance() {
 		if(instance == null) {
@@ -21,6 +41,6 @@ public class RobotOutput implements IOComponent {
 	}
 
 	public void shareIn(Object[] data) {
-		
+		this.data = data;
 	}
 }

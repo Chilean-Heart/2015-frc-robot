@@ -13,36 +13,23 @@ import edu.wpi.first.wpilibj.Jaguar;
 
 public class DriveTrain implements SubComponent {
 	
-	private final Jaguar front_left, rear_left, front_right, rear_right;
-    private final Gyro gyro;
+	/*private final Jaguar front_left, rear_left, front_right, rear_right;
+    private final Gyro gyro;*/
     private boolean use_gyro;
     private final double GAIN = 1;
     private static DriveTrain instance;
     
     public static DriveTrain getInstance() {
     	if(instance == null) {
-    		instance = new DriveTrain(ChiliConstants.front_left_motor, ChiliConstants.rear_left_motor, ChiliConstants.front_right_motor, ChiliConstants.rear_right_motor);
+    		instance = new DriveTrain();
     	}
     	return instance;
     }
     
-    public DriveTrain(int fl, int rl, int fr, int rr){
-        this.front_left = new Jaguar(fl);
-        this.rear_left = new Jaguar(rl);
-        this.front_right = new Jaguar(fr);
-        this.rear_right = new Jaguar(rr);
-        use_gyro = false;
-        gyro = null;
+    public DriveTrain(){
+        this.use_gyro = ChiliConstants.use_gyro;
     }
     
-    public DriveTrain(int fl, int rl, int fr, int rr, int g){
-        this.front_left = new Jaguar(fl);
-        this.rear_left = new Jaguar(rl);
-        this.front_right = new Jaguar(fr);
-        this.rear_right = new Jaguar(rr);
-        use_gyro = true;
-        gyro = new Gyro(g);
-    }
     
     private void mecanumDrive(double hor, double ver, double rotate){
         //Rotation deadband
@@ -61,7 +48,7 @@ public class DriveTrain implements SubComponent {
         
         //If gyro is used, assign real value to gyro_deg
         if(use_gyro){
-            gyro_deg = gyro.getAngle() % 360 + 180;
+            //gyro_deg = gyro.getAngle() % 360 + 180;
         }
         
         //Prevent flipflop of values
@@ -104,10 +91,10 @@ public class DriveTrain implements SubComponent {
         
         double[] resulting_forces = ChiliFunctions.normalize(forces);
         
-        front_left.set(GAIN * resulting_forces[0]);
+        /*front_left.set(GAIN * resulting_forces[0]);
         rear_left.set(GAIN * resulting_forces[1]);
         front_right.set(GAIN * resulting_forces[2]);
-        rear_right.set(GAIN * resulting_forces[3]);
+        rear_right.set(GAIN * resulting_forces[3]);*/
     }
 
 	public Object[] update(Object[] dataDriver, Object[] dataSensor) {

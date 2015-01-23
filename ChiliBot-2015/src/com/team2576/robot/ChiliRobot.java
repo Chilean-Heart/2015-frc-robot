@@ -7,7 +7,6 @@ package com.team2576.robot;
 
 import com.team2576.lib.Kapellmeister;
 import com.team2576.robot.subsystems.DriveTrain;
-
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class ChiliRobot extends IterativeRobot {
@@ -33,11 +32,11 @@ public class ChiliRobot extends IterativeRobot {
     }
 
     public void teleopInit() {
-    	kapellmeister.conduct();    	
+    	
     }
     
     public void teleopPeriodic() {
-        
+    	kapellmeister.conduct();         
     }
     
     public void disabledPeriodic() {

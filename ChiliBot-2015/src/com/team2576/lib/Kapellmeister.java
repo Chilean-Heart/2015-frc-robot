@@ -38,14 +38,18 @@ public class Kapellmeister {
 	}
 	
 	public void conduct() {
+		
 		dataDriver = driverIn.shareOut();
 		dataSensor = sensorIn.shareOut();
+		
 		for(int i = 0 ; i < this.Virtuosen.size(); i++) {
 			//((SubComponent) this.Virtuosen.elementAt(i)).update();
 			dataOut.add(((SubComponent) this.Virtuosen.elementAt(i)).update(dataDriver, dataSensor));			
 		}
+		
 		Object[] dataOutput = new Object[dataOut.size()];
-		robotOut.shareIn(dataOutput);
+		robotOut.shareIn(dataOutput);		
+		dataOut.clear();
 	}
 	
 	public void silence() {
