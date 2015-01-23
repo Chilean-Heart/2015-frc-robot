@@ -1,4 +1,4 @@
-package com.team2576.some;
+package com.team2576.lib.util;
 
 /**
 *
