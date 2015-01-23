@@ -1,5 +1,17 @@
 package com.team2576.robot.subsystems;
 
-public class DriveTrain {
+/**
+*
+* @author Lucas
+*/
 
+public class DriveTrain implements SubComponent {
+
+	public Object[] update(Object[] dataDriver, Object[] dataSensor) {
+		return null;
+	}
+
+	public void disable() {
+		
+	}
 }

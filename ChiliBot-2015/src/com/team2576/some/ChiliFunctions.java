@@ -1,9 +1,10 @@
-package com.team2576.lib;
+package com.team2576.some;
 
 /**
 *
 * @author Lucas
 */
+
 public class ChiliFunctions {
    
    /**
@@ -13,7 +14,7 @@ public class ChiliFunctions {
     * @param val value to obtain absolute value
     * @return val absolute value
     */
-   public double abs(double val){
+   public static double abs(double val){
        if (val < 0){
            return val * -1;
        }
@@ -29,7 +30,7 @@ public class ChiliFunctions {
     * @param max Maximum value for val
     * @return val Clamped value between two values
     */
-   public double clamp(double val, double min, double max){
+   public static double clamp(double val, double min, double max){
        if(val > max){
            return max;
        } else if(val < min) {
@@ -39,7 +40,7 @@ public class ChiliFunctions {
        }
    }
    
-   public double clamp_output(double val){
+   public static double clamp_output(double val){
        if(val > 1){
            return 1;
        } else if(val < -1){
@@ -49,12 +50,12 @@ public class ChiliFunctions {
        }
    }
    
-   public double[] normalize(double[] values){
+   public static double[] normalize(double[] values){
        double max_val = 0;
        double[] return_vals = new double[values.length];
        for(int i = 0; i < values.length; i++){
            if(values[i] > max_val){
-               max_val = abs(values[i]);
+               max_val = Math.abs(values[i]);
            }
        }
        if(max_val <= 1){
@@ -67,7 +68,7 @@ public class ChiliFunctions {
        return return_vals;
    }
    
-   public void print(int x){
+   public static void print(int x){
 	   System.out.println(x);
    }
 

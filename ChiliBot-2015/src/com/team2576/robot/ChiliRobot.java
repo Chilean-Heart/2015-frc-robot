@@ -1,5 +1,10 @@
 package com.team2576.robot;
 
+/**
+*
+* @author Lucas
+*/
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class ChiliRobot extends IterativeRobot {
