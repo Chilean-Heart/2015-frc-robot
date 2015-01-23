@@ -41,10 +41,14 @@ public class ChiliFunctions {
    }
    
    public static double clamp_output(double val){
-       if(val > 1){
-           return 1;
-       } else if(val < -1){
-           return -1;
+      return clamp_output(val,1.0);
+   }
+   
+   public static double clamp_output(double val,double max){
+	   if(val > max){
+           return max;
+       } else if(val < -max){
+           return -max;
        } else {
            return val;
        }
