@@ -1,5 +1,6 @@
 package com.team2576.robot.subsystems;
 
+import java.util.Vector;
 import com.team2576.lib.util.ChiliFunctions;
 import com.team2576.robot.ChiliConstants;
 
@@ -97,7 +98,7 @@ public class DriveTrain implements SubComponent {
         rear_right.set(GAIN * resulting_forces[3]);*/
     }
 
-	public Object[] update(Object[] dataDriver, Object[] dataSensor) {
+	public Vector<Object> update(Vector<Object> dataDriver, Vector<Object> dataSensor) {
 		return null;
 	}
 

@@ -1,6 +1,7 @@
 package com.team2576.robot.io;
 
-import com.team2576.lib.Kapellmeister;
+import java.util.Vector;
+
 import com.team2576.robot.ChiliConstants;
 
 import edu.wpi.first.wpilibj.Jaguar;
@@ -14,7 +15,7 @@ import edu.wpi.first.wpilibj.Talon;
 public class RobotOutput implements IOComponent {
 	
 	private static RobotOutput instance;
-	private Object[] data;
+	private Vector<Object> data;
 	
 	private final Talon front_left, rear_left, front_right, rear_right;
 	private final Jaguar winch;
@@ -27,8 +28,6 @@ public class RobotOutput implements IOComponent {
 		winch = new Jaguar(ChiliConstants.winch_motor);
 	}
 	
-	
-
 	public static RobotOutput getInstance() {
 		if(instance == null) {
 			instance = new RobotOutput();
@@ -36,11 +35,11 @@ public class RobotOutput implements IOComponent {
 		return instance;
 	}
 
-	public Object[] shareOut() {
+	public Vector<Object> shareOut() {
 		return null;
 	}
 
-	public void shareIn(Object[] data) {
-		this.data = data;
+	public void shareIn(Vector<Object> dataOut) {
+		this.data = dataOut;
 	}
 }

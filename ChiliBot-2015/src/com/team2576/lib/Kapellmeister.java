@@ -1,6 +1,5 @@
 package com.team2576.lib;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
 import com.team2576.robot.io.*;
@@ -20,8 +19,7 @@ public class Kapellmeister {
 	private DriverInput driverIn;
 	private SensorInput sensorIn;
 	
-	private Object[] dataDriver, dataSensor;
-	private ArrayList<Object> dataOut;
+	private Vector<Object> dataOut, dataDriver, dataSensor;
 	
 	public Kapellmeister() {
 		this.Virtuosen = new Vector<SubComponent>();
@@ -47,8 +45,7 @@ public class Kapellmeister {
 			dataOut.add(((SubComponent) this.Virtuosen.elementAt(i)).update(dataDriver, dataSensor));			
 		}
 		
-		Object[] dataOutput = new Object[dataOut.size()];
-		robotOut.shareIn(dataOutput);		
+		robotOut.shareIn(dataOut);		
 		dataOut.clear();
 	}
 	
