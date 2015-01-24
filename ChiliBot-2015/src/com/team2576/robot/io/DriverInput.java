@@ -1,5 +1,7 @@
 package com.team2576.robot.io;
 
+import java.util.Vector;
+
 /**
 *
 * @author Lucas
@@ -16,11 +18,11 @@ public class DriverInput implements IOComponent {
 		return instance;
 	}
 
-	public Object[] shareOut() {
+	public Vector<Object> shareOut() {
 		return null;		
 	}
 
-	public void shareIn(Object[] data) {
+	public void shareIn(Vector<Object> data) {
 		
 	}
 }

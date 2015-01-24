@@ -1,5 +1,7 @@
 package com.team2576.robot.io;
 
+import java.util.Vector;
+
 import com.team2576.robot.ChiliConstants;
 
 import edu.wpi.first.wpilibj.Gyro;
@@ -26,11 +28,11 @@ public class SensorInput implements IOComponent {
 		return instance;
 	}
 
-	public Object[] shareOut() {
+	public Vector<Object> shareOut() {
 		return null;		
 	}
 
-	public void shareIn(Object[] data) {
+	public void shareIn(Vector<Object> data) {
 		
 	}
 }
