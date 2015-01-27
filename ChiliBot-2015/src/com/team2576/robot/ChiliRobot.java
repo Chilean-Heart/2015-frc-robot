@@ -6,20 +6,25 @@ package com.team2576.robot;
 */
 
 import com.team2576.lib.Kapellmeister;
-import com.team2576.robot.subsystems.DriveTrain;
+import com.team2576.robot.subsystems.PatoDrive;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 
 public class ChiliRobot extends IterativeRobot {
 	
 	Kapellmeister kapellmeister;
-	DriveTrain meca_base;
+	PatoDrive meca_base;
+	long counter;
 	
 	public ChiliRobot() {
-		kapellmeister = Kapellmeister.getInstance();
-		meca_base = DriveTrain.getInstance();
+		
 	}
 	
     public void robotInit() {
+    	counter = 0;
+    	kapellmeister = Kapellmeister.getInstance();
+		meca_base = PatoDrive.getInstance();
     	kapellmeister.addTask(meca_base);
     }
     
@@ -32,11 +37,15 @@ public class ChiliRobot extends IterativeRobot {
     }
 
     public void teleopInit() {
-    	
+    	System.out.println("Finished teleop init");
     }
     
     public void teleopPeriodic() {
-    	kapellmeister.conduct();         
+    	System.out.println("Made it to the loop");
+    	while(isOperatorControl() && isEnabled()) {
+    		kapellmeister.conduct();
+    		Timer.delay(0.005);
+    	}
     }
     
     public void disabledPeriodic() {

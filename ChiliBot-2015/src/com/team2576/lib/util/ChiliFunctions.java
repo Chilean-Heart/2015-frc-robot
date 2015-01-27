@@ -1,5 +1,7 @@
 package com.team2576.lib.util;
 
+import java.util.Vector;
+
 /**
 *
 * @author Lucas
@@ -74,6 +76,19 @@ public class ChiliFunctions {
    
    public static void print(int x){
 	   System.out.println(x);
+   }
+   
+   /**
+    * 
+    * @param outer_index
+    * @param inner_index
+    * @param vector
+    * @return inner value
+    */
+   public static Object doubleArray(byte outer_index, byte inner_index, Vector vector) {
+	   Object temp = vector.elementAt(outer_index);
+	   Vector temp2 = (Vector) temp;
+	   return temp2.elementAt(inner_index); 
    }
 
    
