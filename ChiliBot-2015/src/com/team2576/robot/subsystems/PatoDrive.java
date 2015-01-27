@@ -34,7 +34,7 @@ public class PatoDrive implements SubComponent {
     
     
     @SuppressWarnings("unused")
-	private double[] mecanumDrive(double hor, double ver, double rotate){
+	private double[] mecanumDrive(double hor, double ver, double rotate,double gyro){
         //Rotation deadband
         if(Math.abs(rotate) < 0.1){
             rotate = 0;
@@ -51,7 +51,7 @@ public class PatoDrive implements SubComponent {
         
         //If gyro is used, assign real value to gyro_deg
         if(use_gyro){
-            //gyro_deg = gyro.getAngle() % 360 + 180;
+            gyro_deg = gyro % 360 + 180;
         }
         
         //Prevent flipflop of values
@@ -120,6 +120,7 @@ public class PatoDrive implements SubComponent {
     
     public double[] patoDrive(Vector<Object> dataDriver, Vector<Object> dataSensor,double Selector){
     	
+    	 	
     	if(Selector == 1){ //Arcade
     		double forward = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
     		double steer = (double) dataDriver.elementAt(ChiliConstants.kLeftXAxis);
@@ -136,21 +137,25 @@ public class PatoDrive implements SubComponent {
     		double left = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
     		double right = (double) dataDriver.elementAt(ChiliConstants.kRightYAxis);
     		
-    		return tankDrive(left,right);
+    		return tankDrive(left, right);
     	}
     	else if(Selector == 4){ //Mecanum Arcade
     		double ver = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
     		double rotate = (double) dataDriver.elementAt(ChiliConstants.kLeftXAxis);
     		double hor = (double) dataDriver.elementAt(ChiliConstants.kRLTriggers);
     		
-    		return mecanumDrive(hor, ver, rotate);
+    		double gyro = (double) dataSensor.elementAt(ChiliConstants.kGyroAngle);
+    		
+    		return mecanumDrive(hor, ver, rotate, gyro);
     	}
     	else if(Selector == 5){ //Mecanum FPS
     		double ver = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
     		double rotate = (double) dataDriver.elementAt(ChiliConstants.kRightXAxis);
     		double hor = (double) dataDriver.elementAt(ChiliConstants.kRLTriggers);
     		
-    		return mecanumDrive(hor, ver, rotate);
+    		double gyro = (double) dataSensor.elementAt(ChiliConstants.kGyroAngle);
+    		
+    		return mecanumDrive(hor, ver, rotate, gyro);
     	}
     	else { //Mecanum Tank
     		double left = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
@@ -160,7 +165,9 @@ public class PatoDrive implements SubComponent {
     		double ver = (left+right)/2;
     		double rotate = (left-right)/2;
     		
-    		return mecanumDrive(hor, ver, rotate);
+    		double gyro = (double) dataSensor.elementAt(ChiliConstants.kGyroAngle);
+    		
+    		return mecanumDrive(hor, ver, rotate, gyro);
     	}
     	
     }
