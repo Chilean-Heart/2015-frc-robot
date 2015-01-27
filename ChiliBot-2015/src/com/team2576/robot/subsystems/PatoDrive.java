@@ -15,8 +15,6 @@ import edu.wpi.first.wpilibj.Jaguar;
 
 public class PatoDrive implements SubComponent {
 	
-	/*private final Jaguar front_left, rear_left, front_right, rear_right;
-    private final Gyro gyro;*/
     private boolean use_gyro;
     private final double GAIN = 1;
     private static PatoDrive instance;
