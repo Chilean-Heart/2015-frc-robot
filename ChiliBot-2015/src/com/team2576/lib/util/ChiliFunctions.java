@@ -42,6 +42,8 @@ public class ChiliFunctions {
        }
    }
    
+   
+   
    public static double clamp_output(double val){
       return clamp_output(val,1.0);
    }

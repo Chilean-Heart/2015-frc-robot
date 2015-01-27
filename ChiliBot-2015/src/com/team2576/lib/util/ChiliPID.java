@@ -1,5 +1,11 @@
 package com.team2576.lib.util;
 
+/**
+*
+* @author Picken
+*/
+
+
 public class ChiliPID {
 	
 	private double kP, kI, kD; //Constantes del PID

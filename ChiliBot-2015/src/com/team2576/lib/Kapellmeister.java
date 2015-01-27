@@ -38,6 +38,9 @@ public class Kapellmeister {
 		return Konzertmeister;
 	}
 	
+	//1)Obtiene la informacion del DS y de los sensores
+	//2)Le entrega esta informacion a cada subsistema y recibe de este un Vector con la informacion para las salidas
+	//3)Envia la informacion para las salidas al encargado de los actuadores.
 	public void conduct() {		
 		dataDriver = driverIn.shareOut();
 		dataSensor = sensorIn.shareOut();		
@@ -48,12 +51,14 @@ public class Kapellmeister {
 		dataOut.clear();
 	}
 	
+	//Disablea los subsistemas
 	public void silence() {
 		for(int i = 0 ; i < this.Virtuosen.size(); i++) {
 			((SubComponent) this.Virtuosen.elementAt(i)).disable();
 		}
 	}
 	
+	//Agrega Subsistemas al conductor
 	public void addTask(SubComponent component) {
 		this.Virtuosen.addElement(component);
 	}
