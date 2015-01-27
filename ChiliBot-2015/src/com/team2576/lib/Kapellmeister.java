@@ -22,7 +22,10 @@ public class Kapellmeister {
 	private Vector<Object> dataOut, dataDriver, dataSensor;
 	
 	public Kapellmeister() {
-		this.Virtuosen = new Vector<SubComponent>();
+		this.Virtuosen = new Vector<SubComponent>(20, 1);
+		this.dataOut = new Vector<Object>(20, 1);
+		this.dataDriver = new Vector<Object>(20, 1);
+		this.dataSensor = new Vector<Object>(20, 1);
 		this.robotOut = RobotOutput.getInstance();
 		this.driverIn = DriverInput.getInstance();
 		this.sensorIn = SensorInput.getInstance();
@@ -35,16 +38,12 @@ public class Kapellmeister {
 		return Konzertmeister;
 	}
 	
-	public void conduct() {
-		
+	public void conduct() {		
 		dataDriver = driverIn.shareOut();
-		dataSensor = sensorIn.shareOut();
-		
+		dataSensor = sensorIn.shareOut();		
 		for(int i = 0 ; i < this.Virtuosen.size(); i++) {
-			//((SubComponent) this.Virtuosen.elementAt(i)).update();
 			dataOut.add(((SubComponent) this.Virtuosen.elementAt(i)).update(dataDriver, dataSensor));			
-		}
-		
+		}		
 		robotOut.shareIn(dataOut);		
 		dataOut.clear();
 	}

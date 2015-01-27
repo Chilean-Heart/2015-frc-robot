@@ -24,6 +24,7 @@
   <property file="${user.home}/wpilib/wpilib.properties"/>
   <property file="build.properties"/>
   <property file="${user.home}/wpilib/java/${version}/ant/build.properties"/>
+  <property file="C:/Users/Lucas/wpilib/java/current/ant/build.properties"/>
   
   <import file="${wpilib.ant.dir}/build.xml"/>
 
