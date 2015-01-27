@@ -38,9 +38,12 @@ public class DriverInput implements IOComponent {
 		return this.xbox_controller.getRawAxis(ChiliConstants.kLeftYAxis);
 	}
 	
-	public double getXboxTriggers() {
-		//Triggers go from 0 (unpressed) to 1 (fully pressed). The axis value is calculated as : axis = right_val - left_val
-		return this.xbox_controller.getRawAxis(ChiliConstants.kRLTriggers);
+	public double getXboxLeftTrigger() {
+		return this.xbox_controller.getRawAxis(ChiliConstants.kLeftTriggers);
+	}
+	
+	public double getXboxRightTrigger() {
+		return this.xbox_controller.getRawAxis(ChiliConstants.kRightTriggers);
 	}
 	
 	public double getXboxRightX() {
@@ -51,9 +54,6 @@ public class DriverInput implements IOComponent {
 		return this.xbox_controller.getRawAxis(ChiliConstants.kRightYAxis);
 	}
 	
-	public double getXboxDPad() {
-		return this.xbox_controller.getRawAxis(ChiliConstants.kDPadLR);
-	}
 	
 	public boolean[] getXboxButtons(){
 		boolean[] buttons = {this.xbox_controller.getRawButton(1), this.xbox_controller.getRawButton(2), 
@@ -65,10 +65,10 @@ public class DriverInput implements IOComponent {
 		driverOut.clear();
 		driverOut.add(ChiliConstants.kLeftXAxis, this.getXboxLeftX());		
 		driverOut.add(ChiliConstants.kLeftYAxis, this.getXboxLeftY());
-		driverOut.add(ChiliConstants.kRLTriggers, this.getXboxTriggers());
+		driverOut.add(ChiliConstants.kLeftTriggers, this.getXboxLeftTrigger());
+		driverOut.add(ChiliConstants.kRightTriggers, this.getXboxRightTrigger());
 		driverOut.add(ChiliConstants.kRightXAxis, this.getXboxRightX());		
 		driverOut.add(ChiliConstants.kRightYAxis, this.getXboxRightY());
-		driverOut.add(ChiliConstants.kDPadLR, this.getXboxDPad());
 		driverOut.add(ChiliConstants.kXboxButtons, this.getXboxButtons());
 		System.out.println(driverOut.elementAt(ChiliConstants.kLeftYAxis));
 		return driverOut;

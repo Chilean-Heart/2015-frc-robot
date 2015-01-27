@@ -54,8 +54,8 @@ public class SensorInput implements IOComponent {
 		return this.limit_bot.get();
 	}
 	
-	private double getPDPChannelCurrent(byte chan) {
-		return this.pdp.getCurrent(chan);
+	private double getPDPChannelCurrent(byte channel) {
+		return this.pdp.getCurrent(channel);
 	}
 	
 	private double getPDPTemp() {
@@ -82,6 +82,8 @@ public class SensorInput implements IOComponent {
 		sensorOut.add(ChiliConstants.kBotLimitState, this.getBotLimit());
 		sensorOut.add(ChiliConstants.kPDPTemp, this.getPDPTemp());
 		sensorOut.add(ChiliConstants.kPDPTotalCurrent, this.getPDPTotalCurrent());
+		sensorOut.add(ChiliConstants.kPDPTotalEnergy, this.getPDPTotalEnergy());
+		sensorOut.add(ChiliConstants.kPDPTotalPower, this.getPDPTotalPower());
 		return sensorOut;		
 	}
 
