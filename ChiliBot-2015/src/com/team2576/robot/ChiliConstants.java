@@ -41,6 +41,14 @@ public class ChiliConstants {
 	public static final byte kPDPTotalCurrent = 5;
 	public static final byte kPDPTotalEnergy = 6;
 	public static final byte kPDPTotalPower = 7;
+	public static final byte kPDPChannel0 = 8;
+	public static final byte kPDPChannel1 = 9;
+	public static final byte kPDPChannel2 = 10;
+	public static final byte kPDPChannel3 = 11;
+	public static final byte kPDPChannel4 = 12;
+	public static final byte kPDPChannel5 = 13;
+	public static final byte kPDPChannel6 = 14;
+	public static final byte kPDPChannel7 = 15;
 	//---------------------------------------------
 	
 	//DriverInput.java
@@ -62,6 +70,8 @@ public class ChiliConstants {
 	public static final byte iDriveTrain = 0;
 	public static final byte iStacker = 0;
 	//--------------------------------------------
+	
+	
 		
 	public ChiliConstants() {}
 }

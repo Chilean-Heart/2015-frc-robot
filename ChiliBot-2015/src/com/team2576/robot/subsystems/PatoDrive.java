@@ -168,8 +168,7 @@ public class PatoDrive implements SubComponent {
 	public Vector<Object> update(Vector<Object> dataDriver, Vector<Object> dataSensor) {
 		boolean time_again = (Timer.getFPGATimestamp() - time_marker) > TIME_BETWEEN_TOGGLES;
 		if(((boolean) dataDriver.elementAt(ChiliConstants.kXboxDriveTrigger)) && time_again) {
-			mode_selector++;
-			mode_selector = ChiliFunctions.overFlowToZero(mode_selector, DRIVE_TYPES);
+			mode_selector = ChiliFunctions.overFlowToZero(++mode_selector, DRIVE_TYPES);
 		}
 		patoDrive(dataDriver, dataSensor, mode_selector);
 		return this.dataDrive;
