@@ -21,8 +21,8 @@ public class Logger {
 	private DriverStation driver;
 	
 	private String loggables = "time,frontLeftForce,rearLeftForce,frontRightForce,rearRightForce,winchForce,"
-								+ "batteryVoltage,pdpTemp,pdpTotalCurrent,current0,current1,current2,current3,"
-								+ "current4,current5,current6,current7,";
+	+ "batteryVoltage,pdpTemp,pdpTotalCurrent,current0,current1,current2,current3,"
+			+ "current4,current5,current6,current7,";
 	
 	public static Logger getInstance() {
 		if (instance == null) {
@@ -78,8 +78,8 @@ public class Logger {
 	
 	private String generatePath() {		
 		if(this.driver.isFMSAttached()) {
-			return String.format("%s/%d_%s_%s_position%d_log.txt", this.directory, ++this.index, this.generateTimeStamp(logger_time),
-								 this.driver.getAlliance().toString(), this.driver.getLocation());
+			return String.format("%s/%d_%s_%s_position%d_log.txt", this.directory, ++this.index, this.generateTimeStamp(logger_time), 
+					this.driver.getAlliance().toString(), this.driver.getLocation());
 		} 
 		return String.format("%s/%d_log.txt", this.directory, ++this.index);
 	}
@@ -87,6 +87,6 @@ public class Logger {
 	private String generateTimeStamp(Date time) {
 		time = null;
 		time = new Date();
-		return (time_format.format(time)).toString();
+		return (this.time_format.format(time)).toString();
 	}
 }
