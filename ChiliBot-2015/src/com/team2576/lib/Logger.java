@@ -1,5 +1,10 @@
 package com.team2576.lib;
 
+/**
+*
+* @author Lucas
+*/
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -31,16 +36,10 @@ public class Logger {
 		return instance;
 	}
 	
-	public enum Messages {
-		SENSOR_LOG,
-		OUTPUT_LOG,
-		DRIVER_LOG
-	}
-	
 	private Logger() {
 		this.driver = DriverStation.getInstance();
 		this.logger_time = new Date();
-		time_format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+		this.time_format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 		
 		File dir = new File(this.directory);
 		if(!dir.exists()) {
@@ -53,7 +52,7 @@ public class Logger {
 					try {
 						int count = Integer.parseInt(file.getName().split("_")[0]);
 						if (count > this.index) {
-							index = count;
+							this.index = count;
 						}
 					} catch (Exception err) {
 						err.printStackTrace();
@@ -67,7 +66,7 @@ public class Logger {
 	
 	public void openLog() {
 		try {
-			file_path = this.generatePath();
+			this.file_path = this.generatePath();
 			this.writer = new BufferedWriter(new FileWriter(this.file_path));
 			this.writer.write(this.loggables);
 			this.writer.newLine();
@@ -78,8 +77,9 @@ public class Logger {
 	
 	private String generatePath() {		
 		if(this.driver.isFMSAttached()) {
-			return String.format("%s/%d_%s_%s_position%d_log.txt", this.directory, ++this.index, this.generateTimeStamp(logger_time), 
-					this.driver.getAlliance().toString(), this.driver.getLocation());
+			return String.format("%s/%d_%s_%s_position%d_log.txt", this.directory, ++this.index,
+					this.generateTimeStamp(this.logger_time), this.driver.getAlliance().toString(),
+					this.driver.getLocation());
 		} 
 		return String.format("%s/%d_log.txt", this.directory, ++this.index);
 	}
