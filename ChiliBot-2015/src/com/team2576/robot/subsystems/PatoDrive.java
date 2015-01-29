@@ -5,6 +5,8 @@ import java.util.Vector;
 import com.team2576.lib.util.ChiliFunctions;
 import com.team2576.robot.ChiliConstants;
 
+import edu.wpi.first.wpilibj.Timer;
+
 
 /**
 *
@@ -13,8 +15,11 @@ import com.team2576.robot.ChiliConstants;
 
 public class PatoDrive implements SubComponent {
 	
-    private boolean use_gyro;
-    private final double GAIN = 1;
+    private static final double TIME_BETWEEN_TOGGLES = 0.1;
+	private static final double DRIVE_TYPES = 6;
+	private boolean use_gyro;
+    private double mode_selector = 0;
+    private double time_marker;
     private static PatoDrive instance;
     private Vector<Object> dataDrive;
     
@@ -26,12 +31,12 @@ public class PatoDrive implements SubComponent {
     }
     
     public PatoDrive(){
-    	dataDrive = new Vector<Object>(20, 1);
+    	dataDrive = new Vector<Object>(ChiliConstants.kStandardVectorSize, ChiliConstants.kStandardVectorIncrement);
         this.use_gyro = ChiliConstants.use_gyro;
+        time_marker = Timer.getFPGATimestamp();
     }
     
     
-    @SuppressWarnings("unused")
 	private double[] mecanumDrive(double hor, double ver, double rotate,double gyro){
         //Rotation deadband
         if(Math.abs(rotate) < 0.1){
@@ -92,16 +97,11 @@ public class PatoDrive implements SubComponent {
         
         double[] resulting_forces = ChiliFunctions.normalize(forces);
         
-        /*front_left.set(GAIN * resulting_forces[0]);
-        rear_left.set(GAIN * resulting_forces[1]);
-        front_right.set(GAIN * resulting_forces[2]);
-        rear_right.set(GAIN * resulting_forces[3]);*/
-        
         return resulting_forces;
     }
     
     public double[] tankDrive(double left, double right) {
-    	double[] power_set = {left, right};    	
+    	double[] power_set = {left, left, right, right};    	
     	return power_set;
     }
     
@@ -109,72 +109,69 @@ public class PatoDrive implements SubComponent {
     	double forceL = forward + steer;
     	double forceR = forward - steer;
     	
-    	double[] forces = {forceL,forceR};
+    	double[] forces = {forceL, forceL, forceR, forceR};
     	
     	double[] resulting_forces = ChiliFunctions.normalize(forces);
     	
     	return resulting_forces;
     }
     
-    public double[] patoDrive(Vector<Object> dataDriver, Vector<Object> dataSensor,double Selector){
-    	
-    	 	
-    	if(Selector == 1){ //Arcade
+    public double[] patoDrive(Vector<Object> dataDriver, Vector<Object> dataSensor, double selector){    	 	
+    	if(selector == 1){ //Arcade
     		double forward = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
-    		double steer = (double) dataDriver.elementAt(ChiliConstants.kLeftXAxis);
-    		
+    		double steer = (double) dataDriver.elementAt(ChiliConstants.kLeftXAxis);    		
     		return arcadeDrive(forward, steer);
     	}
-    	else if(Selector == 2){ //FPS
+    	
+    	else if(selector == 2){ //FPS
     		double forward = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
-    		double steer = (double) dataDriver.elementAt(ChiliConstants.kRightXAxis);
-    		
+    		double steer = (double) dataDriver.elementAt(ChiliConstants.kRightXAxis);    		
     		return arcadeDrive(forward, steer);  		
     	}
-    	else if(Selector == 3){ //Tank
+    	
+    	else if(selector == 3){ //Tank
     		double left = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
-    		double right = (double) dataDriver.elementAt(ChiliConstants.kRightYAxis);
-    		
+    		double right = (double) dataDriver.elementAt(ChiliConstants.kRightYAxis);    		
     		return tankDrive(left, right);
     	}
-    	else if(Selector == 4){ //Mecanum Arcade
+    	
+    	else if(selector == 4){ //Mecanum Arcade
     		double ver = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
     		double rotate = (double) dataDriver.elementAt(ChiliConstants.kLeftXAxis);
-    		double hor = (double) dataDriver.elementAt(ChiliConstants.kRLTriggers);
-    		
-    		double gyro = (double) dataSensor.elementAt(ChiliConstants.kGyroAngle);
-    		
+    		double hor = (((double) dataDriver.elementAt(ChiliConstants.kRightTrigger)) - (((double) dataDriver.elementAt(ChiliConstants.kLeftTrigger))));
+    		double gyro = (double) dataSensor.elementAt(ChiliConstants.kGyroAngle);    		
     		return mecanumDrive(hor, ver, rotate, gyro);
     	}
-    	else if(Selector == 5){ //Mecanum FPS
+    	
+    	else if(selector == 5){ //Mecanum FPS
     		double ver = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
     		double rotate = (double) dataDriver.elementAt(ChiliConstants.kRightXAxis);
-    		double hor = (double) dataDriver.elementAt(ChiliConstants.kRLTriggers);
-    		
-    		double gyro = (double) dataSensor.elementAt(ChiliConstants.kGyroAngle);
-    		
+    		double hor = (((double) dataDriver.elementAt(ChiliConstants.kRightTrigger)) - (((double) dataDriver.elementAt(ChiliConstants.kLeftTrigger))));    		
+    		double gyro = (double) dataSensor.elementAt(ChiliConstants.kGyroAngle);    		
     		return mecanumDrive(hor, ver, rotate, gyro);
     	}
-    	else { //Mecanum Tank
+    	
+    	else  if(selector == 6){ //Mecanum Tank
     		double left = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
     		double right = (double) dataDriver.elementAt(ChiliConstants.kRightYAxis);
-    		double hor = (double) dataDriver.elementAt(ChiliConstants.kRLTriggers);
-    		
-    		double ver = (left+right)/2;
-    		double rotate = (left-right)/2;
-    		
-    		double gyro = (double) dataSensor.elementAt(ChiliConstants.kGyroAngle);
-    		
+    		double hor = (((double) dataDriver.elementAt(ChiliConstants.kRightTrigger)) - (((double) dataDriver.elementAt(ChiliConstants.kLeftTrigger))));
+    		double ver = (left + right) / 2;
+    		double rotate = (left - right) / 2;    		
+    		double gyro = (double) dataSensor.elementAt(ChiliConstants.kGyroAngle);    		
     		return mecanumDrive(hor, ver, rotate, gyro);
     	}
+    	double[] temp = {0, 0, 0, 0};
+    	return temp;
     	
     }
 
 	public Vector<Object> update(Vector<Object> dataDriver, Vector<Object> dataSensor) {
-		//dataDrive.add(ChiliConstants.kTankValues, this.tankDrive(((double) dataDriver.elementAt(ChiliConstants.kLeftYAxis)), ((double) dataDriver.elementAt(ChiliConstants.kRightYAxis))));
-		dataDrive.add(ChiliConstants.kTankLeftVal, dataDriver.elementAt(ChiliConstants.kLeftYAxis));
-		dataDrive.add(ChiliConstants.kTankRightVal, dataDriver.elementAt(ChiliConstants.kRightYAxis));
-		System.out.println("this: " + dataDrive.elementAt(ChiliConstants.kTankLeftVal) + " and this: " + dataDrive.elementAt(ChiliConstants.kTankRightVal));
+		boolean time_again = (Timer.getFPGATimestamp() - time_marker) > TIME_BETWEEN_TOGGLES;
+		if(((boolean) dataDriver.elementAt(ChiliConstants.kXboxDriveTrigger)) && time_again) {
+			mode_selector++;
+			mode_selector = ChiliFunctions.overFlowToZero(mode_selector, DRIVE_TYPES);
+		}
+		patoDrive(dataDriver, dataSensor, mode_selector);
 		return this.dataDrive;
 	}
 

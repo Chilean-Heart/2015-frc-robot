@@ -14,9 +14,9 @@ public class ChiliFunctions {
     * <p>
     * 
     * @param val value to obtain absolute value
-    * @return val absolute value
+    * @return Absolute value of 'val'
     */
-   public static double abs(double val){
+   public static double abs(double val) {
        if (val < 0){
            return val * -1;
        }
@@ -42,13 +42,25 @@ public class ChiliFunctions {
        }
    }
    
+   public static double overFlow(double val, double max) {
+	   if(val > max){
+		   return max;
+	   }
+	   return val;
+   }
    
+   public static double overFlowToZero(double val, double max) {
+	   if(val > max) {
+		   return 0;
+	   }
+	   return val;
+   }
    
-   public static double clamp_output(double val){
+   public static double clamp_output(double val) {
       return clamp_output(val,1.0);
    }
    
-   public static double clamp_output(double val,double max){
+   public static double clamp_output(double val,double max) {
 	   if(val > max){
            return max;
        } else if(val < -max){
@@ -58,7 +70,7 @@ public class ChiliFunctions {
        }
    }
    
-   public static double[] normalize(double[] values){
+   public static double[] normalize(double[] values) {
        double max_val = 0;
        double[] return_vals = new double[values.length];
        for(int i = 0; i < values.length; i++){
@@ -87,13 +99,13 @@ public class ChiliFunctions {
     * @param vector
     * @return inner value
     */
-   public static Object doubleArray(byte outer_index, byte inner_index, Vector vector) {
+   @SuppressWarnings("rawtypes")
+   public static Object doubleDimensionVectorValue(byte outer_index, byte inner_index, Vector vector) {
 	   Object temp = vector.elementAt(outer_index);
 	   Vector temp2 = (Vector) temp;
 	   return temp2.elementAt(inner_index); 
    }
 
    
-   public ChiliFunctions() {       
-   }
+   public ChiliFunctions() {}
 }

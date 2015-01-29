@@ -25,7 +25,7 @@ public class ChiliRobot extends IterativeRobot {
     	counter = 0;
     	kapellmeister = Kapellmeister.getInstance();
 		meca_base = PatoDrive.getInstance();
-    	kapellmeister.addTask(meca_base);
+    	kapellmeister.addTask(meca_base, ChiliConstants.iDriveTrain);
     }
     
     public void autonomousInit() {

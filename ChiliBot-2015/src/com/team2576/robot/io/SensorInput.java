@@ -23,7 +23,7 @@ public class SensorInput implements IOComponent {
 	private static SensorInput instance;
 	
 	public SensorInput() {
-		sensorOut = new Vector<Object>(20, 1);
+		sensorOut = new Vector<Object>(ChiliConstants.kStandardVectorSize, ChiliConstants.kStandardVectorIncrement);
 		
 		gyro = new Gyro(ChiliConstants.gyro_channel);
 		limit_bot = new DigitalInput(ChiliConstants.bot_limit);

@@ -2,6 +2,7 @@ package com.team2576.lib;
 
 import java.util.Vector;
 
+import com.team2576.robot.ChiliConstants;
 import com.team2576.robot.io.*;
 import com.team2576.robot.subsystems.SubComponent;
 
@@ -12,7 +13,7 @@ import com.team2576.robot.subsystems.SubComponent;
 
 public class Kapellmeister {
 	
-	private final Vector<SubComponent> Virtuosen;
+	private final Vector<SubComponent> virtuosen;
 	private static Kapellmeister Konzertmeister;
 	
 	private RobotOutput robotOut;
@@ -22,10 +23,10 @@ public class Kapellmeister {
 	private Vector<Object> dataOut, dataDriver, dataSensor;
 	
 	public Kapellmeister() {
-		this.Virtuosen = new Vector<SubComponent>(20, 1);
-		this.dataOut = new Vector<Object>(20, 1);
-		this.dataDriver = new Vector<Object>(20, 1);
-		this.dataSensor = new Vector<Object>(20, 1);
+		this.virtuosen = new Vector<SubComponent>(ChiliConstants.kStandardVectorSize, ChiliConstants.kStandardVectorIncrement);
+		this.dataOut = new Vector<Object>(ChiliConstants.kStandardVectorSize, ChiliConstants.kStandardVectorIncrement);
+		this.dataDriver = new Vector<Object>(ChiliConstants.kStandardVectorSize, ChiliConstants.kStandardVectorIncrement);
+		this.dataSensor = new Vector<Object>(ChiliConstants.kStandardVectorSize, ChiliConstants.kStandardVectorIncrement);
 		this.robotOut = RobotOutput.getInstance();
 		this.driverIn = DriverInput.getInstance();
 		this.sensorIn = SensorInput.getInstance();
@@ -44,8 +45,8 @@ public class Kapellmeister {
 	public void conduct() {		
 		dataDriver = driverIn.shareOut();
 		dataSensor = sensorIn.shareOut();		
-		for(int i = 0 ; i < this.Virtuosen.size(); i++) {
-			dataOut.add(((SubComponent) this.Virtuosen.elementAt(i)).update(dataDriver, dataSensor));			
+		for(int i = 0 ; i < this.virtuosen.size(); i++) {
+			dataOut.add(((SubComponent) this.virtuosen.elementAt(i)).update(dataDriver, dataSensor));			
 		}		
 		robotOut.shareIn(dataOut);		
 		dataOut.clear();
@@ -53,13 +54,13 @@ public class Kapellmeister {
 	
 	//Disablea los subsistemas
 	public void silence() {
-		for(int i = 0 ; i < this.Virtuosen.size(); i++) {
-			((SubComponent) this.Virtuosen.elementAt(i)).disable();
+		for(int i = 0 ; i < this.virtuosen.size(); i++) {
+			((SubComponent) this.virtuosen.elementAt(i)).disable();
 		}
 	}
 	
 	//Agrega Subsistemas al conductor
-	public void addTask(SubComponent component) {
-		this.Virtuosen.addElement(component);
+	public void addTask(SubComponent component, byte index) {
+		this.virtuosen.add(index, component);		
 	}
 }

@@ -84,7 +84,10 @@ public class RobotOutput implements IOComponent {
 	}
 
 	public void shareIn(Vector<Object> dataOut) {
-		setLeftDrive((double) ChiliFunctions.doubleArray(ChiliConstants.kTankValues, ChiliConstants.kTankLeftVal, dataOut));
-		setRightDrive((double) ChiliFunctions.doubleArray(ChiliConstants.kTankValues, ChiliConstants.kTankRightVal, dataOut));
+		//setLeftDrive((double) ChiliFunctions.doubleArray(ChiliConstants.kTankValues, ChiliConstants.kTankLeftVal, dataOut));
+		//setRightDrive((double) ChiliFunctions.doubleArray(ChiliConstants.kTankValues, ChiliConstants.kTankRightVal, dataOut));
+		double[] powers = (double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.kPatoDriveForces, dataOut);
+		setDrive(powers[ChiliConstants.kFrontLeftForce], powers[ChiliConstants.kRearLeftForce],
+				 powers[ChiliConstants.kFrontRightForce], powers[ChiliConstants.kRearRightForce]);
 	}
 }
