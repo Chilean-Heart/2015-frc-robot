@@ -19,6 +19,7 @@ public class Kapellmeister {
 	private RobotOutput robotOut;
 	private DriverInput driverIn;
 	private SensorInput sensorIn;
+	private Logger logger;
 	
 	private Vector<Object> dataOut, dataDriver, dataSensor;
 	
@@ -30,6 +31,8 @@ public class Kapellmeister {
 		this.robotOut = RobotOutput.getInstance();
 		this.driverIn = DriverInput.getInstance();
 		this.sensorIn = SensorInput.getInstance();
+		this.logger = Logger.getInstance();
+		this.logger.openLog();
 	}
 	
 	public static Kapellmeister getInstance() {
@@ -48,7 +51,8 @@ public class Kapellmeister {
 		for(int i = 0 ; i < this.virtuosen.size(); i++) {
 			dataOut.add(((SubComponent) this.virtuosen.elementAt(i)).update(dataDriver, dataSensor));			
 		}		
-		robotOut.shareIn(dataOut);		
+		robotOut.shareIn(dataOut);	
+		logger.addLog(dataDriver, dataSensor, dataOut);
 		dataOut.clear();
 	}
 	
@@ -57,6 +61,7 @@ public class Kapellmeister {
 		for(int i = 0 ; i < this.virtuosen.size(); i++) {
 			((SubComponent) this.virtuosen.elementAt(i)).disable();
 		}
+		this.logger.closeLog();
 	}
 	
 	//Agrega Subsistemas al conductor

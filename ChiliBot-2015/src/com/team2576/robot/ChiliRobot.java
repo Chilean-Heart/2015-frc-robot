@@ -48,7 +48,11 @@ public class ChiliRobot extends IterativeRobot {
     	}
     }
     
-    public void disabledPeriodic() {
+    public void disableInit() {
     	kapellmeister.silence();
+    }
+    
+    public void disabledPeriodic() {
+    	
     }
 }

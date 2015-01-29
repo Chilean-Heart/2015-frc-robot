@@ -73,6 +73,10 @@ public class SensorInput implements IOComponent {
 	private double getPDPTotalPower() {
 		return this.pdp.getTotalPower();
 	}
+	
+	private double getBatteryVoltage() {
+		return this.pdp.getVoltage();
+	}
 
 	public Vector<Object> shareOut() {
 		sensorOut.clear();
@@ -92,6 +96,7 @@ public class SensorInput implements IOComponent {
 		sensorOut.add(ChiliConstants.kPDPChannel5, this.getPDPChannelCurrent(5));
 		sensorOut.add(ChiliConstants.kPDPChannel6, this.getPDPChannelCurrent(6));
 		sensorOut.add(ChiliConstants.kPDPChannel7, this.getPDPChannelCurrent(7));
+		sensorOut.add(ChiliConstants.kBatteryVoltage, this.getBatteryVoltage());
 		return sensorOut;		
 	}
 

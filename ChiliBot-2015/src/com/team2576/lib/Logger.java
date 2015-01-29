@@ -11,6 +11,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
+
+import com.team2576.lib.util.ChiliFunctions;
+import com.team2576.robot.ChiliConstants;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -26,8 +30,8 @@ public class Logger {
 	private DriverStation driver;
 	
 	private String loggables = "time,frontLeftForce,rearLeftForce,frontRightForce,rearRightForce,winchForce,"
-	+ "batteryVoltage,pdpTemp,pdpTotalCurrent,current0,current1,current2,current3,"
-			+ "current4,current5,current6,current7,";
+							 + "batteryVoltage,pdpTemp,pdpTotalCurrent,current0,current1,current2,current3,"
+							 + "current4,current5,current6,current7,";
 	
 	public static Logger getInstance() {
 		if (instance == null) {
@@ -64,6 +68,34 @@ public class Logger {
 		}
 	}
 	
+	public boolean addLog(Vector<Object> dataDriver, Vector<Object> dataSensor, Vector<Object> dataOut) {
+		boolean successful;
+		try {
+			this.writer.write(String.format("%s", this.generateTimeStamp(this.logger_time)));
+			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.kPatoDriveForces, dataOut))[0]));
+			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.kPatoDriveForces, dataOut))[1]));
+			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.kPatoDriveForces, dataOut))[2]));
+			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.kPatoDriveForces, dataOut))[3]));
+			this.writer.write(String.format(",%.2f", ChiliConstants.kEmptyLoggerValue));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kBatteryVoltage)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPTemp)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPTotalCurrent)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel0)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel1)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel2)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel3)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel4)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel5)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel6)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel7)));			
+			successful = true;
+		} catch (IOException err) {
+			successful = false;
+			err.printStackTrace();
+		}
+		return successful;
+	}
+	
 	public void openLog() {
 		try {
 			this.file_path = this.generatePath();
@@ -75,13 +107,23 @@ public class Logger {
 		}
 	}
 	
+	public void closeLog() {
+		if(this.writer != null) {
+			try {
+				this.writer.close();
+			} catch (IOException err) {
+				err.printStackTrace();
+			}
+		}
+	}
+	
 	private String generatePath() {		
 		if(this.driver.isFMSAttached()) {
 			return String.format("%s/%d_%s_%s_position%d_log.txt", this.directory, ++this.index,
 					this.generateTimeStamp(this.logger_time), this.driver.getAlliance().toString(),
 					this.driver.getLocation());
 		} 
-		return String.format("%s/%d_log.txt", this.directory, ++this.index);
+		return String.format("%s/%d_%s_log.txt", this.directory, ++this.index, this.generateTimeStamp(this.logger_time));
 	}
 
 	private String generateTimeStamp(Date time) {

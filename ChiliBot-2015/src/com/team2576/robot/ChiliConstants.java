@@ -5,6 +5,7 @@ public class ChiliConstants {
 	//Miscellaneous
 	public static final byte kStandardVectorSize = 20;
 	public static final byte kStandardVectorIncrement = 5;
+	public static final double kEmptyLoggerValue = 0.0;
 	
 	//RobotOutput.java CONSTANTS
 	//DRIVE MOTORS
@@ -49,6 +50,7 @@ public class ChiliConstants {
 	public static final byte kPDPChannel5 = 13;
 	public static final byte kPDPChannel6 = 14;
 	public static final byte kPDPChannel7 = 15;
+	public static final byte kBatteryVoltage = 16;
 	//---------------------------------------------
 	
 	//DriverInput.java
@@ -68,7 +70,7 @@ public class ChiliConstants {
 	//Kapellmeister.java
 	//SUBSYSTEM INDEX POSITIONING
 	public static final byte iDriveTrain = 0;
-	public static final byte iStacker = 0;
+	public static final byte iStacker = 1;
 	//--------------------------------------------
 	
 	
