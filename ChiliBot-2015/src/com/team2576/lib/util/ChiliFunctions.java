@@ -17,10 +17,17 @@ public class ChiliFunctions {
     * @return Absolute value of 'val'
     */
    public static double abs(double val) {
-       if (val < 0){
+       if(val < 0) {
            return val * -1;
        }
        return val;
+   }
+   
+   public static double deadBand(double val, double threshold) {
+	   if(Math.abs(val) > threshold) {
+		   return val;
+	   }
+	   return 0;
    }
    
    /**
@@ -33,7 +40,7 @@ public class ChiliFunctions {
     * @return val Clamped value between two values
     */
    public static double clamp(double val, double min, double max){
-       if(val > max){
+       if(val > max) {
            return max;
        } else if(val < min) {
            return min;
@@ -43,7 +50,7 @@ public class ChiliFunctions {
    }
    
    public static double overFlow(double val, double max) {
-	   if(val > max){
+	   if(val > max) {
 		   return max;
 	   }
 	   return val;
@@ -86,10 +93,6 @@ public class ChiliFunctions {
            }
        }
        return return_vals;
-   }
-   
-   public static void print(int x){
-	   System.out.println(x);
    }
    
    /**

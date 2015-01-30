@@ -20,7 +20,8 @@ public class RobotOutput implements IOComponent {
 	private final Talon front_left, rear_left, front_right, rear_right;
 	private final Jaguar winch;
 	
-	public RobotOutput() {
+	public RobotOutput() {			
+		
 		front_left = new Talon(ChiliConstants.front_left_motor);
 		rear_left = new Talon(ChiliConstants.rear_left_motor);
 		front_right = new Talon(ChiliConstants.front_right_motor);
@@ -31,8 +32,7 @@ public class RobotOutput implements IOComponent {
 		rear_left.setSafetyEnabled(true);
 		front_right.setSafetyEnabled(true);
 		rear_right.setSafetyEnabled(true);
-		//winch.setSafetyEnabled(true);
-		
+		//winch.setSafetyEnabled(true);		
 	}
 	
 	void setFrontLeftDrive(double x) {
@@ -84,10 +84,8 @@ public class RobotOutput implements IOComponent {
 	}
 
 	public void shareIn(Vector<Object> dataOut) {
-		//setLeftDrive((double) ChiliFunctions.doubleArray(ChiliConstants.kTankValues, ChiliConstants.kTankLeftVal, dataOut));
-		//setRightDrive((double) ChiliFunctions.doubleArray(ChiliConstants.kTankValues, ChiliConstants.kTankRightVal, dataOut));
-		double[] powers = (double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.kPatoDriveForces, dataOut);
-		setDrive(powers[ChiliConstants.kFrontLeftForce], powers[ChiliConstants.kRearLeftForce],
-				 powers[ChiliConstants.kFrontRightForce], powers[ChiliConstants.kRearRightForce]);
+		double[] powers = (double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.iPatoDriveForces, dataOut);
+		setDrive(powers[ChiliConstants.iFrontLeftForce], powers[ChiliConstants.iRearLeftForce],
+				 powers[ChiliConstants.iFrontRightForce], powers[ChiliConstants.iRearRightForce]);
 	}
 }

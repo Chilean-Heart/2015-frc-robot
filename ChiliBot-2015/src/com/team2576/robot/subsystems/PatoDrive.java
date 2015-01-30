@@ -5,7 +5,7 @@ import java.util.Vector;
 import com.team2576.lib.util.ChiliFunctions;
 import com.team2576.robot.ChiliConstants;
 
-import edu.wpi.first.wpilibj.Timer;
+//import edu.wpi.first.wpilibj.Timer;
 
 
 /**
@@ -15,11 +15,11 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class PatoDrive implements SubComponent {
 	
-    private static final double TIME_BETWEEN_TOGGLES = 0.1;
-	private static final double DRIVE_TYPES = 6;
+    //private static final double TIME_BETWEEN_TOGGLES = 0.1;
+	//private static final double DRIVE_TYPES = 6;
 	private boolean use_gyro;
-    private double mode_selector = 0;
-    private double time_marker;
+    private int mode_selector = 3;
+    //private double time_marker;
     private static PatoDrive instance;
     private Vector<Object> dataDrive;
     
@@ -33,7 +33,7 @@ public class PatoDrive implements SubComponent {
     public PatoDrive(){
     	dataDrive = new Vector<Object>(ChiliConstants.kStandardVectorSize, ChiliConstants.kStandardVectorIncrement);
         this.use_gyro = ChiliConstants.use_gyro;
-        time_marker = Timer.getFPGATimestamp();
+        //time_marker = Timer.getFPGATimestamp();
     }
     
     
@@ -111,66 +111,69 @@ public class PatoDrive implements SubComponent {
     	
     	double[] forces = {forceL, forceL, forceR, forceR};
     	
-    	double[] resulting_forces = ChiliFunctions.normalize(forces);
+    	double[] resulting_forces = ChiliFunctions.normalize(forces);    	
     	
     	return resulting_forces;
     }
     
-    public double[] patoDrive(Vector<Object> dataDriver, Vector<Object> dataSensor, double selector){    	 	
+    public double[] patoDrive(Vector<Object> dataDriver, Vector<Object> dataSensor, int selector){    	 	
     	if(selector == 1){ //Arcade
-    		double forward = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
-    		double steer = (double) dataDriver.elementAt(ChiliConstants.kLeftXAxis);    		
+    		double forward = (double) dataDriver.elementAt(ChiliConstants.iLeftYAxis);
+    		double steer = (double) dataDriver.elementAt(ChiliConstants.iLeftXAxis);    		
     		return arcadeDrive(forward, steer);
     	}
     	
     	else if(selector == 2){ //FPS
-    		double forward = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
-    		double steer = (double) dataDriver.elementAt(ChiliConstants.kRightXAxis);    		
+    		double forward = (double) dataDriver.elementAt(ChiliConstants.iLeftYAxis);
+    		double steer = (double) dataDriver.elementAt(ChiliConstants.iRightXAxis);    		
     		return arcadeDrive(forward, steer);  		
     	}
     	
     	else if(selector == 3){ //Tank
-    		double left = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
-    		double right = (double) dataDriver.elementAt(ChiliConstants.kRightYAxis);    		
+    		double left = (double) dataDriver.elementAt(ChiliConstants.iLeftYAxis);
+    		double right = (double) dataDriver.elementAt(ChiliConstants.iRightYAxis);    		
     		return tankDrive(left, right);
     	}
     	
     	else if(selector == 4){ //Mecanum Arcade
-    		double ver = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
-    		double rotate = (double) dataDriver.elementAt(ChiliConstants.kLeftXAxis);
-    		double hor = (((double) dataDriver.elementAt(ChiliConstants.kRightTrigger)) - (((double) dataDriver.elementAt(ChiliConstants.kLeftTrigger))));
-    		double gyro = (double) dataSensor.elementAt(ChiliConstants.kGyroAngle);    		
+    		double ver = (double) dataDriver.elementAt(ChiliConstants.iLeftYAxis);
+    		double rotate = (double) dataDriver.elementAt(ChiliConstants.iLeftXAxis);
+    		double hor = (((double) dataDriver.elementAt(ChiliConstants.iRightTrigger)) - (((double) dataDriver.elementAt(ChiliConstants.iLeftTrigger))));
+    		double gyro = (double) dataSensor.elementAt(ChiliConstants.iGyroAngle);    		
     		return mecanumDrive(hor, ver, rotate, gyro);
     	}
     	
     	else if(selector == 5){ //Mecanum FPS
-    		double ver = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
-    		double rotate = (double) dataDriver.elementAt(ChiliConstants.kRightXAxis);
-    		double hor = (((double) dataDriver.elementAt(ChiliConstants.kRightTrigger)) - (((double) dataDriver.elementAt(ChiliConstants.kLeftTrigger))));    		
-    		double gyro = (double) dataSensor.elementAt(ChiliConstants.kGyroAngle);    		
+    		double ver = (double) dataDriver.elementAt(ChiliConstants.iLeftYAxis);
+    		double rotate = (double) dataDriver.elementAt(ChiliConstants.iRightXAxis);
+    		double hor = (((double) dataDriver.elementAt(ChiliConstants.iRightTrigger)) - (((double) dataDriver.elementAt(ChiliConstants.iLeftTrigger))));    		
+    		double gyro = (double) dataSensor.elementAt(ChiliConstants.iGyroAngle);    		
     		return mecanumDrive(hor, ver, rotate, gyro);
     	}
     	
     	else  if(selector == 6){ //Mecanum Tank
-    		double left = (double) dataDriver.elementAt(ChiliConstants.kLeftYAxis);
-    		double right = (double) dataDriver.elementAt(ChiliConstants.kRightYAxis);
-    		double hor = (((double) dataDriver.elementAt(ChiliConstants.kRightTrigger)) - (((double) dataDriver.elementAt(ChiliConstants.kLeftTrigger))));
+    		double left = (double) dataDriver.elementAt(ChiliConstants.iLeftYAxis);
+    		double right = (double) dataDriver.elementAt(ChiliConstants.iRightYAxis);
+    		double hor = (((double) dataDriver.elementAt(ChiliConstants.iRightTrigger)) - (((double) dataDriver.elementAt(ChiliConstants.iLeftTrigger))));
     		double ver = (left + right) / 2;
     		double rotate = (left - right) / 2;    		
-    		double gyro = (double) dataSensor.elementAt(ChiliConstants.kGyroAngle);    		
+    		double gyro = (double) dataSensor.elementAt(ChiliConstants.iGyroAngle);    		
     		return mecanumDrive(hor, ver, rotate, gyro);
+    	} else {
+	    	double[] temp = {0, 0, 0, 0};
+	    	return temp;    
     	}
-    	double[] temp = {0, 0, 0, 0};
-    	return temp;
-    	
     }
 
 	public Vector<Object> update(Vector<Object> dataDriver, Vector<Object> dataSensor) {
-		boolean time_again = (Timer.getFPGATimestamp() - time_marker) > TIME_BETWEEN_TOGGLES;
+		if(this.dataDrive.size() > 10) {
+			this.dataDrive.clear();
+		}
+		/*boolean time_again = (Timer.getFPGATimestamp() - time_marker) > TIME_BETWEEN_TOGGLES;
 		if(((boolean) dataDriver.elementAt(ChiliConstants.kXboxDriveTrigger)) && time_again) {
 			mode_selector = ChiliFunctions.overFlowToZero(++mode_selector, DRIVE_TYPES);
-		}
-		patoDrive(dataDriver, dataSensor, mode_selector);
+		}*/
+		this.dataDrive.add(0, patoDrive(dataDriver, dataSensor, this.mode_selector));
 		return this.dataDrive;
 	}
 

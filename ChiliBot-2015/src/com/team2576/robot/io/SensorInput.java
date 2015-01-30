@@ -38,6 +38,7 @@ public class SensorInput implements IOComponent {
 		return instance;
 	}
 	
+	@SuppressWarnings("unused")
 	private double getGyroAngle() {
 		return this.gyro.getAngle();
 	}
@@ -80,23 +81,24 @@ public class SensorInput implements IOComponent {
 
 	public Vector<Object> shareOut() {
 		sensorOut.clear();
-		sensorOut.add(ChiliConstants.kGyroAngle, this.getGyroAngle());
-		sensorOut.add(ChiliConstants.kGyroRate, this.getGyroRate());
-		sensorOut.add(ChiliConstants.kTopLimitState, this.getTopLimit());
-		sensorOut.add(ChiliConstants.kBotLimitState, this.getBotLimit());
-		sensorOut.add(ChiliConstants.kPDPTemp, this.getPDPTemp());
-		sensorOut.add(ChiliConstants.kPDPTotalCurrent, this.getPDPTotalCurrent());
-		sensorOut.add(ChiliConstants.kPDPTotalEnergy, this.getPDPTotalEnergy());
-		sensorOut.add(ChiliConstants.kPDPTotalPower, this.getPDPTotalPower());
-		sensorOut.add(ChiliConstants.kPDPChannel0, this.getPDPChannelCurrent(0));
-		sensorOut.add(ChiliConstants.kPDPChannel1, this.getPDPChannelCurrent(1));
-		sensorOut.add(ChiliConstants.kPDPChannel2, this.getPDPChannelCurrent(2));
-		sensorOut.add(ChiliConstants.kPDPChannel3, this.getPDPChannelCurrent(3));
-		sensorOut.add(ChiliConstants.kPDPChannel4, this.getPDPChannelCurrent(4));
-		sensorOut.add(ChiliConstants.kPDPChannel5, this.getPDPChannelCurrent(5));
-		sensorOut.add(ChiliConstants.kPDPChannel6, this.getPDPChannelCurrent(6));
-		sensorOut.add(ChiliConstants.kPDPChannel7, this.getPDPChannelCurrent(7));
-		sensorOut.add(ChiliConstants.kBatteryVoltage, this.getBatteryVoltage());
+		//sensorOut.add(ChiliConstants.kGyroAngle, this.getGyroAngle());
+		sensorOut.add(ChiliConstants.iGyroAngle, 0);
+		sensorOut.add(ChiliConstants.iGyroRate, this.getGyroRate());
+		sensorOut.add(ChiliConstants.iTopLimitState, this.getTopLimit());
+		sensorOut.add(ChiliConstants.iBotLimitState, this.getBotLimit());
+		sensorOut.add(ChiliConstants.iPDPTemp, this.getPDPTemp());
+		sensorOut.add(ChiliConstants.iPDPTotalCurrent, this.getPDPTotalCurrent());
+		sensorOut.add(ChiliConstants.iPDPTotalEnergy, this.getPDPTotalEnergy());
+		sensorOut.add(ChiliConstants.iPDPTotalPower, this.getPDPTotalPower());
+		sensorOut.add(ChiliConstants.iPDPChannel0, this.getPDPChannelCurrent(0));
+		sensorOut.add(ChiliConstants.iPDPChannel1, this.getPDPChannelCurrent(1));
+		sensorOut.add(ChiliConstants.iPDPChannel2, this.getPDPChannelCurrent(2));
+		sensorOut.add(ChiliConstants.iPDPChannel3, this.getPDPChannelCurrent(3));
+		sensorOut.add(ChiliConstants.iPDPChannel4, this.getPDPChannelCurrent(4));
+		sensorOut.add(ChiliConstants.iPDPChannel5, this.getPDPChannelCurrent(5));
+		sensorOut.add(ChiliConstants.iPDPChannel6, this.getPDPChannelCurrent(6));
+		sensorOut.add(ChiliConstants.iPDPChannel7, this.getPDPChannelCurrent(7));
+		sensorOut.add(ChiliConstants.iBatteryVoltage, this.getBatteryVoltage());
 		return sensorOut;		
 	}
 

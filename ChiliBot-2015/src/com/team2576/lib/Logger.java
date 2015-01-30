@@ -43,7 +43,7 @@ public class Logger {
 	private Logger() {
 		this.driver = DriverStation.getInstance();
 		this.logger_time = new Date();
-		this.time_format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+		this.time_format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss:SSS");
 		
 		File dir = new File(this.directory);
 		if(!dir.exists()) {
@@ -72,22 +72,23 @@ public class Logger {
 		boolean successful;
 		try {
 			this.writer.write(String.format("%s", this.generateTimeStamp(this.logger_time)));
-			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.kPatoDriveForces, dataOut))[0]));
-			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.kPatoDriveForces, dataOut))[1]));
-			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.kPatoDriveForces, dataOut))[2]));
-			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.kPatoDriveForces, dataOut))[3]));
+			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.iPatoDriveForces, dataOut))[0]));
+			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.iPatoDriveForces, dataOut))[1]));
+			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.iPatoDriveForces, dataOut))[2]));
+			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.iPatoDriveForces, dataOut))[3]));
 			this.writer.write(String.format(",%.2f", ChiliConstants.kEmptyLoggerValue));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kBatteryVoltage)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPTemp)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPTotalCurrent)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel0)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel1)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel2)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel3)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel4)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel5)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel6)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.kPDPChannel7)));			
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iBatteryVoltage)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPTemp)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPTotalCurrent)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel0)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel1)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel2)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel3)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel4)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel5)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel6)));
+			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel7)));
+			this.writer.newLine();
 			successful = true;
 		} catch (IOException err) {
 			successful = false;

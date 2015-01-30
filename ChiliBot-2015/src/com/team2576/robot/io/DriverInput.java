@@ -2,6 +2,7 @@ package com.team2576.robot.io;
 
 import java.util.Vector;
 
+import com.team2576.lib.util.ChiliFunctions;
 import com.team2576.robot.ChiliConstants;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -20,7 +21,7 @@ public class DriverInput implements IOComponent {
 
 	public DriverInput() {
 		driverOut = new Vector<Object>(ChiliConstants.kStandardVectorSize, ChiliConstants.kStandardVectorIncrement);
-		xbox_controller = new Joystick(ChiliConstants.xbox_joystick);
+		xbox_controller = new Joystick(ChiliConstants.iXboxJoystick);
 	}
 	
 	public static DriverInput getInstance() {
@@ -30,46 +31,51 @@ public class DriverInput implements IOComponent {
 		return instance;
 	}
 	
-	public double getXboxLeftX() {
-		return this.xbox_controller.getRawAxis(ChiliConstants.kLeftXAxis);
+	private double getXboxLeftX() {
+		return ChiliFunctions.deadBand(this.xbox_controller.getRawAxis(ChiliConstants.iLeftXAxis), ChiliConstants.kAxisThreshold);
 	}
 	
-	public double getXboxLeftY() {
-		return this.xbox_controller.getRawAxis(ChiliConstants.kLeftYAxis);
+	private double getXboxLeftY() {
+		return ChiliFunctions.deadBand(this.xbox_controller.getRawAxis(ChiliConstants.iLeftYAxis), ChiliConstants.kAxisThreshold) * ChiliConstants.kYAxisInvert;
 	}
 	
-	public double getXboxLeftTrigger() {
-		return this.xbox_controller.getRawAxis(ChiliConstants.kLeftTrigger);
+	private double getXboxLeftTrigger() {
+		return this.xbox_controller.getRawAxis(ChiliConstants.iLeftTrigger);
 	}
 	
-	public double getXboxRightTrigger() {
-		return this.xbox_controller.getRawAxis(ChiliConstants.kRightTrigger);
+	private double getXboxRightTrigger() {
+		return this.xbox_controller.getRawAxis(ChiliConstants.iRightTrigger);
 	}
 	
-	public double getXboxRightX() {
-		return this.xbox_controller.getRawAxis(ChiliConstants.kRightXAxis);
+	private double getXboxRightX() {
+		return ChiliFunctions.deadBand(this.xbox_controller.getRawAxis(ChiliConstants.iRightXAxis), ChiliConstants.kAxisThreshold);
 	}
 	
-	public double getXboxRightY() {
-		return this.xbox_controller.getRawAxis(ChiliConstants.kRightYAxis);
+	private double getXboxRightY() {
+		return ChiliFunctions.deadBand(this.xbox_controller.getRawAxis(ChiliConstants.iRightYAxis), ChiliConstants.kAxisThreshold) * ChiliConstants.kYAxisInvert;
 	}
 	
 	
-	public boolean[] getXboxButtons(){
+	private boolean[] getXboxButtons(){
 		boolean[] buttons = {this.xbox_controller.getRawButton(1), this.xbox_controller.getRawButton(2), 
 							 this.xbox_controller.getRawButton(3), this.xbox_controller.getRawButton(4)};
 		return buttons;
 	}
+	
+	private boolean getXboxDriveTrigger() {
+		return this.xbox_controller.getRawButton(5);
+	}
 
 	public Vector<Object> shareOut() {
 		driverOut.clear();
-		driverOut.add(ChiliConstants.kLeftXAxis, this.getXboxLeftX());		
-		driverOut.add(ChiliConstants.kLeftYAxis, this.getXboxLeftY());
-		driverOut.add(ChiliConstants.kLeftTrigger, this.getXboxLeftTrigger());
-		driverOut.add(ChiliConstants.kRightTrigger, this.getXboxRightTrigger());
-		driverOut.add(ChiliConstants.kRightXAxis, this.getXboxRightX());		
-		driverOut.add(ChiliConstants.kRightYAxis, this.getXboxRightY());
-		driverOut.add(ChiliConstants.kXboxButtons, this.getXboxButtons());
+		driverOut.add(ChiliConstants.iLeftXAxis, this.getXboxLeftX());		
+		driverOut.add(ChiliConstants.iLeftYAxis, this.getXboxLeftY());
+		driverOut.add(ChiliConstants.iLeftTrigger, this.getXboxLeftTrigger());
+		driverOut.add(ChiliConstants.iRightTrigger, this.getXboxRightTrigger());
+		driverOut.add(ChiliConstants.iRightXAxis, this.getXboxRightX());		
+		driverOut.add(ChiliConstants.iRightYAxis, this.getXboxRightY());
+		driverOut.add(ChiliConstants.iXboxButtons, this.getXboxButtons());
+		driverOut.add(ChiliConstants.iXboxDriveTrigger, this.getXboxDriveTrigger());
 		return driverOut;
 	}
 
