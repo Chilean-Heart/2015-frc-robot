@@ -2,8 +2,8 @@ package com.team2576.lib;
 
 import java.util.Vector;
 
-import com.team2576.robot.ChiliConstants;
 import com.team2576.lib.Debugger;
+import com.team2576.lib.util.ChiliConstants;
 import com.team2576.robot.io.*;
 import com.team2576.robot.subsystems.SubComponent;
 

@@ -2,7 +2,7 @@ package com.team2576.robot.io;
 
 import java.util.Vector;
 
-import com.team2576.robot.ChiliConstants;
+import com.team2576.lib.util.ChiliConstants;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Gyro;

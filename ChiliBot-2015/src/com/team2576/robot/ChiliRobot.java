@@ -6,15 +6,18 @@ package com.team2576.robot;
 */
 
 import com.team2576.lib.Kapellmeister;
+import com.team2576.lib.util.ChiliConstants;
 import com.team2576.robot.subsystems.PatoDrive;
+import com.team2576.robot.subsystems.Toter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-//import edu.wpi.first.wpilibj.Timer;
+
 
 public class ChiliRobot extends IterativeRobot {
 	
 	Kapellmeister kapellmeister;
 	PatoDrive meca_base;
+	Toter stacker;
 	
 	public ChiliRobot() {
 		
@@ -24,7 +27,7 @@ public class ChiliRobot extends IterativeRobot {
     	
     	kapellmeister = Kapellmeister.getInstance();
 		meca_base = PatoDrive.getInstance();
-		
+		stacker = Toter.getInstance();
     	kapellmeister.addTask(meca_base, ChiliConstants.iDriveTrain);
     }
     

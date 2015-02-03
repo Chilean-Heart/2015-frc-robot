@@ -1,4 +1,4 @@
-package com.team2576.robot;
+package com.team2576.lib.util;
 
 public class ChiliConstants {
 	
@@ -72,8 +72,24 @@ public class ChiliConstants {
 	//CONTROLLER INDEX
 	public static final byte iXboxJoystick = 0;
 	//---------------------------------------------
-	//DEADBAND THRESHOLDS
+	//DEADBAND THRESHOLDSi
 	public static final double kAxisThreshold = 0.2;
+	//---------------------------------------------
+	//---------------------------------------------
+	
+	//ChiliServer.java
+	//KEY CONSTANTS
+	public static final String kIsNumber = "n";
+	public static final String kIsBoolean = "b";
+	public static final String kIsString = "s";
+	public static final int kAmountKeys = 4;
+	public static final String kStartKey = "connection_state";
+	public static final String[] iTablesIndex = {
+		"X", "Y", "centroid_new", "dist"
+	};
+	public static final String[] iTablesIndexType = {
+		kIsNumber, kIsNumber, kIsBoolean, kIsNumber
+	};
 	//---------------------------------------------
 	//---------------------------------------------
 	
@@ -83,7 +99,7 @@ public class ChiliConstants {
 	public static final byte iStacker = 1;
 	//DEBUGGER STATE
 	public static final boolean kDebugState = true;
-	//--------------------------------------------
+	//---------------------------------------------
 	//---------------------------------------------
 	
 	public ChiliConstants() {}

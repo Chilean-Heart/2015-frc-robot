@@ -13,8 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 
+import com.team2576.lib.util.ChiliConstants;
 import com.team2576.lib.util.ChiliFunctions;
-import com.team2576.robot.ChiliConstants;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
