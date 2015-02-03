@@ -1,5 +1,7 @@
 package com.team2576.auto.commands.stacker;
 
-public class LoadUp {
+import com.team2576.auto.AutoCommands;
+
+public class LoadUp extends AutoCommands{
 
 }
