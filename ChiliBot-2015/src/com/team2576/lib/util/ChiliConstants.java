@@ -10,6 +10,9 @@ public class ChiliConstants {
 	//---------------------------------------------
 	//---------------------------------------------
 	
+	//---------------------------------------------
+	//--------------TELEOP CONSTANTS---------------
+	//---------------------------------------------
 	//RobotOutput.java CONSTANTS
 	//DRIVE MOTORS
 	public static final byte front_left_motor = 0;
@@ -98,7 +101,19 @@ public class ChiliConstants {
 	public static final byte iDriveTrain = 0;
 	public static final byte iStacker = 1;
 	//DEBUGGER STATE
-	public static final boolean kDebugState = true;
+	public static final boolean kDefaultDebugState = true;
+	//---------------------------------------------
+	//---------------------------------------------
+	
+	//---------------------------------------------
+	//--------------AUTO CONSTANTS-----------------
+	//---------------------------------------------
+	//com.team2576.auto.commands.drive
+	//INFO PACKETS INDEX
+	public static final byte iAFrontLeftForce = 0;
+	public static final byte iARearLeftForce = 1;
+	public static final byte iAFrontRightForce = 2;
+	public static final byte iARearRightForce = 3;	
 	//---------------------------------------------
 	//---------------------------------------------
 	

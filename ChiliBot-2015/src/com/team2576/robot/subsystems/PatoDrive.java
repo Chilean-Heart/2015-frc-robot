@@ -1,17 +1,16 @@
 package com.team2576.robot.subsystems;
 
+/**
+*
+* @author PatoLucash
+*/
+
 import java.util.Vector;
 
 import com.team2576.lib.util.ChiliConstants;
 import com.team2576.lib.util.ChiliFunctions;
 
-//import edu.wpi.first.wpilibj.Timer;
 
-
-/**
-*
-* @author Pato
-*/
 
 public class PatoDrive implements SubComponent {
 	
@@ -30,7 +29,7 @@ public class PatoDrive implements SubComponent {
     	return instance;
     }
     
-    public PatoDrive(){
+    private PatoDrive(){
     	dataDrive = new Vector<Object>(ChiliConstants.kStandardVectorSize, ChiliConstants.kStandardVectorIncrement);
         this.use_gyro = ChiliConstants.use_gyro;
         //time_marker = Timer.getFPGATimestamp();
@@ -179,5 +178,11 @@ public class PatoDrive implements SubComponent {
 
 	public void disable() {
 		
+	}
+
+	@Override
+	public boolean update() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

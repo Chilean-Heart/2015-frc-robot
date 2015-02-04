@@ -1,5 +1,10 @@
 package com.team2576.auto;
 
+/**
+*
+* @author Lucas
+*/
+
 import java.util.Vector;
 
 public class AutoGenerator {

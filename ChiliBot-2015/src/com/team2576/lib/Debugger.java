@@ -1,7 +1,11 @@
 package com.team2576.lib;
 
-import java.util.Vector;
+/**
+*
+* @author Lucas
+*/
 
+import java.util.Vector;
 
 public class Debugger {
 	
@@ -11,7 +15,8 @@ public class Debugger {
 	public enum Debugs {
 		ROBOTOUT,
 		DRIVERIN,
-		SENSORIN
+		SENSORIN,
+		TESTER		
 	};
 	
 	public Debugger(Debugger.Debugs type, boolean state) {
@@ -25,6 +30,11 @@ public class Debugger {
 			break;
 		case SENSORIN:
 			this.printFlag = "[DEBUGGER: SINPUT] ";
+			break;
+		case TESTER:
+			this.printFlag = "[DEBUGGER: TESTER] ";
+			break;
+		default:
 			break;
 		}
 	}

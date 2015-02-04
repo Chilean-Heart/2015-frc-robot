@@ -1,7 +1,5 @@
 package com.team2576.robot.io;
 
-import java.util.Vector;
-
 import com.team2576.lib.util.ChiliConstants;
 import com.team2576.lib.util.ChiliFunctions;
 
@@ -12,23 +10,21 @@ import edu.wpi.first.wpilibj.Joystick;
 * @author Lucas
 */
 
-public class DriverInput implements IOComponent {
+public class DriverInput {
+	
+	private static DriverInput instance;
 	
 	private final Joystick xbox_controller;
-	
-	private Vector<Object> driverOut;	
-	private static DriverInput instance;
-
-	public DriverInput() {
-		driverOut = new Vector<Object>(ChiliConstants.kStandardVectorSize, ChiliConstants.kStandardVectorIncrement);
-		xbox_controller = new Joystick(ChiliConstants.iXboxJoystick);
-	}
 	
 	public static DriverInput getInstance() {
 		if(instance == null) {
 			instance = new DriverInput();
 		}
 		return instance;
+	}
+
+	private DriverInput() {
+		xbox_controller = new Joystick(ChiliConstants.iXboxJoystick);
 	}
 	
 	private double getXboxLeftX() {
@@ -53,33 +49,53 @@ public class DriverInput implements IOComponent {
 	
 	private double getXboxRightY() {
 		return ChiliFunctions.deadBand(this.xbox_controller.getRawAxis(ChiliConstants.iRightYAxis), ChiliConstants.kAxisThreshold) * ChiliConstants.kYAxisInvert;
+	}	
+	
+	private boolean getXboxButton(int button_code){
+		return this.xbox_controller.getRawButton(button_code);
 	}
 	
-	
-	private boolean[] getXboxButtons(){
-		boolean[] buttons = {this.xbox_controller.getRawButton(1), this.xbox_controller.getRawButton(2), 
-							 this.xbox_controller.getRawButton(3), this.xbox_controller.getRawButton(4)};
-		return buttons;
+	private boolean getXboxButtonA() {
+		return this.xbox_controller.getRawButton(1);
 	}
 	
-	private boolean getXboxDriveTrigger() {
+	private boolean getXboxButtonB() {
+		return this.xbox_controller.getRawButton(2);
+	}
+	
+	private boolean getXboxButtonX() {
+		return this.xbox_controller.getRawButton(3);
+	}
+	
+	private boolean getXboxButtonY() {
+		return this.xbox_controller.getRawButton(4);
+	}
+	
+	private boolean getXboxButtonLeftTrigger() {
 		return this.xbox_controller.getRawButton(5);
 	}
-
-	public Vector<Object> shareOut() {
-		driverOut.clear();
-		driverOut.add(ChiliConstants.iLeftXAxis, this.getXboxLeftX());		
-		driverOut.add(ChiliConstants.iLeftYAxis, this.getXboxLeftY());
-		driverOut.add(ChiliConstants.iLeftTrigger, this.getXboxLeftTrigger());
-		driverOut.add(ChiliConstants.iRightTrigger, this.getXboxRightTrigger());
-		driverOut.add(ChiliConstants.iRightXAxis, this.getXboxRightX());		
-		driverOut.add(ChiliConstants.iRightYAxis, this.getXboxRightY());
-		driverOut.add(ChiliConstants.iXboxButtons, this.getXboxButtons());
-		driverOut.add(ChiliConstants.iXboxDriveTrigger, this.getXboxDriveTrigger());
-		return driverOut;
+	
+	private boolean getXboxButtonRightTrigger() {
+		return this.xbox_controller.getRawButton(6);
 	}
-
-	public void shareIn(Vector<Object> data) {
-		
+	
+	private boolean getXboxButtonBack() {
+		return this.xbox_controller.getRawButton(7);
+	}
+	
+	private boolean getXboxButtonStart() {
+		return this.xbox_controller.getRawButton(8);
+	}
+	
+	private boolean getXboxButtonLeftStick() {
+		return this.xbox_controller.getRawButton(9);
+	}
+	
+	private boolean getXboxButtonRightStick() {
+		return this.xbox_controller.getRawButton(10);
+	}	
+	
+	private double getXboxPOV(){
+		return this.xbox_controller.getPOV(0);
 	}
 }

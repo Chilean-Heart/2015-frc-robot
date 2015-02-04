@@ -1,7 +1,5 @@
 package com.team2576.robot.io;
 
-import java.util.Vector;
-
 import com.team2576.lib.util.ChiliConstants;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -13,24 +11,14 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 * @author Lucas
 */
 
-public class SensorInput implements IOComponent {
+public class SensorInput {
 	
 	private final Gyro gyro;
 	private final DigitalInput limit_top, limit_bot;
 	private final PowerDistributionPanel pdp;
 	
-	private Vector<Object> sensorOut;
 	private static SensorInput instance;
 	
-	public SensorInput() {
-		sensorOut = new Vector<Object>(ChiliConstants.kStandardVectorSize, ChiliConstants.kStandardVectorIncrement);
-		
-		gyro = new Gyro(ChiliConstants.gyro_channel);
-		limit_bot = new DigitalInput(ChiliConstants.bot_limit);
-		limit_top = new DigitalInput(ChiliConstants.top_limit);
-		pdp = new PowerDistributionPanel();
-	}
-
 	public static SensorInput getInstance() {
 		if(instance == null) {
 			instance = new SensorInput();
@@ -38,7 +26,13 @@ public class SensorInput implements IOComponent {
 		return instance;
 	}
 	
-	@SuppressWarnings("unused")
+	private SensorInput() {		
+		gyro = new Gyro(ChiliConstants.gyro_channel);
+		limit_bot = new DigitalInput(ChiliConstants.bot_limit);
+		limit_top = new DigitalInput(ChiliConstants.top_limit);
+		pdp = new PowerDistributionPanel();
+	}	
+	
 	private double getGyroAngle() {
 		return this.gyro.getAngle();
 	}
@@ -77,31 +71,5 @@ public class SensorInput implements IOComponent {
 	
 	private double getBatteryVoltage() {
 		return this.pdp.getVoltage();
-	}
-
-	public Vector<Object> shareOut() {
-		sensorOut.clear();
-		//sensorOut.add(ChiliConstants.kGyroAngle, this.getGyroAngle());
-		sensorOut.add(ChiliConstants.iGyroAngle, 0);
-		sensorOut.add(ChiliConstants.iGyroRate, this.getGyroRate());
-		sensorOut.add(ChiliConstants.iTopLimitState, this.getTopLimit());
-		sensorOut.add(ChiliConstants.iBotLimitState, this.getBotLimit());
-		sensorOut.add(ChiliConstants.iPDPTemp, this.getPDPTemp());
-		sensorOut.add(ChiliConstants.iPDPTotalCurrent, this.getPDPTotalCurrent());
-		sensorOut.add(ChiliConstants.iPDPTotalEnergy, this.getPDPTotalEnergy());
-		sensorOut.add(ChiliConstants.iPDPTotalPower, this.getPDPTotalPower());
-		sensorOut.add(ChiliConstants.iPDPChannel0, this.getPDPChannelCurrent(0));
-		sensorOut.add(ChiliConstants.iPDPChannel1, this.getPDPChannelCurrent(1));
-		sensorOut.add(ChiliConstants.iPDPChannel2, this.getPDPChannelCurrent(2));
-		sensorOut.add(ChiliConstants.iPDPChannel3, this.getPDPChannelCurrent(3));
-		sensorOut.add(ChiliConstants.iPDPChannel4, this.getPDPChannelCurrent(4));
-		sensorOut.add(ChiliConstants.iPDPChannel5, this.getPDPChannelCurrent(5));
-		sensorOut.add(ChiliConstants.iPDPChannel6, this.getPDPChannelCurrent(6));
-		sensorOut.add(ChiliConstants.iPDPChannel7, this.getPDPChannelCurrent(7));
-		sensorOut.add(ChiliConstants.iBatteryVoltage, this.getBatteryVoltage());
-		return sensorOut;		
-	}
-
-	public void shareIn(Vector<Object> data) {		
 	}
 }
