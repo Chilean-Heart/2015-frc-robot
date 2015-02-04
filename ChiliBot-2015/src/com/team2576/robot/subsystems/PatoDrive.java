@@ -20,7 +20,6 @@ public class PatoDrive implements SubComponent {
     private int mode_selector = 3;
     //private double time_marker;
     private static PatoDrive instance;
-    private Vector<Object> dataDrive;
     
     public static PatoDrive getInstance() {
     	if(instance == null) {
@@ -30,7 +29,6 @@ public class PatoDrive implements SubComponent {
     }
     
     private PatoDrive(){
-    	dataDrive = new Vector<Object>(ChiliConstants.kStandardVectorSize, ChiliConstants.kStandardVectorIncrement);
         this.use_gyro = ChiliConstants.use_gyro;
         //time_marker = Timer.getFPGATimestamp();
     }
@@ -164,25 +162,16 @@ public class PatoDrive implements SubComponent {
     	}
     }
 
-	public Vector<Object> update(Vector<Object> dataDriver, Vector<Object> dataSensor) {
-		if(this.dataDrive.size() > 10) {
-			this.dataDrive.clear();
-		}
+	public boolean update() {
 		/*boolean time_again = (Timer.getFPGATimestamp() - time_marker) > TIME_BETWEEN_TOGGLES;
 		if(((boolean) dataDriver.elementAt(ChiliConstants.kXboxDriveTrigger)) && time_again) {
 			mode_selector = ChiliFunctions.overFlowToZero(++mode_selector, DRIVE_TYPES);
 		}*/
-		this.dataDrive.add(0, patoDrive(dataDriver, dataSensor, this.mode_selector));
-		return this.dataDrive;
+		return false;
 	}
 
 	public void disable() {
 		
 	}
 
-	@Override
-	public boolean update() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }
