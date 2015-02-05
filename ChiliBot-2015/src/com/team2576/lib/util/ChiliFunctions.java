@@ -30,6 +30,20 @@ public class ChiliFunctions {
 	   return 0;
    }
    
+   public static double[] fillArrayWithZeros(double[] array) {
+	   for (int i = 0; i < array.length; i++) {
+		   array[i] = 0;
+	   }
+	   return array;
+   }
+   
+   public static double[] fillArrayWithValue(double[] array, double value) {
+	   for (int i = 0; i < array.length; i++) {
+		   array[i] = value;
+	   }
+	   return array;
+   }
+   
    /**
     * Clamps value between two values.
     * <p>

@@ -16,7 +16,8 @@ public class Debugger {
 		ROBOTOUT,
 		DRIVERIN,
 		SENSORIN,
-		TESTER		
+		TESTER,
+		MESSENGER
 	};
 	
 	public Debugger(Debugger.Debugs type, boolean state) {
@@ -33,6 +34,9 @@ public class Debugger {
 			break;
 		case TESTER:
 			this.printFlag = "[DEBUGGER: TESTER] ";
+			break;
+		case MESSENGER:
+			this.printFlag = "[DEBUGGER: MESSAGE] ";
 			break;
 		default:
 			break;

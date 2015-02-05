@@ -17,8 +17,13 @@ public class Kapellmeister {
 	private final Vector<SubComponent> virtuosen;
 	private static Kapellmeister Konzertmeister;	
 	
+	private DriverInput driverData;
+	private SensorInput sensorData;
+	
 	private Kapellmeister() {		
 		this.virtuosen = new Vector<SubComponent>(ChiliConstants.kStandardVectorSize, ChiliConstants.kStandardVectorIncrement);
+		driverData = DriverInput.getInstance();
+		sensorData = SensorInput.getInstance();
 	}
 	
 	public static Kapellmeister getInstance() {
@@ -30,7 +35,7 @@ public class Kapellmeister {
 	
 	public void conduct() {		
 		for(int i = 0 ; i < this.virtuosen.size(); i++) {
-			((SubComponent) this.virtuosen.elementAt(i)).update();			
+			((SubComponent) this.virtuosen.elementAt(i)).update(driverData, sensorData);			
 		}
 	}
 

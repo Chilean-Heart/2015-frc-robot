@@ -6,6 +6,8 @@ package com.team2576.robot.subsystems;
 */
 
 import com.team2576.lib.util.ChiliConstants;
+import com.team2576.robot.io.DriverInput;
+import com.team2576.robot.io.SensorInput;
 
 public class Toter implements SubComponent{
 	
@@ -25,14 +27,13 @@ public class Toter implements SubComponent{
 
 
 
-	@Override
 	public void disable() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public boolean update() {
+	public boolean update(DriverInput driver, SensorInput sensor) {
 		// TODO Auto-generated method stub
 		return false;
 	}	

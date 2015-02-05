@@ -72,7 +72,7 @@ public class ChiliConstants {
 	public static final byte iXboxButtons = 6;
 	public static final byte iXboxDriveTrigger = 7;
 	//---------------------------------------------
-	//JOYTSTICK READINGS INDEX
+	//JOYSTICK READINGS INDEX
 	public static final byte iXAxis = 0;
 	public static final byte iYAxis = 1;
 	public static final byte iZaxis = 2;
@@ -111,6 +111,11 @@ public class ChiliConstants {
 	//---------------------------------------------
 	//---------------------------------------------
 	
+	//PatoDrive.java
+	//CLASS CONSTANTS
+	public static final byte kDriveTypes = 6;
+	public static final double kTimeBetweenToggle = 0.1;
+	public static final double kNoGyroDegrees = 180;
 	//---------------------------------------------
 	//--------------AUTO CONSTANTS-----------------
 	//---------------------------------------------
