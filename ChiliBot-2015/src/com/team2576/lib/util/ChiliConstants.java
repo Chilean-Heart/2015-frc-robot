@@ -39,7 +39,7 @@ public class ChiliConstants {
 	public static final byte bot_limit = 1;
 	public static final byte top_limit = 2;
 	//---------------------------------------------	
-	public static final boolean use_gyro = false;
+	public static final boolean kUseGyro = false;
 	//SENSOR VECTOR INDEX
 	public static final byte iGyroAngle = 0;
 	public static final byte iGyroRate = 1;

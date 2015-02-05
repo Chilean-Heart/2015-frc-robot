@@ -5,12 +5,10 @@ package com.team2576.robot.subsystems;
 * @author PatoLucash
 */
 
-import java.util.Vector;
-
 import com.team2576.lib.util.ChiliConstants;
 import com.team2576.lib.util.ChiliFunctions;
 import com.team2576.robot.io.DriverInput;
-import com.team2576.robot.io.IOComponent;
+import com.team2576.robot.io.RobotOutput;
 import com.team2576.robot.io.SensorInput;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -24,6 +22,7 @@ public class PatoDrive implements SubComponent {
     private double[] forces;
     
     private static PatoDrive instance;
+    private RobotOutput output;
     
     public static PatoDrive getInstance() {
     	if(instance == null) {
@@ -35,8 +34,8 @@ public class PatoDrive implements SubComponent {
     private PatoDrive(){
         this.drive_toggle_marker = Timer.getFPGATimestamp();
         this.forces = ChiliFunctions.fillArrayWithZeros(this.forces);
+        output = RobotOutput.getInstance();
     }
-    
     
 	private double[] mecanumDrive(double hor, double ver, double rotate, double gyro){
         //Rotation deadband
@@ -110,55 +109,6 @@ public class PatoDrive implements SubComponent {
     	
     	return resulting_forces;
     }
-    
-    public double[] patoDrive(Vector<Object> dataDriver, Vector<Object> dataSensor, int selector){    	 	
-    	if(selector == 1){ //Arcade
-    		double forward = (double) dataDriver.elementAt(ChiliConstants.iLeftYAxis);
-    		double steer = (double) dataDriver.elementAt(ChiliConstants.iLeftXAxis);    		
-    		return arcadeDrive(forward, steer);
-    	}
-    	
-    	else if(selector == 2){ //FPS
-    		double forward = (double) dataDriver.elementAt(ChiliConstants.iLeftYAxis);
-    		double steer = (double) dataDriver.elementAt(ChiliConstants.iRightXAxis);    		
-    		return arcadeDrive(forward, steer);  		
-    	}
-    	
-    	else if(selector == 3){ //Tank
-    		double left = (double) dataDriver.elementAt(ChiliConstants.iLeftYAxis);
-    		double right = (double) dataDriver.elementAt(ChiliConstants.iRightYAxis);    		
-    		return tankDrive(left, right);
-    	}
-    	
-    	else if(selector == 4){ //Mecanum Arcade
-    		double ver = (double) dataDriver.elementAt(ChiliConstants.iLeftYAxis);
-    		double rotate = (double) dataDriver.elementAt(ChiliConstants.iLeftXAxis);
-    		double hor = (((double) dataDriver.elementAt(ChiliConstants.iRightTrigger)) - (((double) dataDriver.elementAt(ChiliConstants.iLeftTrigger))));
-    		double gyro = (double) dataSensor.elementAt(ChiliConstants.iGyroAngle);    		
-    		return mecanumDrive(hor, ver, rotate, gyro);
-    	}
-    	
-    	else if(selector == 5){ //Mecanum FPS
-    		double ver = (double) dataDriver.elementAt(ChiliConstants.iLeftYAxis);
-    		double rotate = (double) dataDriver.elementAt(ChiliConstants.iRightXAxis);
-    		double hor = (((double) dataDriver.elementAt(ChiliConstants.iRightTrigger)) - (((double) dataDriver.elementAt(ChiliConstants.iLeftTrigger))));    		
-    		double gyro = (double) dataSensor.elementAt(ChiliConstants.iGyroAngle);    		
-    		return mecanumDrive(hor, ver, rotate, gyro);
-    	}
-    	
-    	else  if(selector == 6){ //Mecanum Tank
-    		double left = (double) dataDriver.elementAt(ChiliConstants.iLeftYAxis);
-    		double right = (double) dataDriver.elementAt(ChiliConstants.iRightYAxis);
-    		double hor = (((double) dataDriver.elementAt(ChiliConstants.iRightTrigger)) - (((double) dataDriver.elementAt(ChiliConstants.iLeftTrigger))));
-    		double ver = (left + right) / 2;
-    		double rotate = (left - right) / 2;    		
-    		double gyro = (double) dataSensor.elementAt(ChiliConstants.iGyroAngle);    		
-    		return mecanumDrive(hor, ver, rotate, gyro);
-    	} else {
-	    	double[] temp = {0, 0, 0, 0};
-	    	return temp;    
-    	}
-    }
 
 	public void disable() {
 		
@@ -200,28 +150,48 @@ public class PatoDrive implements SubComponent {
 		//Mecanum Arcade
 		case 3:
 			{
-				
+				double ver = driver.getXboxLeftY();
+	    		double rotate = driver.getXboxLeftX();
+	    		double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
+	    		double gyro = sensor.getGyroAngle();   		
+	    		this.forces = this.mecanumDrive(hor, ver, rotate, gyro);				
 				break;
 			}
 		//Mecanum FPS
 		case 4:
 			{
+				double ver = driver.getXboxLeftY();
+	    		double rotate = driver.getXboxRightX();
+	    		double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
+	    		double gyro = sensor.getGyroAngle();   		
+	    		this.forces = this.mecanumDrive(hor, ver, rotate, gyro);
 				break;
 			}
 		//Mecanum Tank
 		case 5:
 			{
-				break;
+	    		double left = driver.getXboxLeftY();
+	    		double right = driver.getXboxRightY();
+	    		double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
+	    		double ver = (left + right) / 2;
+	    		double rotate = (left - right) / 2;    		
+	    		double gyro = sensor.getGyroAngle();   		
+	    		this.forces =  this.mecanumDrive(hor, ver, rotate, gyro);
+	    		break;
 			}
 		//Drive Error
 		default:
 			{
 				this.forces = ChiliFunctions.fillArrayWithZeros(this.forces);
+				break;
 			}
-			
 		}
-				
 		
+		this.output.setDriveFromArray(this.forces);
+		
+		if(this.forces != null){
+			return true;
+		}
 		return false;
 	}
 

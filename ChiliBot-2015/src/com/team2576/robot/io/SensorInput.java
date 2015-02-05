@@ -37,55 +37,58 @@ public class SensorInput {
 		pdp = new PowerDistributionPanel();
 	}	
 	
-	private double getAccelX(){
+	public double getAccelX(){
 		return this.accel.getX();
 	}
 	
-	private double getAccelY(){
+	public double getAccelY(){
 		return this.accel.getY();
 	}
 	
-	private double getAccelZ(){
+	public double getAccelZ(){
 		return this.accel.getZ();
 	}
 	
-	private double getGyroAngle() {
+	public double getGyroAngle() {
 		return this.gyro.getAngle();
 	}
 	
-	private double getGyroRate() {
-		return this.gyro.getRate();
+	public double getGyroRate() {
+		if(ChiliConstants.kUseGyro){
+			return this.gyro.getRate();
+		}
+		return 180;
 	}
 	
-	private boolean getTopLimit() {
+	public boolean getTopLimit() {
 		return this.limit_top.get();
 	}
 	
-	private boolean getBotLimit() {
+	public boolean getBotLimit() {
 		return this.limit_bot.get();
 	}
 	
-	private double getPDPChannelCurrent(int channel) {
+	public double getPDPChannelCurrent(int channel) {
 		return this.pdp.getCurrent(channel);
 	}
 	
-	private double getPDPTemp() {
+	public double getPDPTemp() {
 		return this.pdp.getTemperature();
 	}
 	
-	private double getPDPTotalCurrent() {
+	public double getPDPTotalCurrent() {
 		return this.pdp.getTotalCurrent();
 	}
 	
-	private double getPDPTotalEnergy() {
+	public double getPDPTotalEnergy() {
 		return this.pdp.getTotalEnergy();
 	}
 	
-	private double getPDPTotalPower() {
+	public double getPDPTotalPower() {
 		return this.pdp.getTotalPower();
 	}
 	
-	private double getBatteryVoltage() {
+	public double getBatteryVoltage() {
 		return this.pdp.getVoltage();
 	}
 }

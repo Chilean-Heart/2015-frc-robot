@@ -38,40 +38,47 @@ public class RobotOutput {
 		winch.setSafetyEnabled(true);		
 	}
 	
-	private void setFrontLeftDrive(double x) {
+	public void setFrontLeftDrive(double x) {
 		this.front_left.set(x);
 	}
 	
-	private void setRearLeftDrive(double x) {
+	public void setRearLeftDrive(double x) {
 		this.rear_left.set(x);
 	}
 	
-	private void setFrontRightDrive(double x) {
+	public void setFrontRightDrive(double x) {
 		this.front_right.set(x);
 	}
 	
-	private void setRearRightDrive(double x) {
+	public void setRearRightDrive(double x) {
 		this.rear_right.set(x);
 	}
 	
-	private void setLeftDrive(double x) {
+	public void setLeftDrive(double x) {
 		this.front_left.set(x);
 		this.rear_left.set(x);
 	}
 	
-	private void setRightDrive(double x) {
+	public void setRightDrive(double x) {
 		this.front_right.set(x);
 		this.rear_right.set(x);
 	}
 	
-	private void setDrive(double fl, double rl, double fr, double rr) {
+	public void setDrive(double fl, double rl, double fr, double rr) {
 		this.front_left.set(fl);
 		this.rear_left.set(rl);
 		this.front_right.set(fr);
 		this.rear_right.set(rr);
 	}
 	
-	private void setWinch(double x) {
+	public void setDriveFromArray(double[] array) {
+		this.front_left.set(array[0]);
+		this.rear_left.set(array[1]);
+		this.front_right.set(array[2]);
+		this.rear_right.set(array[3]);
+	}
+	
+	public void setWinch(double x) {
 		this.winch.set(x);
 	}
 }
