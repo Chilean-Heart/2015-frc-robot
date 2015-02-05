@@ -2,17 +2,20 @@ package com.team2576.robot.io;
 
 import com.team2576.lib.util.ChiliConstants;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 /**
 *
-* @author Lucas
+* @author Mr.Roboto
 */
 
 public class SensorInput {
 	
+	private final Accelerometer accel;
 	private final Gyro gyro;
 	private final DigitalInput limit_top, limit_bot;
 	private final PowerDistributionPanel pdp;
@@ -26,12 +29,25 @@ public class SensorInput {
 		return instance;
 	}
 	
-	private SensorInput() {		
+	private SensorInput() {	
+		accel = new BuiltInAccelerometer(Accelerometer.Range.k2G);
 		gyro = new Gyro(ChiliConstants.gyro_channel);
 		limit_bot = new DigitalInput(ChiliConstants.bot_limit);
 		limit_top = new DigitalInput(ChiliConstants.top_limit);
 		pdp = new PowerDistributionPanel();
 	}	
+	
+	private double getAccelX(){
+		return this.accel.getX();
+	}
+	
+	private double getAccelY(){
+		return this.accel.getY();
+	}
+	
+	private double getAccelZ(){
+		return this.accel.getZ();
+	}
 	
 	private double getGyroAngle() {
 		return this.gyro.getAngle();

@@ -72,8 +72,14 @@ public class ChiliConstants {
 	public static final byte iXboxButtons = 6;
 	public static final byte iXboxDriveTrigger = 7;
 	//---------------------------------------------
+	//JOYTSTICK READINGS INDEX
+	public static final byte iXAxis = 0;
+	public static final byte iYAxis = 1;
+	public static final byte iZaxis = 2;
+	//---------------------------------------------
 	//CONTROLLER INDEX
 	public static final byte iXboxJoystick = 0;
+	public static final byte iJoytstick = 1;
 	//---------------------------------------------
 	//DEADBAND THRESHOLDSi
 	public static final double kAxisThreshold = 0.2;

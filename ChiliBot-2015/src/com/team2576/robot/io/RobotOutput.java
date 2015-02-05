@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Talon;
 
 /**
 *
-* @author Lucas
+* @author HK-47
 */
 
 public class RobotOutput {

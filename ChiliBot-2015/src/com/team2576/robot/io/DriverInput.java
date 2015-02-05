@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 /**
 *
-* @author Lucas
+* @author Arturito
 */
 
 public class DriverInput {
@@ -15,6 +15,7 @@ public class DriverInput {
 	private static DriverInput instance;
 	
 	private final Joystick xbox_controller;
+	private final Joystick joystick;
 	
 	public static DriverInput getInstance() {
 		if(instance == null) {
@@ -25,6 +26,7 @@ public class DriverInput {
 
 	private DriverInput() {
 		xbox_controller = new Joystick(ChiliConstants.iXboxJoystick);
+		joystick = new Joystick(ChiliConstants.iJoytstick);
 	}
 	
 	private double getXboxLeftX() {
@@ -97,5 +99,17 @@ public class DriverInput {
 	
 	private double getXboxPOV(){
 		return this.xbox_controller.getPOV(0);
+	}
+	
+	private double getJoystickX(){
+		return this.joystick.getRawAxis(ChiliConstants.iXAxis);
+	}
+	
+	private double getJoytsickY(){
+		return this.joystick.getRawAxis(ChiliConstants.iYAxis);
+	}
+	
+	private double getJoytsickZ(){
+		return this.joystick.getRawAxis(ChiliConstants.iZaxis);
 	}
 }
