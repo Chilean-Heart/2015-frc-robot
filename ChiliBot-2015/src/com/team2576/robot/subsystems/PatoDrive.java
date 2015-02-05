@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class PatoDrive implements SubComponent {
 	
 	private int selector;
+	private boolean selector_error;
     private double drive_toggle_marker;
     private double[] forces;
     
@@ -33,6 +34,7 @@ public class PatoDrive implements SubComponent {
     
     private PatoDrive(){
         this.drive_toggle_marker = Timer.getFPGATimestamp();
+        this.selector_error = false;
         this.forces = ChiliFunctions.fillArrayWithZeros(this.forces);
         output = RobotOutput.getInstance();
     }
@@ -122,6 +124,8 @@ public class PatoDrive implements SubComponent {
 			this.drive_toggle_marker = Timer.getFPGATimestamp();
 		}
 		
+		this.selector_error = false;
+		
 		switch(this.selector){
 		//Arcade
 		case 0:
@@ -183,15 +187,17 @@ public class PatoDrive implements SubComponent {
 		default:
 			{
 				this.forces = ChiliFunctions.fillArrayWithZeros(this.forces);
+				this.selector_error = true;
 				break;
 			}
 		}
 		
-		this.output.setDriveFromArray(this.forces);
-		
-		if(this.forces != null){
-			return true;
+		if(ChiliFunctions.isArrayWithZeros(this.forces) && this.selector_error){
+			return false;
 		}
+		
+		this.output.setDriveFromArray(this.forces)
+		
 		return false;
 	}
 

@@ -44,7 +44,16 @@ public class ChiliFunctions {
 	   return array;
    }
    
+   public static boolean isArrayWithZeros(double[] array){
+       for (int i = 0; i < array.length; i++) {
+       	if (array[i] != 0) {
+       		return false;
+       	}
+       }
+       return true;
+    }
    /**
+   
     * Clamps value between two values.
     * <p>
     * 
