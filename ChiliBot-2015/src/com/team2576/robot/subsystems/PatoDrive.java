@@ -196,7 +196,7 @@ public class PatoDrive implements SubComponent {
 			return false;
 		}
 		
-		this.output.setDriveFromArray(this.forces)
+		this.output.setDriveFromArray(this.forces);
 		
 		return false;
 	}

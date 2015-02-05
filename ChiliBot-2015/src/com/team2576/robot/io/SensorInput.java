@@ -3,6 +3,7 @@ package com.team2576.robot.io;
 import com.team2576.lib.util.ChiliConstants;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -10,13 +11,15 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 /**
 *
-* @author Mr.Roboto
+* @author C3-PO
 */
 
 public class SensorInput {
 	
+
 	private final Accelerometer accel;
 	private final Gyro gyro;
+	private final Ultrasonic ultrasonic;
 	private final DigitalInput limit_top, limit_bot;
 	private final PowerDistributionPanel pdp;
 	
@@ -31,6 +34,7 @@ public class SensorInput {
 	
 	private SensorInput() {	
 		accel = new BuiltInAccelerometer(Accelerometer.Range.k2G);
+		ultrasonic = new Ultrasonic(ChiliConstants.ultrasound_channel,ChiliConstants.ultrasound_channel+1);
 		gyro = new Gyro(ChiliConstants.gyro_channel);
 		limit_bot = new DigitalInput(ChiliConstants.bot_limit);
 		limit_top = new DigitalInput(ChiliConstants.top_limit);
@@ -90,5 +94,15 @@ public class SensorInput {
 	
 	public double getBatteryVoltage() {
 		return this.pdp.getVoltage();
+	}
+		
+	//Devuelve en Inches
+	public double getUltrasonicDistanceIn(){
+		return this.ultrasonic.getRangeInches();
+	}
+	
+	//Idem en mm
+	public double getUltrasonicDistanceMM(){
+		return this.ultrasonic.getRangeMM();
 	}
 }

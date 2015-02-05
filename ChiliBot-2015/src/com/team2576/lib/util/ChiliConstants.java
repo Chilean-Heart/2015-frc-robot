@@ -34,6 +34,7 @@ public class ChiliConstants {
 	//SensorInput.java CONSTANTS
 	//ANALOG SENSOR CHANNELS
 	public static final byte gyro_channel = 0;
+	public static final byte ultrasound_channel = 1;
 	//---------------------------------------------
 	//DIGITAL SENSOR CHANNELS
 	public static final byte bot_limit = 1;
@@ -76,6 +77,8 @@ public class ChiliConstants {
 	public static final byte iXAxis = 0;
 	public static final byte iYAxis = 1;
 	public static final byte iZaxis = 2;
+	public static final byte iThrottle = 3;
+	
 	//---------------------------------------------
 	//CONTROLLER INDEX
 	public static final byte iXboxJoystick = 0;

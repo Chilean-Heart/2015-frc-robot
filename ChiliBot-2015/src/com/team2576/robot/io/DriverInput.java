@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 /**
 *
-* @author Arturito
+* @author R2-D2
 */
 
 public class DriverInput {
@@ -111,5 +111,21 @@ public class DriverInput {
 	
 	public double getJoytsickZ(){
 		return this.joystick.getRawAxis(ChiliConstants.iZaxis);
+	}
+	
+	public double getJoystickThrottle(){
+		return this.joystick.getRawAxis(ChiliConstants.iThrottle);
+	}
+	
+	public boolean getJoystickButton(int button_code){
+		return this.joystick.getRawButton(button_code);
+	}
+	
+	public boolean getJoytsickTrigger(){
+		return this.joystick.getRawButton(0);
+	}
+	
+	public double getJoystickPOV(){
+		return this.joystick.getPOV(0);
 	}
 }
