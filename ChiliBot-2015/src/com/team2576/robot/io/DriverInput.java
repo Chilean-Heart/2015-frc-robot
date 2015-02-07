@@ -53,7 +53,7 @@ public class DriverInput {
 		return ChiliFunctions.deadBand(this.xbox_controller.getRawAxis(ChiliConstants.iRightYAxis), ChiliConstants.kAxisThreshold) * ChiliConstants.kYAxisInvert;
 	}	
 	
-	public boolean getXboxButton(int button_code){
+	public boolean getXboxButton(int button_code) {
 		return this.xbox_controller.getRawButton(button_code);
 	}
 	
@@ -97,35 +97,35 @@ public class DriverInput {
 		return this.xbox_controller.getRawButton(10);
 	}	
 	
-	public double getXboxPOV(){
+	public double getXboxPOV() {
 		return this.xbox_controller.getPOV(0);
 	}
 	
-	public double getJoystickX(){
+	public double getJoystickX() {
 		return this.joystick.getRawAxis(ChiliConstants.iXAxis);
 	}
 	
-	public double getJoytsickY(){
+	public double getJoytsickY() {
 		return this.joystick.getRawAxis(ChiliConstants.iYAxis);
 	}
 	
-	public double getJoytsickZ(){
+	public double getJoytsickZ() {
 		return this.joystick.getRawAxis(ChiliConstants.iZaxis);
 	}
 	
-	public double getJoystickThrottle(){
+	public double getJoystickThrottle() {
 		return this.joystick.getRawAxis(ChiliConstants.iThrottle);
 	}
 	
-	public boolean getJoystickButton(int button_code){
+	public boolean getJoystickButton(int button_code) {
 		return this.joystick.getRawButton(button_code);
 	}
 	
-	public boolean getJoytsickTrigger(){
+	public boolean getJoytsickTrigger() {
 		return this.joystick.getRawButton(0);
 	}
 	
-	public double getJoystickPOV(){
+	public double getJoystickPOV() {
 		return this.joystick.getPOV(0);
 	}
 }

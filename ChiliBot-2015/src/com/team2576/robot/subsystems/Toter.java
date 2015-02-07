@@ -5,15 +5,16 @@ package com.team2576.robot.subsystems;
 * @author Lucas
 */
 
-import com.team2576.lib.util.ChiliConstants;
-import com.team2576.robot.io.DriverInput;
-import com.team2576.robot.io.SensorInput;
+import com.team2576.robot.io.*;
 
-public class Toter implements SubComponent{
+public class Toter implements SubComponent {
+	
+	private int totes;
+	private double winch_force;
+	private boolean toter_error = false;
 	
 	private static Toter instance;
-
-	public static int totes = 0;
+	private RobotOutput output;
 	
 	public static Toter getInstance() {
 		if(instance == null) {
@@ -23,18 +24,30 @@ public class Toter implements SubComponent{
 	}
 	
 	private Toter() {
-	}
-
-
-
-	public void disable() {
-		// TODO Auto-generated method stub
+		this.totes = 0;
+		this.winch_force = 0;
 		
+		output = RobotOutput.getInstance();
+	}
+	
+	public int getTotes() {
+		return this.totes;
 	}
 
-	@Override
 	public boolean update(DriverInput driver, SensorInput sensor) {
-		// TODO Auto-generated method stub
-		return false;
-	}	
+		
+		this.winch_force = driver.getJoystickThrottle();
+		
+		if(toter_error) {
+			return false;
+		}
+		
+		this.output.setWinch(this.winch_force);
+		return true;
+	}
+	
+	public void disable() {
+		this.toter_error = false;
+		this.output.setWinch(0);
+	}
 }

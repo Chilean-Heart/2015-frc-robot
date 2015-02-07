@@ -7,6 +7,7 @@ package com.team2576.robot;
 
 import com.team2576.lib.Debugger;
 import com.team2576.lib.Kapellmeister;
+import com.team2576.lib.Logger;
 import com.team2576.lib.util.ChiliConstants;
 import com.team2576.robot.subsystems.PatoDrive;
 import com.team2576.robot.subsystems.Toter;
@@ -21,6 +22,7 @@ public class ChiliRobot extends IterativeRobot {
 	PatoDrive chassis;
 	Toter stacker;
 	Debugger messenger;
+	Logger loggy;
 	
 	private boolean teleop_first_time;
 	
@@ -35,6 +37,7 @@ public class ChiliRobot extends IterativeRobot {
     	kapellmeister = Kapellmeister.getInstance();
 		chassis = PatoDrive.getInstance();
 		stacker = Toter.getInstance();
+		loggy = Logger.getInstance();
 		
 		messenger = new Debugger(Debugger.Debugs.MESSENGER, ChiliConstants.kDefaultDebugState);
 		
@@ -51,7 +54,9 @@ public class ChiliRobot extends IterativeRobot {
     }
 
     public void teleopInit() {
+    	
     	messenger.println("Finished teleopInit in", Timer.getFPGATimestamp());
+    	loggy.openLog();
     }
     
     public void teleopPeriodic() {
@@ -62,11 +67,15 @@ public class ChiliRobot extends IterativeRobot {
     	}
     	
     	while(isOperatorControl() && isEnabled()) {
+    		loggy.addLog();
     		kapellmeister.conduct();
     	}
     }
     
     public void disableInit() {
+    	
+    	this.teleop_first_time = true;
+    	loggy.closeLog();
     	kapellmeister.silence();
     }
     

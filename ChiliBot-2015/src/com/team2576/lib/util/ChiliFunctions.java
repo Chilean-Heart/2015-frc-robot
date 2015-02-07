@@ -9,13 +9,12 @@ import java.util.Vector;
 
 public class ChiliFunctions {
    
-   /**
-    * Function to obtain absolute value of a number.
-    * <p>
-    * 
-    * @param val value to obtain absolute value
-    * @return Absolute value of 'val'
-    */
+	/**
+	* Function to obtain absolute value of a number.
+	* 
+	* @param val value to obtain absolute value
+	* @return Absolute value of 'val'
+	*/
    public static double abs(double val) {
        if(val < 0) {
            return val * -1;
@@ -23,6 +22,13 @@ public class ChiliFunctions {
        return val;
    }
    
+   /**
+    * Dead band.
+    *
+    * @param val the val
+    * @param threshold the threshold
+    * @return the double
+    */
    public static double deadBand(double val, double threshold) {
 	   if(Math.abs(val) > threshold) {
 		   return val;
@@ -30,6 +36,12 @@ public class ChiliFunctions {
 	   return 0;
    }
    
+   /**
+    * Fill array with zeros.
+    *
+    * @param array the array
+    * @return the double[]
+    */
    public static double[] fillArrayWithZeros(double[] array) {
 	   for (int i = 0; i < array.length; i++) {
 		   array[i] = 0;
@@ -37,6 +49,13 @@ public class ChiliFunctions {
 	   return array;
    }
    
+   /**
+    * Fill array with value.
+    *
+    * @param array the array
+    * @param value the value
+    * @return the double[]
+    */
    public static double[] fillArrayWithValue(double[] array, double value) {
 	   for (int i = 0; i < array.length; i++) {
 		   array[i] = value;
@@ -44,24 +63,29 @@ public class ChiliFunctions {
 	   return array;
    }
    
-   public static boolean isArrayWithZeros(double[] array){
-       for (int i = 0; i < array.length; i++) {
-       	if (array[i] != 0) {
-       		return false;
-       	}
-       }
-       return true;
-    }
    /**
+    * Checks if array is filled with zeros.
+    *
+    * @param array the array
+    * @return true, if array is with zeros
+    */
+   public static boolean isArrayWithZeros(double[] array){
+	   for (int i = 0; i < array.length; i++) {
+		   if (array[i] != 0) {
+			   return false;
+		   }
+	   }
+	   return true;
+   }
    
+   /**   
     * Clamps value between two values.
-    * <p>
     * 
     * @param val Value to clamp
     * @param min Minimum value for val
     * @param max Maximum value for val
     * @return val Clamped value between two values
-    */
+    */   
    public static double clamp(double val, double min, double max){
        if(val > max) {
            return max;
@@ -72,13 +96,28 @@ public class ChiliFunctions {
        }
    }
    
-   public static double overFlow(double val, double max) {
+
+   /**
+    * Over flow.
+    *
+    * @param val the val
+    * @param max the max
+    * @return the double
+    */
+   public static double topLimit(double val, double max) {
 	   if(val > max) {
 		   return max;
 	   }
 	   return val;
    }
    
+   /**
+    * Over flow to zero.
+    *
+    * @param val the val
+    * @param max the max
+    * @return the double
+    */
    public static double overFlowToZero(double val, double max) {
 	   if(val > max) {
 		   return 0;
@@ -86,25 +125,45 @@ public class ChiliFunctions {
 	   return val;
    }
    
+   /**
+    * Clamp output.
+    *
+    * @param val the val
+    * @return the double
+    */
    public static double clamp_output(double val) {
       return clamp_output(val,1.0);
    }
    
-   public static double clamp_output(double val,double max) {
-	   if(val > max){
-           return max;
-       } else if(val < -max){
-           return -max;
-       } else {
-           return val;
-       }
+   /**
+    * Clamp output.
+    *
+    * @param val the val
+    * @param max the max
+    * @return the double
+    */
+   public static double clamp_output(double val, double max) {
+	   
+	   if(Math.abs(val) > max) {
+		   if(val < 0){
+			   return -max;
+		   }
+		   return max;
+	   }
+	   return val;	
    }
    
+   /**
+    * Normalize wheel speeds.
+    *
+    * @param values the values
+    * @return the double[]
+    */
    public static double[] normalize(double[] values) {
        double max_val = 0;
        double[] return_vals = new double[values.length];
        for(int i = 0; i < values.length; i++){
-           if(values[i] > max_val){
+           if(Math.abs(values[i]) > max_val){
                max_val = Math.abs(values[i]);
            }
        }
@@ -117,13 +176,14 @@ public class ChiliFunctions {
        }
        return return_vals;
    }
-   
+
    /**
-    * 
-    * @param outer_index
-    * @param inner_index
-    * @param vector
-    * @return inner value
+    * Double dimension vector value.
+    *
+    * @param outer_index the outer_index
+    * @param inner_index the inner_index
+    * @param vector the vector
+    * @return the object
     */
    @SuppressWarnings("rawtypes")
    public static Object doubleDimensionVectorValue(byte outer_index, byte inner_index, Vector vector) {
@@ -131,7 +191,6 @@ public class ChiliFunctions {
 	   Vector temp2 = (Vector) temp;
 	   return temp2.elementAt(inner_index); 
    }
-
    
    public ChiliFunctions() {}
 }

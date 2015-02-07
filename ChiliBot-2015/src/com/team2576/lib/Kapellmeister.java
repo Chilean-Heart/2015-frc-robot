@@ -2,7 +2,6 @@ package com.team2576.lib;
 
 import java.util.Vector;
 
-import com.team2576.lib.Debugger;
 import com.team2576.lib.util.ChiliConstants;
 import com.team2576.robot.io.*;
 import com.team2576.robot.subsystems.SubComponent;
@@ -21,7 +20,7 @@ public class Kapellmeister {
 	private SensorInput sensorData;
 	
 	private Kapellmeister() {		
-		this.virtuosen = new Vector<SubComponent>(ChiliConstants.kStandardVectorSize, ChiliConstants.kStandardVectorIncrement);
+		this.virtuosen = new Vector<SubComponent>(ChiliConstants.kSubSystems, ChiliConstants.kStandardVectorIncrement);
 		driverData = DriverInput.getInstance();
 		sensorData = SensorInput.getInstance();
 	}

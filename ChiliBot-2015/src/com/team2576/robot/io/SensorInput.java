@@ -41,15 +41,15 @@ public class SensorInput {
 		pdp = new PowerDistributionPanel();
 	}	
 	
-	public double getAccelX(){
+	public double getAccelX() {
 		return this.accel.getX();
 	}
 	
-	public double getAccelY(){
+	public double getAccelY() {
 		return this.accel.getY();
 	}
 	
-	public double getAccelZ(){
+	public double getAccelZ() {
 		return this.accel.getZ();
 	}
 	
@@ -58,7 +58,7 @@ public class SensorInput {
 	}
 	
 	public double getGyroRate() {
-		if(ChiliConstants.kUseGyro){
+		if(ChiliConstants.kUseGyro) {
 			return this.gyro.getRate();
 		}
 		return 180;
@@ -97,12 +97,12 @@ public class SensorInput {
 	}
 		
 	//Devuelve en Inches
-	public double getUltrasonicDistanceIn(){
+	public double getUltrasonicDistanceIn() {
 		return this.ultrasonic.getRangeInches();
 	}
 	
 	//Idem en mm
-	public double getUltrasonicDistanceMM(){
+	public double getUltrasonicDistanceMM() {
 		return this.ultrasonic.getRangeMM();
 	}
 }

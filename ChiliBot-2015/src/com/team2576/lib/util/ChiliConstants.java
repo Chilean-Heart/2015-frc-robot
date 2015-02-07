@@ -107,6 +107,7 @@ public class ChiliConstants {
 	
 	//Kapellmeister.java
 	//SUBSYSTEM INDEX POSITIONING
+	public static final byte kSubSystems = 2;
 	public static final byte iDriveTrain = 0;
 	public static final byte iStacker = 1;
 	//DEBUGGER STATE
@@ -119,6 +120,10 @@ public class ChiliConstants {
 	public static final byte kDriveTypes = 6;
 	public static final double kTimeBetweenToggle = 0.1;
 	public static final double kNoGyroDegrees = 180;
+	public static final byte kMotorCount = 4;
+	//---------------------------------------------
+	//---------------------------------------------
+	
 	//---------------------------------------------
 	//--------------AUTO CONSTANTS-----------------
 	//---------------------------------------------

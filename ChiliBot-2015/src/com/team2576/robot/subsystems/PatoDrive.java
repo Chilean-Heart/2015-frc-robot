@@ -7,9 +7,7 @@ package com.team2576.robot.subsystems;
 
 import com.team2576.lib.util.ChiliConstants;
 import com.team2576.lib.util.ChiliFunctions;
-import com.team2576.robot.io.DriverInput;
-import com.team2576.robot.io.RobotOutput;
-import com.team2576.robot.io.SensorInput;
+import com.team2576.robot.io.*;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -20,7 +18,7 @@ public class PatoDrive implements SubComponent {
 	private int selector;
 	private boolean selector_error;
     private double drive_toggle_marker;
-    private double[] forces;
+    private double[] forces, disable_forces;
     
     private static PatoDrive instance;
     private RobotOutput output;
@@ -32,21 +30,27 @@ public class PatoDrive implements SubComponent {
     	return instance;
     }
     
-    private PatoDrive(){
+    private PatoDrive() {
+    	
         this.drive_toggle_marker = Timer.getFPGATimestamp();
         this.selector_error = false;
+        
+        this.forces = new double[ChiliConstants.kMotorCount];
+        this.disable_forces = new double[ChiliConstants.kMotorCount];
         this.forces = ChiliFunctions.fillArrayWithZeros(this.forces);
+        this.disable_forces = ChiliFunctions.fillArrayWithZeros(this.disable_forces);
+        
         output = RobotOutput.getInstance();
     }
     
-	private double[] mecanumDrive(double hor, double ver, double rotate, double gyro){
+	private double[] mecanumDrive(double hor, double ver, double rotate, double gyro) {
         //Rotation deadband
-        if(Math.abs(rotate) < 0.1){
+        if(Math.abs(rotate) < 0.1) {
             rotate = 0;
         }
         
         //Translation deadband
-        if(Math.abs(hor*hor + ver*ver) < 0.1){
+        if(Math.abs(hor*hor + ver*ver) < 0.1) {
             hor = 0;
             ver = 0;
         }
@@ -101,7 +105,7 @@ public class PatoDrive implements SubComponent {
     	return new double[]{left, left, right, right};  
     }
     
-    public double[] arcadeDrive(double forward, double steer){
+    public double[] arcadeDrive(double forward, double steer) {
     	double forceL = forward + steer;
     	double forceR = forward - steer;
     	
@@ -112,21 +116,17 @@ public class PatoDrive implements SubComponent {
     	return resulting_forces;
     }
 
-	public void disable() {
-		
-	}
-
 	public boolean update(DriverInput driver, SensorInput sensor) {
 		
 		//Trigger change in drive mode
-		if(driver.getXboxButtonLeftTrigger() && ((Timer.getFPGATimestamp() - this.drive_toggle_marker) > ChiliConstants.kTimeBetweenToggle)) {
-			this.selector = (int) ChiliFunctions.overFlowToZero(selector, ChiliConstants.kDriveTypes);
+		if(driver.getXboxButtonLeftTrigger() && ( (Timer.getFPGATimestamp() - this.drive_toggle_marker) > ChiliConstants.kTimeBetweenToggle) ) {
+			this.selector = (int) ChiliFunctions.overFlowToZero(selector, (ChiliConstants.kDriveTypes - 1));
 			this.drive_toggle_marker = Timer.getFPGATimestamp();
 		}
 		
 		this.selector_error = false;
 		
-		switch(this.selector){
+		switch(this.selector) {
 		//Arcade
 		case 0:
 			{
@@ -174,11 +174,9 @@ public class PatoDrive implements SubComponent {
 		//Mecanum Tank
 		case 5:
 			{
-	    		double left = driver.getXboxLeftY();
-	    		double right = driver.getXboxRightY();
 	    		double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
-	    		double ver = (left + right) / 2;
-	    		double rotate = (left - right) / 2;    		
+	    		double ver = (driver.getXboxLeftY() + driver.getXboxRightY()) / 2;
+	    		double rotate = (driver.getXboxLeftY() - driver.getXboxRightY()) / 2;    		
 	    		double gyro = sensor.getGyroAngle();   		
 	    		this.forces =  this.mecanumDrive(hor, ver, rotate, gyro);
 	    		break;
@@ -198,7 +196,11 @@ public class PatoDrive implements SubComponent {
 		
 		this.output.setDriveFromArray(this.forces);
 		
-		return false;
+		return true;
+	}
+	
+	public void disable() {
+		this.output.setDriveFromArray(this.disable_forces);
 	}
 
 }

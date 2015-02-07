@@ -11,16 +11,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Vector;
-
-import com.team2576.lib.util.ChiliConstants;
-import com.team2576.lib.util.ChiliFunctions;
+import com.team2576.robot.io.RobotOutput;
+import com.team2576.robot.io.SensorInput;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class Logger {
 	
-	private String directory = "/logs";
+	private String directory = "/home/lvuser/logs";
 	private String file_path;
 	private Date logger_time;
 	private SimpleDateFormat time_format;
@@ -28,10 +26,12 @@ public class Logger {
 	private int index;
 	private static Logger instance;
 	private DriverStation driver;
+	private RobotOutput output;
+	private SensorInput sensor;
 	
 	private String loggables = "time,frontLeftForce,rearLeftForce,frontRightForce,rearRightForce,winchForce,"
 							 + "batteryVoltage,pdpTemp,pdpTotalCurrent,current0,current1,current2,current3,"
-							 + "current4,current5,current6,current7,";
+							 + "current4,current5,current6,current7";
 	
 	public static Logger getInstance() {
 		if (instance == null) {
@@ -44,6 +44,8 @@ public class Logger {
 		this.driver = DriverStation.getInstance();
 		this.logger_time = new Date();
 		this.time_format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss:SSS");
+		this.output = RobotOutput.getInstance();
+		this.sensor = SensorInput.getInstance();
 		
 		File dir = new File(this.directory);
 		if(!dir.exists()) {
@@ -68,26 +70,27 @@ public class Logger {
 		}
 	}
 	
-	public boolean addLog(Vector<Object> dataDriver, Vector<Object> dataSensor, Vector<Object> dataOut) {
+	public boolean addLog() {
 		boolean successful;
 		try {
-			this.writer.write(String.format("%s", this.generateTimeStamp(this.logger_time)));
-			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.iPatoDriveForces, dataOut))[0]));
-			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.iPatoDriveForces, dataOut))[1]));
-			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.iPatoDriveForces, dataOut))[2]));
-			this.writer.write(String.format(",%.2f", ((double[]) ChiliFunctions.doubleDimensionVectorValue(ChiliConstants.iDriveTrain, ChiliConstants.iPatoDriveForces, dataOut))[3]));
-			this.writer.write(String.format(",%.2f", ChiliConstants.kEmptyLoggerValue));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iBatteryVoltage)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPTemp)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPTotalCurrent)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel0)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel1)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel2)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel3)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel4)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel5)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel6)));
-			this.writer.write(String.format(",%.2f", (double) dataSensor.elementAt(ChiliConstants.iPDPChannel7)));
+			//TODO get all buttons values in a array within DriverInput and print to writer with Arrays.toString(array);
+			this.writer.write(String.format("%s", this.generateTimeStamp(this.logger_time) ));
+			this.writer.write(String.format(",%.2f", this.output.getForces(0) ));
+			this.writer.write(String.format(",%.2f", this.output.getForces(1) ));
+			this.writer.write(String.format(",%.2f", this.output.getForces(2) ));
+			this.writer.write(String.format(",%.2f", this.output.getForces(3) ));
+			this.writer.write(String.format(",%.2f", this.output.getWinchForce() ));
+			this.writer.write(String.format(",%.2f", this.sensor.getBatteryVoltage() ));
+			this.writer.write(String.format(",%.2f", this.sensor.getPDPTemp() ));
+			this.writer.write(String.format(",%.2f", this.sensor.getPDPTotalCurrent() ));
+			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(0) ));
+			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(1) ));
+			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(2) ));
+			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(3) ));
+			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(4) ));
+			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(5) ));
+			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(6) ));
+			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(7) ));
 			this.writer.newLine();
 			successful = true;
 		} catch (IOException err) {
