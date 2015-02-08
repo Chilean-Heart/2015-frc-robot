@@ -61,7 +61,7 @@ public class ChiliRobot extends IterativeRobot {
 
     public void autonomousPeriodic() {
     	while(!auto_finished && (Timer.getFPGATimestamp() - auto_timer) < ChiliConstants.kAutoTime){
-    		maestro.conduct();
+    		auto_finished = maestro.conduct();
     	}
     }
 
