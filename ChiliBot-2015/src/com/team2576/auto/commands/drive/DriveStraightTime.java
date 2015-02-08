@@ -6,7 +6,6 @@ package com.team2576.auto.commands.drive;
 */
 
 import com.team2576.auto.AutoCommands;
-import com.team2576.lib.util.ChiliConstants;
 
 public class DriveStraightTime extends AutoCommands{
 	
@@ -15,14 +14,21 @@ public class DriveStraightTime extends AutoCommands{
 	public DriveStraightTime(double time, double force) {
 		this.drive_time = time;
 		this.drive_force = force;
+		super.first_cycle = true;
 	}
 
-	@Override
 	public boolean update() {
-		// TODO Auto-generated method stub
-		return false;
+		if(first_cycle) {
+			super.start_time = super.getTime();
+			super.elapsed_time = this.start_time;
+			super.first_cycle = false;
+		}
+		//USAR IF O WHILE????
+		if((super.elapsed_time - super.start_time) < this.drive_time) {
+			super.output.setAllDrives(this.drive_force);
+			super.elapsed_time = super.getTime();
+			return false;
+		}
+		return true;
 	}
-	
-	
-
 }

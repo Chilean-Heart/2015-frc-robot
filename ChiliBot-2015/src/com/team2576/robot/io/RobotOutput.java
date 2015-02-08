@@ -173,4 +173,19 @@ public class RobotOutput {
 	public double getWinchForce() {
 		return this.winch_force;
 	}
+	
+	public void stopAll() {
+		this.front_left.set(0);
+		this.rear_left.set(0);
+		this.front_right.set(0);
+		this.rear_right.set(0);
+		this.winch.set(0);
+	}
+	
+	public void setAllDrives(double x) {
+		this.front_left.set(x);
+		this.rear_left.set(x);
+		this.front_right.set(x);
+		this.rear_right.set(x);
+	}
 }

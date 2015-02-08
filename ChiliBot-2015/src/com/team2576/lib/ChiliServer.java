@@ -6,7 +6,6 @@ import com.team2576.lib.util.ChiliConstants;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.networktables2.TableKeyExistsWithDifferentTypeException;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
 
 /*//Put default values to SmartDashboard so fields will appear
@@ -37,11 +36,11 @@ while (isAutonomous() && isEnabled())
 public class ChiliServer {
 	
 	private NetworkTable n_table;
-	private String name_of_table;
+	//private String name_of_table;
 	public static Vector<ChiliServer> tables;
 	
 	public ChiliServer(String name) {
-		this.name_of_table = name;
+		//this.name_of_table = name;
 		this.n_table = NetworkTable.getTable(name);
 	}
 	

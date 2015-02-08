@@ -13,7 +13,7 @@ import com.team2576.robot.subsystems.SubComponent;
 
 public class Kapellmeister {
 	
-	private final Vector<SubComponent> virtuosen;
+	private Vector<SubComponent> virtuosen;
 	private static Kapellmeister Konzertmeister;	
 	
 	private DriverInput driverData;

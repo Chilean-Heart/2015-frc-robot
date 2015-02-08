@@ -7,6 +7,11 @@ public class ChiliConstants {
 	public static final byte kStandardVectorIncrement = 5;
 	public static final double kEmptyLoggerValue = 0.0;
 	public static final int kYAxisInvert = -1;
+	public static final double kMaxBotixSuppliedVoltage = 5.0;
+	public static final double kInchToCm = 2.54;
+	public static final double kVoltsPerInch = kMaxBotixSuppliedVoltage / 512;
+	public static final double kVoltsPerCm = kVoltsPerInch * kInchToCm;
+	public static final double kAutoTime = 15.0;
 	//---------------------------------------------
 	//---------------------------------------------
 	
@@ -35,6 +40,7 @@ public class ChiliConstants {
 	//ANALOG SENSOR CHANNELS
 	public static final byte gyro_channel = 0;
 	public static final byte ultrasound_channel = 1;
+	public static final byte maxboxtix_channel = 3;
 	//---------------------------------------------
 	//DIGITAL SENSOR CHANNELS
 	public static final byte bot_limit = 1;
@@ -77,8 +83,7 @@ public class ChiliConstants {
 	public static final byte iXAxis = 0;
 	public static final byte iYAxis = 1;
 	public static final byte iZaxis = 2;
-	public static final byte iThrottle = 3;
-	
+	public static final byte iThrottle = 3;	
 	//---------------------------------------------
 	//CONTROLLER INDEX
 	public static final byte iXboxJoystick = 0;
