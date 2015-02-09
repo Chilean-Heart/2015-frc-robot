@@ -4,7 +4,7 @@ package com.team2576.lib.util;
 *
 * @author Samarithan
 */
-
+ 
 public class ChiliConstants {
 	
 	//Miscellaneous
