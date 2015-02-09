@@ -12,6 +12,9 @@ public class ChiliConstants {
 	public static final double kVoltsPerInch = kMaxBotixSuppliedVoltage / 512;
 	public static final double kVoltsPerCm = kVoltsPerInch * kInchToCm;
 	public static final double kAutoTime = 15.0;
+	public static final String kDataTable = "vision";
+	public static final int kRetryConnectionInterval = 50;
+	public static final int kTeamNumber = 2576;
 	//---------------------------------------------
 	//---------------------------------------------
 	
@@ -101,6 +104,7 @@ public class ChiliConstants {
 	public static final String kIsString = "s";
 	public static final int kAmountKeys = 4;
 	public static final String kStartKey = "connection_state";
+	public static final String kVisionClientConnected = "vclient_connected";
 	public static final String[] iTablesIndex = {
 		"X", "Y", "centroid_new", "dist"
 	};

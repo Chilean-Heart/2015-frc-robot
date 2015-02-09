@@ -75,7 +75,7 @@ public class Debugger {
 	
 	private void debugPrint(Vector<Object> message) {
 		if(debug_on) {
-			System.out.println(this.printFlag + message);
+			System.out.println(this.printFlag + message.toString());
 		}
 	}
 

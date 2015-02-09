@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.networktables2.TableKeyExistsWithDifferentTypeException;
 import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
 
+//NOT IN USE
+
 /*//Put default values to SmartDashboard so fields will appear
 SmartDashboard.putNumber("Tote hue min", TOTE_HUE_RANGE.minValue);
 SmartDashboard.putNumber("Tote hue max", TOTE_HUE_RANGE.maxValue);
@@ -37,11 +39,12 @@ public class ChiliServer {
 	
 	private NetworkTable n_table;
 	//private String name_of_table;
-	public static Vector<ChiliServer> tables;
+	public static Vector<NetworkTable> tables;
 	
 	public ChiliServer(String name) {
 		//this.name_of_table = name;
 		this.n_table = NetworkTable.getTable(name);
+		ChiliServer.tables.add(this.n_table);
 	}
 	
 	public boolean startTable(ChiliServer table) {

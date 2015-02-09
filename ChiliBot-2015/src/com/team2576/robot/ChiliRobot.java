@@ -10,6 +10,7 @@ import com.team2576.auto.routines.DriveForward;
 import com.team2576.lib.Debugger;
 import com.team2576.lib.Kapellmeister;
 import com.team2576.lib.Logger;
+import com.team2576.lib.VisionServer;
 import com.team2576.lib.util.ChiliConstants;
 import com.team2576.robot.subsystems.PatoDrive;
 import com.team2576.robot.subsystems.Toter;
@@ -24,19 +25,15 @@ public class ChiliRobot extends IterativeRobot {
 	Maestro maestro;
 	PatoDrive chassis;
 	Toter stacker;
+	VisionServer jetson;
 	Debugger messenger;
 	Logger loggy;
 	
-	private boolean teleop_first_time;
-	private boolean auto_finished;
+	private boolean teleop_first_time, auto_finished;
 	private double auto_timer;
+	public static boolean table_init = false, vision_systems = true;
 	
-	public ChiliRobot() {
-		
-	}
-	
-    public void robotInit() {
-    	
+    public void robotInit() {    	
     	this.teleop_first_time = true;
     	this.auto_finished = false;
     	
@@ -44,6 +41,7 @@ public class ChiliRobot extends IterativeRobot {
     	maestro = Maestro.getInstance();
 		chassis = PatoDrive.getInstance();
 		stacker = Toter.getInstance();
+		jetson = VisionServer.getInstance();
 		loggy = Logger.getInstance();
 		
 		messenger = new Debugger(Debugger.Debugs.MESSENGER, ChiliConstants.kDefaultDebugState);
@@ -52,27 +50,27 @@ public class ChiliRobot extends IterativeRobot {
 		
     	kapellmeister.addTask(chassis, ChiliConstants.iDriveTrain);
     	kapellmeister.addTask(stacker, ChiliConstants.iStacker);
+    	
+    	ChiliRobot.vision_systems = jetson.initializeTable();
     }
     
     public void autonomousInit() {
     	maestro.setRoutine();
-    	auto_timer = Timer.getFPGATimestamp();
+    	this.auto_timer = Timer.getFPGATimestamp();
     }
 
     public void autonomousPeriodic() {
     	while(!auto_finished && (Timer.getFPGATimestamp() - auto_timer) < ChiliConstants.kAutoTime){
-    		auto_finished = maestro.conduct();
+    		this.auto_finished = maestro.conduct();
     	}
     }
 
-    public void teleopInit() {
-    	
+    public void teleopInit() {    	
     	messenger.println("Finished teleopInit in", Timer.getFPGATimestamp());
     	loggy.openLog();
     }
     
-    public void teleopPeriodic() {
-    	
+    public void teleopPeriodic() {    	
     	if(this.teleop_first_time) {
     		messenger.println("Made it to the loop in", Timer.getFPGATimestamp());
     		this.teleop_first_time = false;
@@ -84,8 +82,7 @@ public class ChiliRobot extends IterativeRobot {
     	}
     }
     
-    public void disableInit() {
-    	
+    public void disableInit() {    	
     	this.teleop_first_time = true;
     	loggy.closeLog();
     	kapellmeister.silence();
