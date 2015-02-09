@@ -77,37 +77,33 @@ public class VisionServer implements Servers{
 	 * @return the data
 	 */
 	public Vector<Object> getData() {
+		
 		this.data.clear();
-		for (int i = 0; i < ChiliConstants.iTablesIndex.length; i++) {			
-			if (ChiliConstants.iTablesIndexType[i] == ChiliConstants.kIsNumber) {
-				double d_temp;
-				try{
-					d_temp = this.table.getNumber(ChiliConstants.iTablesIndex[i], -1);
-					this.data.add(i, d_temp);
-				} catch (TableKeyNotDefinedException err) {
-					err.printStackTrace();
-				}				
-			}
-			else if (ChiliConstants.iTablesIndexType[i] == ChiliConstants.kIsBoolean) {
-				boolean b_temp;
-				try{
-					b_temp = this.table.getBoolean(ChiliConstants.iTablesIndex[i]);
-					this.data.add(i, b_temp);
-				} catch (TableKeyNotDefinedException err) {
-					err.printStackTrace();
-				}
-			}
-			else if (ChiliConstants.iTablesIndexType[i] == ChiliConstants.kIsString) {
-				String s_temp;
-				try{
-					s_temp = this.table.getString(ChiliConstants.iTablesIndex[i], null);
-					this.data.add(i, s_temp);
-				} catch (TableKeyNotDefinedException err) {
-					err.printStackTrace();
-				}				
-			}
+		try{
+			this.data.add(ChiliConstants.iX, this.table.getNumber(ChiliConstants.iTablesIndex[ChiliConstants.iX], -1));
+			this.data.add(ChiliConstants.iY, this.table.getNumber(ChiliConstants.iTablesIndex[ChiliConstants.iY], -1));
+			this.data.add(ChiliConstants.iN, this.table.getBoolean(ChiliConstants.iTablesIndex[ChiliConstants.iN], false));
+			this.data.add(ChiliConstants.iD, this.table.getNumber(ChiliConstants.iTablesIndex[ChiliConstants.iD], -1));
+		} catch (TableKeyNotDefinedException err) {
+			err.printStackTrace();
 		}		
 		return this.data;		
+	}
+	
+	public double getX() {
+		return (double) this.data.elementAt(ChiliConstants.iX);
+	}
+	
+	public double getY() {
+		return (double) this.data.elementAt(ChiliConstants.iY);
+	}
+	
+	public double getDist() {
+		return (double) this.data.elementAt(ChiliConstants.iD);
+	}
+	
+	public boolean getNewCentroid() {
+		return (boolean) this.data.elementAt(ChiliConstants.iN);
 	}
 
 }

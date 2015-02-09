@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.team2576.robot.ChiliRobot;
 import com.team2576.robot.io.RobotOutput;
 import com.team2576.robot.io.SensorInput;
 
@@ -28,10 +30,11 @@ public class Logger {
 	private DriverStation driver;
 	private RobotOutput output;
 	private SensorInput sensor;
+	private VisionServer server;
 	
 	private String loggables = "time,frontLeftForce,rearLeftForce,frontRightForce,rearRightForce,winchForce,"
 							 + "batteryVoltage,pdpTemp,pdpTotalCurrent,current0,current1,current2,current3,"
-							 + "current4,current5,current6,current7";
+							 + "current4,current5,current6,current7,x,y,dist,newCentroid";
 	
 	public static Logger getInstance() {
 		if (instance == null) {
@@ -46,6 +49,7 @@ public class Logger {
 		this.time_format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss:SSS");
 		this.output = RobotOutput.getInstance();
 		this.sensor = SensorInput.getInstance();
+		this.server = VisionServer.getInstance();
 		
 		File dir = new File(this.directory);
 		if(!dir.exists()) {
@@ -91,6 +95,17 @@ public class Logger {
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(5) ));
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(6) ));
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(7) ));
+			if(ChiliRobot.vision_systems){
+				this.writer.write(String.format(",%.2f", this.server.getX() ));
+				this.writer.write(String.format(",%.2f", this.server.getY() ));
+				this.writer.write(String.format(",%.2f", this.server.getDist() ));
+				this.writer.write(String.format(",%.2f", this.server.getNewCentroid() ));
+			} else {
+				this.writer.write(String.format(",%d", 0 ));
+				this.writer.write(String.format(",%d", 0 ));
+				this.writer.write(String.format(",%d", 0 ));
+				this.writer.write(String.format(",%d", 0 ));
+			}
 			this.writer.newLine();
 			successful = true;
 		} catch (IOException err) {
