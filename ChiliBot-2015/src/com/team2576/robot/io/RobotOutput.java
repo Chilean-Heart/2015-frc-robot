@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.Talon;
 
 /**
 *
-* @author lucash
+* @author Lúcà$hhh
 */
 
 public class RobotOutput {
@@ -20,10 +20,10 @@ public class RobotOutput {
 	//Motor Controllers for drive and mechanisms
 	//Controladores de motor para el chasis y los mecanismos
 	private final Talon front_left, rear_left, front_right, rear_right;
-	private final Jaguar winch;
+	private final Jaguar left_lifter, right_lifter;
 	
 	private double[] forces = new double[ChiliConstants.kMotorCount];
-	private double winch_force;
+	private double lifter_force;
 
 	//Getter de instancia para asegurarse de la existencia global de un solo objeto
 	/**
@@ -45,19 +45,21 @@ public class RobotOutput {
 	private RobotOutput() {		
 		
 		this.forces = ChiliFunctions.fillArrayWithZeros(this.forces);
-		this.winch_force = 0;
+		this.lifter_force = 0;
 		
 		front_left = new Talon(ChiliConstants.front_left_motor);
 		rear_left = new Talon(ChiliConstants.rear_left_motor);
 		front_right = new Talon(ChiliConstants.front_right_motor);
 		rear_right = new Talon(ChiliConstants.rear_right_motor);
-		winch = new Jaguar(ChiliConstants.winch_motor);
+		left_lifter = new Jaguar(ChiliConstants.left_lifter_motor);
+		right_lifter = new Jaguar(ChiliConstants.right_lifter_motor);
 		
 		front_left.setSafetyEnabled(true);
 		rear_left.setSafetyEnabled(true);
 		front_right.setSafetyEnabled(true);
 		rear_right.setSafetyEnabled(true);
-		winch.setSafetyEnabled(true);		
+		left_lifter.setSafetyEnabled(true);
+		right_lifter.setSafetyEnabled(true);
 	}
 
 	//Metodo para fijar potencia del motor izquierdo delantero
@@ -159,8 +161,9 @@ public class RobotOutput {
 	 * @param x the new winch speed
 	 */
 	public void setWinch(double x) {
-		this.winch.set(x);
-		this.winch_force = x;
+		this.left_lifter.set(x);
+		this.right_lifter.set(x);
+		this.lifter_force = x;
 	}
 	
 	public double getForces(int index) {
@@ -171,7 +174,7 @@ public class RobotOutput {
 	}
 	
 	public double getWinchForce() {
-		return this.winch_force;
+		return this.lifter_force;
 	}
 	
 	public void stopAll() {
@@ -179,7 +182,8 @@ public class RobotOutput {
 		this.rear_left.set(0);
 		this.front_right.set(0);
 		this.rear_right.set(0);
-		this.winch.set(0);
+		this.left_lifter.set(0);
+		this.right_lifter.set(0);
 	}
 	
 	public void setAllDrives(double x) {

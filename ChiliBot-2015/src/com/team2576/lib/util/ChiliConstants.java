@@ -1,5 +1,10 @@
 package com.team2576.lib.util;
 
+/**
+*
+* @author The Machine
+*/
+
 public class ChiliConstants {
 	
 	//Miscellaneous
@@ -11,6 +16,7 @@ public class ChiliConstants {
 	public static final double kInchToCm = 2.54;
 	public static final double kVoltsPerInch = kMaxBotixSuppliedVoltage / 512;
 	public static final double kVoltsPerCm = kVoltsPerInch * kInchToCm;
+	public static final double kDistancePerPulse = 1;
 	public static final double kAutoTime = 15.0;
 	public static final String kDataTable = "vision";
 	public static final int kRetryConnectionInterval = 50;
@@ -29,7 +35,8 @@ public class ChiliConstants {
 	public static final byte rear_right_motor = 3;
 	//---------------------------------------------
 	//MECHANISM MOTORS
-	public static final byte winch_motor = 4;
+	public static final byte left_lifter_motor = 4;
+	public static final byte right_lifter_motor = 5;
 	//INFO PACKETS INDEX
 	public static final byte iPatoDriveForces = 0;
 	public static final byte iFrontLeftForce = 0;
@@ -48,6 +55,10 @@ public class ChiliConstants {
 	//DIGITAL SENSOR CHANNELS
 	public static final byte bot_limit = 1;
 	public static final byte top_limit = 2;
+	public static final byte left_encoder_channelA = 3;
+	public static final byte left_encoder_channelB = 4;
+	public static final byte right_encoder_channelA = 5;
+	public static final byte right_encoder_channelB = 6;
 	//---------------------------------------------	
 	public static final boolean kUseGyro = false;
 	//SENSOR VECTOR INDEX
