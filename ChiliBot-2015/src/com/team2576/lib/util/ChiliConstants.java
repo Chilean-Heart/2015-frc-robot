@@ -122,6 +122,10 @@ public class ChiliConstants {
 	public static final String[] iTablesIndexType = {
 		kIsNumber, kIsNumber, kIsBoolean, kIsNumber
 	};
+	public static final byte iX = 0;
+	public static final byte iY = 0;
+	public static final byte iN = 0;
+	public static final byte iD = 0;
 	//---------------------------------------------
 	//---------------------------------------------
 	
