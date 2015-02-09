@@ -79,7 +79,7 @@ public class Logger {
 			this.writer.write(String.format(",%.2f", this.output.getForces(1) ));
 			this.writer.write(String.format(",%.2f", this.output.getForces(2) ));
 			this.writer.write(String.format(",%.2f", this.output.getForces(3) ));
-			this.writer.write(String.format(",%.2f", this.output.getWinchForce() ));
+			this.writer.write(String.format(",%.2f", this.output.getLifterForce() ));
 			this.writer.write(String.format(",%.2f", this.sensor.getBatteryVoltage() ));
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPTemp() ));
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPTotalCurrent() ));

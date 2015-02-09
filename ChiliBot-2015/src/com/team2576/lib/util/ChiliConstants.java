@@ -2,7 +2,7 @@ package com.team2576.lib.util;
 
 /**
 *
-* @author The Machine
+* @author Samarithan
 */
 
 public class ChiliConstants {

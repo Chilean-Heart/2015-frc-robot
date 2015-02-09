@@ -156,15 +156,28 @@ public class RobotOutput {
 
 	//Metodo para fijar la velocidad del winch
 	/**
-	 * Sets the winch speed.
+	 * Sets the lifter speed.
 	 *
-	 * @param x the new winch speed
+	 * @param x the new lifter speed
 	 */
-	public void setWinch(double x) {
+	public void setLifters(double x) {
+		this.setLifterForce(x);
+		this.setLeftLifter(x);
+		this.setRightLifter(x);
+	}
+	
+	public void setLeftLifter(double x){
 		this.left_lifter.set(x);
+	}
+	
+	public void setRightLifter(double x){
 		this.right_lifter.set(x);
+	}
+	
+	public void setLifterForce(double x){
 		this.lifter_force = x;
 	}
+	
 	
 	public double getForces(int index) {
 		if (index > this.forces.length) {
@@ -173,7 +186,7 @@ public class RobotOutput {
 		return this.forces[index];
 	}
 	
-	public double getWinchForce() {
+	public double getLifterForce() {
 		return this.lifter_force;
 	}
 	
