@@ -4,7 +4,6 @@ import com.team2576.lib.MaxBotix;
 import com.team2576.lib.util.ChiliConstants;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -21,7 +20,6 @@ public class SensorInput {
 
 	private final BuiltInAccelerometer accel;
 	private final Gyro gyro;
-	private final Ultrasonic ultrasonic;
 	private final MaxBotix max_sensor;
 	private final DigitalInput limit_top, limit_bot;
 	private final PowerDistributionPanel pdp;
@@ -38,7 +36,6 @@ public class SensorInput {
 	
 	private SensorInput() {	
 		accel = new BuiltInAccelerometer(Accelerometer.Range.k2G);
-		ultrasonic = new Ultrasonic(ChiliConstants.ultrasound_channel,ChiliConstants.ultrasound_channel+1);
 		max_sensor = new MaxBotix(ChiliConstants.maxboxtix_channel);
 		gyro = new Gyro(ChiliConstants.gyro_channel);
 		limit_bot = new DigitalInput(ChiliConstants.bot_limit);
@@ -114,18 +111,6 @@ public class SensorInput {
 		return this.pdp.getVoltage();
 	}
 		
-	//---Funciones Ultrasonico---
-	
-	//Devuelve en Inches
-	public double getUltrasonicDistanceIn() {
-		return this.ultrasonic.getRangeInches();
-	}
-	
-	//Idem en mm
-	public double getUltrasonicDistanceMM() {
-		return this.ultrasonic.getRangeMM();
-	}
-	
 	//---Funciones MaxBotix---
 	
 	//Devuelve en Inches

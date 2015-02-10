@@ -5,6 +5,7 @@ package com.team2576.robot.subsystems;
 * @author PatoLucash
 */
 
+import com.team2576.lib.Debugger;
 import com.team2576.lib.util.ChiliConstants;
 import com.team2576.lib.util.ChiliFunctions;
 import com.team2576.robot.io.*;
@@ -22,6 +23,7 @@ public class PatoDrive implements SubComponent {
     
     private static PatoDrive instance;
     private RobotOutput output;
+    private Debugger debug;
     
     public static PatoDrive getInstance() {
     	if(instance == null) {
@@ -34,6 +36,7 @@ public class PatoDrive implements SubComponent {
     	
         this.drive_toggle_marker = Timer.getFPGATimestamp();
         this.selector_error = false;
+        this.selector = 5;
         
         this.forces = new double[ChiliConstants.kMotorCount];
         this.disable_forces = new double[ChiliConstants.kMotorCount];
@@ -41,6 +44,7 @@ public class PatoDrive implements SubComponent {
         this.disable_forces = ChiliFunctions.fillArrayWithZeros(this.disable_forces);
         
         output = RobotOutput.getInstance();
+        debug = new Debugger(Debugger.Debugs.MESSENGER, false);
     }
     
 	private double[] mecanumDrive(double hor, double ver, double rotate, double gyro) {
@@ -118,9 +122,15 @@ public class PatoDrive implements SubComponent {
 
 	public boolean update(DriverInput driver, SensorInput sensor) {
 		
+		debug.println("Toggle:", drive_toggle_marker);
+
 		//Trigger change in drive mode
 		if(driver.getXboxButtonLeftTrigger() && ( (Timer.getFPGATimestamp() - this.drive_toggle_marker) > ChiliConstants.kTimeBetweenToggle) ) {
-			this.selector = (int) ChiliFunctions.overFlowToZero(selector, (ChiliConstants.kDriveTypes - 1));
+			debug.println("Got in the changer");
+			this.selector++;
+			if(this.selector > (ChiliConstants.kDriveTypes - 1)) {
+				selector = 0;
+			}
 			this.drive_toggle_marker = Timer.getFPGATimestamp();
 		}
 		
@@ -177,7 +187,7 @@ public class PatoDrive implements SubComponent {
 	    		double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
 	    		double ver = (driver.getXboxLeftY() + driver.getXboxRightY()) / 2;
 	    		double rotate = (driver.getXboxLeftY() - driver.getXboxRightY()) / 2;    		
-	    		double gyro = sensor.getGyroAngle();   		
+	    		double gyro = sensor.getGyroAngle();
 	    		this.forces =  this.mecanumDrive(hor, ver, rotate, gyro);
 	    		break;
 			}
@@ -189,6 +199,8 @@ public class PatoDrive implements SubComponent {
 				break;
 			}
 		}
+		
+		debug.println("Mode:", selector);
 		
 		if(ChiliFunctions.isArrayWithZeros(this.forces) && this.selector_error){
 			return false;

@@ -95,15 +95,16 @@ public class Logger {
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(5) ));
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(6) ));
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(7) ));
-			if(ChiliRobot.vision_systems){
+			if(ChiliRobot.vision_systems && this.server.awaitClient()){
+				this.server.getData();
 				this.writer.write(String.format(",%.2f", this.server.getX() ));
 				this.writer.write(String.format(",%.2f", this.server.getY() ));
 				this.writer.write(String.format(",%.2f", this.server.getDist() ));
 				this.writer.write(String.format(",%.2f", this.server.getNewCentroid() ));
 			} else {
-				this.writer.write(String.format(",%d", 0 ));
-				this.writer.write(String.format(",%d", 0 ));
-				this.writer.write(String.format(",%d", 0 ));
+				this.writer.write(String.format(",%d", -1 ));
+				this.writer.write(String.format(",%d", -1 ));
+				this.writer.write(String.format(",%d", -1 ));
 				this.writer.write(String.format(",%d", 0 ));
 			}
 			this.writer.newLine();
@@ -138,11 +139,11 @@ public class Logger {
 	
 	private String generatePath() {		
 		if(this.driver.isFMSAttached()) {
-			return String.format("%s/%d_%s_%s_position%d_log.txt", this.directory, ++this.index,
+			return String.format("%s/%d_%s_%s_position%d_log.csv", this.directory, ++this.index,
 					this.generateTimeStamp(this.logger_time), this.driver.getAlliance().toString(),
 					this.driver.getLocation());
 		} 
-		return String.format("%s/%d_%s_log.txt", this.directory, ++this.index, this.generateTimeStamp(this.logger_time));
+		return String.format("%s/%d_%s_log.csv", this.directory, ++this.index, this.generateTimeStamp(this.logger_time));
 	}
 
 	private String generateTimeStamp(Date time) {

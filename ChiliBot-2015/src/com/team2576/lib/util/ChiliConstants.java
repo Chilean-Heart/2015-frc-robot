@@ -49,8 +49,7 @@ public class ChiliConstants {
 	//SensorInput.java CONSTANTS
 	//ANALOG SENSOR CHANNELS
 	public static final byte gyro_channel = 0;
-	public static final byte ultrasound_channel = 1;
-	public static final byte maxboxtix_channel = 3;
+	public static final byte maxboxtix_channel = 1;
 	//---------------------------------------------
 	//DIGITAL SENSOR CHANNELS
 	public static final byte bot_limit = 1;
@@ -123,9 +122,9 @@ public class ChiliConstants {
 		kIsNumber, kIsNumber, kIsBoolean, kIsNumber
 	};
 	public static final byte iX = 0;
-	public static final byte iY = 0;
-	public static final byte iN = 0;
-	public static final byte iD = 0;
+	public static final byte iY = 1;
+	public static final byte iN = 2;
+	public static final byte iD = 3;
 	//---------------------------------------------
 	//---------------------------------------------
 	
@@ -142,7 +141,7 @@ public class ChiliConstants {
 	//PatoDrive.java
 	//CLASS CONSTANTS
 	public static final byte kDriveTypes = 6;
-	public static final double kTimeBetweenToggle = 0.1;
+	public static final double kTimeBetweenToggle = 0.25;
 	public static final double kNoGyroDegrees = 180;
 	public static final byte kMotorCount = 4;
 	//---------------------------------------------

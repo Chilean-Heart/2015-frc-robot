@@ -6,7 +6,7 @@ package com.team2576.robot;
 */
 
 import com.team2576.auto.Maestro;
-import com.team2576.auto.routines.DriveForward;
+import com.team2576.auto.routines.*;
 import com.team2576.lib.Debugger;
 import com.team2576.lib.Kapellmeister;
 import com.team2576.lib.Logger;

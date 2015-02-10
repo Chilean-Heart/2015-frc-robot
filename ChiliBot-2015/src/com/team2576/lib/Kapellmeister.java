@@ -6,6 +6,8 @@ import com.team2576.lib.util.ChiliConstants;
 import com.team2576.robot.io.*;
 import com.team2576.robot.subsystems.SubComponent;
 
+import edu.wpi.first.wpilibj.Timer;
+
 /**
 *
 * @author Lucas
@@ -18,11 +20,13 @@ public class Kapellmeister {
 	
 	private DriverInput driverData;
 	private SensorInput sensorData;
+	private Debugger debug;
 	
 	private Kapellmeister() {		
 		this.virtuosen = new Vector<SubComponent>(ChiliConstants.kSubSystems, ChiliConstants.kStandardVectorIncrement);
 		driverData = DriverInput.getInstance();
 		sensorData = SensorInput.getInstance();
+		debug = new Debugger(Debugger.Debugs.MESSENGER, ChiliConstants.kDefaultDebugState);
 	}
 	
 	public static Kapellmeister getInstance() {
@@ -34,7 +38,8 @@ public class Kapellmeister {
 	
 	public void conduct() {		
 		for(int i = 0 ; i < this.virtuosen.size(); i++) {
-			((SubComponent) this.virtuosen.elementAt(i)).update(driverData, sensorData);			
+			((SubComponent) this.virtuosen.elementAt(i)).update(driverData, sensorData);
+			debug.println("Time", Timer.getFPGATimestamp());
 		}
 	}
 

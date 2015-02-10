@@ -35,8 +35,6 @@ public class VisionServer implements Servers{
 	 */
 	private VisionServer(String name) {
 		if(!ChiliRobot.table_init) {
-			NetworkTable.setServerMode();
-			NetworkTable.setTeam(ChiliConstants.kTeamNumber);
 			ChiliRobot.table_init = true;
 		}
 		this.table = NetworkTable.getTable(name);
@@ -51,6 +49,7 @@ public class VisionServer implements Servers{
 	public boolean initializeTable() {
 		try {
 			table.putBoolean(ChiliConstants.kStartKey, true);
+			table.putBoolean(ChiliConstants.kVisionClientConnected, false);
 		} catch (TableKeyExistsWithDifferentTypeException err) {
 			err.printStackTrace();
 			return false;
@@ -61,7 +60,8 @@ public class VisionServer implements Servers{
 	public boolean awaitClient() {
 		boolean confirmation = false;
 		try {
-			confirmation =  table.getBoolean(ChiliConstants.kVisionClientConnected, false);
+			//confirmation = table.getBoolean(ChiliConstants.kVisionClientConnected, false);
+			confirmation = true;
 		} catch (TableKeyNotDefinedException err){
 			err.printStackTrace();
 			confirmation = false;

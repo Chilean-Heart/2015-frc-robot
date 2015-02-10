@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.Talon;
 
 /**
 *
-* @author Lúcà$hhh
+* @author Lucashhh
 */
 
 public class RobotOutput {
@@ -54,12 +54,12 @@ public class RobotOutput {
 		left_lifter = new Jaguar(ChiliConstants.left_lifter_motor);
 		right_lifter = new Jaguar(ChiliConstants.right_lifter_motor);
 		
-		front_left.setSafetyEnabled(true);
+		/*front_left.setSafetyEnabled(true);
 		rear_left.setSafetyEnabled(true);
 		front_right.setSafetyEnabled(true);
 		rear_right.setSafetyEnabled(true);
 		left_lifter.setSafetyEnabled(true);
-		right_lifter.setSafetyEnabled(true);
+		right_lifter.setSafetyEnabled(true);*/
 	}
 
 	//Metodo para fijar potencia del motor izquierdo delantero
