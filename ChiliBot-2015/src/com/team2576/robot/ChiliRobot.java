@@ -7,6 +7,7 @@ package com.team2576.robot;
 
 import com.team2576.auto.Maestro;
 import com.team2576.auto.routines.*;
+import com.team2576.lib.AutoRecorder;
 import com.team2576.lib.Debugger;
 import com.team2576.lib.Kapellmeister;
 import com.team2576.lib.Logger;
@@ -28,6 +29,7 @@ public class ChiliRobot extends IterativeRobot {
 	VisionServer jetson;
 	Debugger messenger;
 	Logger loggy;
+	AutoRecorder recorder;
 	
 	private boolean teleop_first_time, auto_finished;
 	private double auto_timer;
@@ -43,6 +45,7 @@ public class ChiliRobot extends IterativeRobot {
 		stacker = Toter.getInstance();
 		jetson = VisionServer.getInstance();
 		loggy = Logger.getInstance();
+		recorder = AutoRecorder.getInstance();
 		
 		messenger = new Debugger(Debugger.Debugs.MESSENGER, ChiliConstants.kDefaultDebugState);
 		
@@ -68,6 +71,7 @@ public class ChiliRobot extends IterativeRobot {
     public void teleopInit() {    	
     	messenger.println("Finished teleopInit in", Timer.getFPGATimestamp());
     	loggy.openLog();
+    	if(AutoRecorder.record_enabled) recorder.openRecording();
     }
     
     public void teleopPeriodic() {    	
@@ -77,6 +81,7 @@ public class ChiliRobot extends IterativeRobot {
     	}
     	
     	while(isOperatorControl() && isEnabled()) {
+    		if(AutoRecorder.record_enabled) recorder.recordAuto();
     		loggy.addLog();
     		kapellmeister.conduct();
     	}
@@ -86,6 +91,7 @@ public class ChiliRobot extends IterativeRobot {
     	this.teleop_first_time = true;
     	loggy.closeLog();
     	kapellmeister.silence();
+    	if(AutoRecorder.record_enabled) recorder.closeRecording();
     }
     
     public void disabledPeriodic() {

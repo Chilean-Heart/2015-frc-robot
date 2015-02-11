@@ -30,7 +30,7 @@ public class PatoDrive implements SubComponent {
     		instance = new PatoDrive();
     	}
     	return instance;
-    }
+    } 
     
     private PatoDrive() {
     	
