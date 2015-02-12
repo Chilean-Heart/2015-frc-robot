@@ -23,7 +23,7 @@ public class AutoRecorder {
 	private SimpleDateFormat time_format;
 	private BufferedWriter writer;
 	
-	private String loggables = "time,frontLeftForce,rearLeftForce,frontRightForce,rearRightForce,winchForce,batteryVoltage";
+	//private String loggables = "time,frontLeftForce,rearLeftForce,frontRightForce,rearRightForce,winchForce,batteryVoltage";
 	
 	private static AutoRecorder instance;
 	
@@ -77,8 +77,8 @@ public class AutoRecorder {
 		try {
 			this.file_path = this.generatePath();
 			this.writer = new BufferedWriter(new FileWriter(this.file_path));
-			this.writer.write(this.loggables);
-			this.writer.newLine();
+			//this.writer.write(this.loggables);
+			//this.writer.newLine();
 		} catch (IOException err) {
 			err.printStackTrace();
 		}
