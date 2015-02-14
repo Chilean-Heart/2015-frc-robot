@@ -32,6 +32,7 @@ public class DriverInput {
 	}	
 	
 	
+	
 	public double getXboxLeftX() {
 		return ChiliFunctions.deadBand(this.xbox_controller.getRawAxis(ChiliConstants.iLeftXAxis), ChiliConstants.kAxisThreshold);
 	}
@@ -234,6 +235,5 @@ public class DriverInput {
 	
 	public double getMadCatzPOV() {
 		return this.mad_catz.getPOV(0);
-	}
-	
+	}	
 }

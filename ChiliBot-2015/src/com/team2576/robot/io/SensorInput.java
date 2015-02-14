@@ -1,11 +1,14 @@
 package com.team2576.robot.io;
 
+import com.team2576.lib.ADXL345_I2C_SparkFun;
+import com.team2576.lib.GyroITG3200;
 import com.team2576.lib.MaxBotix;
 import com.team2576.lib.util.ChiliConstants;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.Encoder;
@@ -24,6 +27,8 @@ public class SensorInput {
 	private final DigitalInput limit_top, limit_bot;
 	private final PowerDistributionPanel pdp;
 	private final Encoder left_encoder, right_encoder;
+	private final GyroITG3200 gyro_i2c;
+	private final ADXL345_I2C_SparkFun accel_i2c;
 	
 	private static SensorInput instance;
 	
@@ -43,6 +48,10 @@ public class SensorInput {
 		pdp = new PowerDistributionPanel();
 		left_encoder = new Encoder(ChiliConstants.left_encoder_channelA, ChiliConstants.left_encoder_channelB, false, Encoder.EncodingType.k4X);
 		right_encoder = new Encoder(ChiliConstants.right_encoder_channelA, ChiliConstants.right_encoder_channelB, false, Encoder.EncodingType.k4X );
+		gyro_i2c = new GyroITG3200(I2C.Port.kOnboard);
+		accel_i2c = new ADXL345_I2C_SparkFun(I2C.Port.kOnboard, Accelerometer.Range.k2G);
+		
+		gyro_i2c.initialize();
 		
 		left_encoder.setDistancePerPulse(ChiliConstants.kDistancePerPulse);
 		right_encoder.setDistancePerPulse(ChiliConstants.kDistancePerPulse);
@@ -62,6 +71,20 @@ public class SensorInput {
 		return this.accel.getZ();
 	}
 	
+	//---I2C Accel Functions---
+	
+	public double getI2CAccelX() {
+		return this.accel_i2c.getX();
+	}
+	
+	public double getI2CAccelY() {
+		return this.accel_i2c.getY();
+	}
+	
+	public double getI2CAccelZ() {
+		return this.accel_i2c.getZ();
+	}
+	
 	//---Gyro Functions---
 	
 	public double getGyroAngle() {
@@ -73,6 +96,28 @@ public class SensorInput {
 			return this.gyro.getRate();
 		}
 		return 180;
+	}
+	
+	//---I2C Gyro Functions---
+	
+	public double getI2CGyroX() {
+		return (double) this.gyro_i2c.getRotationX();
+	}
+	
+	public double getI2CGyroY() {
+		return (double) this.gyro_i2c.getRotationY();
+	}
+	
+	public double getI2CGyroZ() {
+		return (double) this.gyro_i2c.getRotationZ();
+	}
+	
+	public void resetI2CGyro() {
+		this.gyro_i2c.reset();
+	}
+	
+	public double getI2CGyroTemp() {
+		return this.gyro_i2c.getTemperature();
 	}
 	
 	//---Funciones Limits---
