@@ -15,7 +15,8 @@ public class DriverInput {
 	private static DriverInput instance;
 	
 	private final Joystick xbox_controller;
-	private final Joystick joystick;
+	private final Joystick logitech_joy;
+	private final Joystick mad_catz;
 	
 	public static DriverInput getInstance() {
 		if(instance == null) {
@@ -26,8 +27,10 @@ public class DriverInput {
 
 	private DriverInput() {
 		xbox_controller = new Joystick(ChiliConstants.iXboxJoystick);
-		joystick = new Joystick(ChiliConstants.iJoytstick);
-	}
+		logitech_joy = new Joystick(ChiliConstants.iLogitech);
+		mad_catz = new Joystick(ChiliConstants.iMadCatz);
+	}	
+	
 	
 	public double getXboxLeftX() {
 		return ChiliFunctions.deadBand(this.xbox_controller.getRawAxis(ChiliConstants.iLeftXAxis), ChiliConstants.kAxisThreshold);
@@ -101,31 +104,136 @@ public class DriverInput {
 		return this.xbox_controller.getPOV(0);
 	}
 	
-	public double getJoystickX() {
-		return this.joystick.getRawAxis(ChiliConstants.iXAxis);
+	public void setLeftRumble(double rumble) {
+		this.xbox_controller.setRumble(Joystick.RumbleType.kLeftRumble, (float) rumble);
 	}
 	
-	public double getJoytsickY() {
-		return this.joystick.getRawAxis(ChiliConstants.iYAxis);
+	public void setRightRumble(double rumble) {
+		this.xbox_controller.setRumble(Joystick.RumbleType.kRightRumble, (float) rumble);
 	}
 	
-	public double getJoytsickZ() {
-		return this.joystick.getRawAxis(ChiliConstants.iZaxis);
+	
+	
+	public double getLogitechX() {
+		return ChiliFunctions.deadBand(this.logitech_joy.getRawAxis(ChiliConstants.iXAxis),ChiliConstants.kAxisThreshold);
 	}
 	
-	public double getJoystickThrottle() {
-		return this.joystick.getRawAxis(ChiliConstants.iThrottle);
+	public double getLogitechY() {
+		return ChiliFunctions.deadBand(this.logitech_joy.getRawAxis(ChiliConstants.iYAxis),ChiliConstants.kAxisThreshold) * ChiliConstants.kYAxisInvert;
 	}
 	
-	public boolean getJoystickButton(int button_code) {
-		return this.joystick.getRawButton(button_code);
+	public double getLogitechZ() {
+		return ChiliFunctions.deadBand(this.logitech_joy.getRawAxis(ChiliConstants.iZAxis),ChiliConstants.kAxisThreshold);
 	}
 	
-	public boolean getJoytsickTrigger() {
-		return this.joystick.getRawButton(0);
+	public double getLogitechThrottle() {
+		return this.logitech_joy.getRawAxis(ChiliConstants.iThrottle) * ChiliConstants.kYAxisInvert;
 	}
 	
-	public double getJoystickPOV() {
-		return this.joystick.getPOV(0);
+	public boolean getLogitechButton(int button_code) {
+		return this.logitech_joy.getRawButton(button_code);
 	}
+	
+	public boolean getLogitechTrigger() {
+		return this.logitech_joy.getRawButton(1);
+	}
+	
+	public boolean getLogitechThumb() {
+		return this.logitech_joy.getRawButton(2);
+	}
+	
+	public boolean getLogitechBotLeftThumb() {
+		return this.logitech_joy.getRawButton(3);
+	}
+	
+	public boolean getLogitechBotRightThumb() {
+		return this.logitech_joy.getRawButton(4);
+	}
+	
+	public boolean getLogitechTopRightThumb() {
+		return this.logitech_joy.getRawButton(5);
+	}
+	
+	public boolean getLogitechTopLeftThumb() {
+		return this.logitech_joy.getRawButton(6);
+	}
+	
+	public boolean getLogitechTopLeftHand() {
+		return this.logitech_joy.getRawButton(7);
+	}
+	
+	public boolean getLogitechTopRightHand() {
+		return this.logitech_joy.getRawButton(8);
+	}
+	
+	public boolean getLogitechMidLeftHand() {
+		return this.logitech_joy.getRawButton(9);
+	}
+	
+	public boolean getLogitechMidRightHand() {
+		return this.logitech_joy.getRawButton(10);
+	}
+	
+	public boolean getLogitechBotLeftHand() {
+		return this.logitech_joy.getRawButton(11);
+	}
+	
+	public boolean getLogitechBotRightHand() {
+		return this.logitech_joy.getRawButton(12);
+	}
+	
+	public double getLogitechPOV() {
+		return this.logitech_joy.getPOV(0);
+	}
+	
+	
+	
+	public double getMadCatzX() {
+		return ChiliFunctions.deadBand(this.mad_catz.getRawAxis(ChiliConstants.iXAxis), ChiliConstants.kAxisThreshold);
+	}
+	
+	public double getMadCatzY() {
+		return ChiliFunctions.deadBand(this.mad_catz.getRawAxis(ChiliConstants.iYAxis), ChiliConstants.kAxisThreshold) * ChiliConstants.kYAxisInvert;
+	}
+	
+	public double getMadCatzZ() {
+		return ChiliFunctions.deadBand(this.mad_catz.getRawAxis(ChiliConstants.iZCatzAxis), ChiliConstants.kAxisThreshold);
+	}
+	
+	public double getMadCatzThrottle() {
+		return this.mad_catz.getRawAxis(ChiliConstants.iZAxis) * ChiliConstants.kYAxisInvert;
+	}
+	
+	public boolean getMadCatzTrigger() {
+		return this.logitech_joy.getRawButton(1);
+	}
+	
+	public boolean getMadCatzThumbLower() {
+		return this.logitech_joy.getRawButton(2);
+	}
+	
+	public boolean getMadCatzThumbTopLeft() {
+		return this.logitech_joy.getRawButton(3);
+	}
+	
+	public boolean getMadCatzThumbTopRight() {
+		return this.logitech_joy.getRawButton(4);
+	}
+	
+	public boolean getMadCatzThumbBotLeft() {
+		return this.logitech_joy.getRawButton(5);
+	}
+	
+	public boolean getMadCatzBotRight() {
+		return this.logitech_joy.getRawButton(6);
+	}
+	
+	public boolean getMadCatzBotTrigger() {
+		return this.logitech_joy.getRawButton(7);
+	}
+	
+	public double getMadCatzPOV() {
+		return this.mad_catz.getPOV(0);
+	}
+	
 }

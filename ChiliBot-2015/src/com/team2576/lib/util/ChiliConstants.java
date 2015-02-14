@@ -21,6 +21,9 @@ public class ChiliConstants {
 	public static final String kDataTable = "vision";
 	public static final int kRetryConnectionInterval = 50;
 	public static final int kTeamNumber = 2576;
+	public static final int kFrameWidth = 320;
+	public static final int kFrameHeight = 240;
+	public static final int kFrameWidthCenter = kFrameWidth / 2;
 	//---------------------------------------------
 	//---------------------------------------------
 	
@@ -95,12 +98,14 @@ public class ChiliConstants {
 	//JOYSTICK READINGS INDEX
 	public static final byte iXAxis = 0;
 	public static final byte iYAxis = 1;
-	public static final byte iZaxis = 2;
+	public static final byte iZAxis = 2;
+	public static final byte iZCatzAxis = 3;
 	public static final byte iThrottle = 3;	
 	//---------------------------------------------
 	//CONTROLLER INDEX
 	public static final byte iXboxJoystick = 0;
-	public static final byte iJoytstick = 1;
+	public static final byte iLogitech = 1;
+	public static final byte iMadCatz = 2;
 	//---------------------------------------------
 	//DEADBAND THRESHOLDSi
 	public static final double kAxisThreshold = 0.2;

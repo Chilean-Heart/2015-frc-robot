@@ -18,6 +18,7 @@ import com.team2576.robot.subsystems.Toter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class ChiliRobot extends IterativeRobot {
@@ -84,6 +85,8 @@ public class ChiliRobot extends IterativeRobot {
     		if(AutoRecorder.record_enabled) recorder.recordAuto();
     		loggy.addLog();
     		kapellmeister.conduct();
+    		SmartDashboard.putNumber("X val", jetson.getX());
+    		SmartDashboard.putNumber("Y val", jetson.getY());
     	}
     }
     

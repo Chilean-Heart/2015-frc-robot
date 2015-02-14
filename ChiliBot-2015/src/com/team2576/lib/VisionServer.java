@@ -60,8 +60,8 @@ public class VisionServer implements Servers{
 	public boolean awaitClient() {
 		boolean confirmation = false;
 		try {
-			//confirmation = table.getBoolean(ChiliConstants.kVisionClientConnected, false);
-			confirmation = true;
+			confirmation = table.getBoolean(ChiliConstants.kVisionClientConnected, false);
+			//confirmation = true;
 		} catch (TableKeyNotDefinedException err){
 			err.printStackTrace();
 			confirmation = false;

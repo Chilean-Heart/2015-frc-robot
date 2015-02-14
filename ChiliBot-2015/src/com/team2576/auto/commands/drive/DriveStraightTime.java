@@ -23,7 +23,6 @@ public class DriveStraightTime extends AutoCommands{
 			super.elapsed_time = this.start_time;
 			super.first_cycle = false;
 		}
-		//USAR IF O WHILE????
 		if((super.elapsed_time - super.start_time) < this.drive_time) {
 			super.output.setAllDrives(this.drive_force);
 			super.elapsed_time = super.getTime();

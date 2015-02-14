@@ -1,27 +1,65 @@
 package com.team2576.auto.routines;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import com.team2576.auto.AutoCommands;
 import com.team2576.auto.AutoGenerator;
+import com.team2576.lib.util.ChiliFunctions;
 
 public class AutoPlayback implements AutoRoutines {
 	
 	private final String directory = "/home/lvuser/autos/";
-	private String autoFile = "";
+	private FileReader autoFile;
 	private BufferedReader reader;
 	private String line;
+	private File[] files;
+	private double[][] data;
 	private ArrayList<double[]> autoData = new ArrayList<double[]>();
+	private int autoIndex = 0, autosCount = 0;
 	
 	//private String loggables = "time,frontLeftForce,rearLeftForce,frontRightForce,rearRightForce,winchForce,batteryVoltage";
 	
 	public AutoPlayback() {	
 		
+		File dir = new File(directory);
+		if(!dir.exists()){
+			dir.mkdir();
+		}
+		files = new File(directory).listFiles();
+		if(files != null) {
+			for(File file : files) {
+				if(file.isFile()) {
+					autosCount++;
+				}
+			}
+		}		
+	}
+	
+	/*To print data
+	for (int j = 0; j < autoData.size(); j++) {
+		System.out.println(Arrays.toString(autoData.get(j)));
+	}*/
+	
+	public void selectAutoMode(int selection) {
+		
+		if(selection <= this.autosCount) {
+			autoIndex = selection;
+			try {
+				autoFile = new FileReader(directory + files[autoIndex].toString());
+			} catch (IOException err) {
+				err.printStackTrace();
+			}
+		}
+	}
+	
+	public void readFile() {
+		
 		try {
-			reader = new BufferedReader(new FileReader(directory + autoFile));
+			reader = new BufferedReader(autoFile);
 			while((line = reader.readLine()) != null) {
 				String[] vals = line.split(",");
 				double [] dvals = new double[vals.length];
@@ -41,19 +79,15 @@ public class AutoPlayback implements AutoRoutines {
 				}
 			}
 		}
+		data = ChiliFunctions.transpose(autoData);
 	}
-	
-	/*To print data
-	for (int j = 0; j < autoData.size(); j++) {
-		System.out.println(Arrays.toString(autoData.get(j)));
-	}*/
 	
 	
 
 	public AutoCommands[] generateSequence() {
-		AutoGenerator commmands = new AutoGenerator();
-		
-		return commmands.generateRoutine();
+		AutoGenerator commands = new AutoGenerator();
+		//commands.addCommand(new );
+		return commands.generateRoutine();
 	}
 
 }

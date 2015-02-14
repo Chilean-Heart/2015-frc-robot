@@ -31,17 +31,16 @@ public class Toter implements SubComponent {
 	}
 	
 	private Toter() {
+		
 		this.totes = 0;
 		this.lifter_force = 0;
 		this.left_encoder_rate = 0;
 		this.right_encoder_rate = 0;
 		this.encoder_error = 0;
 		this.corrector = 0;
-		this.lifter_control = new ChiliPID(1, 0, 0);
+		this.lifter_control = new ChiliPID(1, 0, 0);		
 		
-		
-		output = RobotOutput.getInstance();
-		
+		output = RobotOutput.getInstance();		
 	}
 	
 	public int getTotes() {
@@ -50,7 +49,7 @@ public class Toter implements SubComponent {
 
 	public boolean update(DriverInput driver, SensorInput sensor) {
 		
-		this.lifter_force = driver.getJoystickThrottle();
+		this.lifter_force = driver.getMadCatzThrottle();
 		
 		if(toter_error) {
 			return false;
@@ -63,6 +62,7 @@ public class Toter implements SubComponent {
 
 		this.output.setLeftLifter(lifter_force-corrector);
 		this.output.setRightLifter(lifter_force+corrector);
+		
 		this.output.setLifterForce(lifter_force);
 		
 		return true;

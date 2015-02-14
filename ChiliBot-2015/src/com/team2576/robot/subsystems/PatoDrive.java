@@ -6,8 +6,10 @@ package com.team2576.robot.subsystems;
 */
 
 import com.team2576.lib.Debugger;
+import com.team2576.lib.VisionServer;
 import com.team2576.lib.util.ChiliConstants;
 import com.team2576.lib.util.ChiliFunctions;
+import com.team2576.lib.util.ChiliPID;
 import com.team2576.robot.io.*;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -17,13 +19,16 @@ import edu.wpi.first.wpilibj.Timer;
 public class PatoDrive implements SubComponent {
 	
 	private int selector;
-	private boolean selector_error;
+	private boolean selector_error, vision_override;
     private double drive_toggle_marker;
     private double[] forces, disable_forces;
+    
+    private ChiliPID vision_strafer;
     
     private static PatoDrive instance;
     private RobotOutput output;
     private Debugger debug;
+    private VisionServer server;
     
     public static PatoDrive getInstance() {
     	if(instance == null) {
@@ -36,14 +41,17 @@ public class PatoDrive implements SubComponent {
     	
         this.drive_toggle_marker = Timer.getFPGATimestamp();
         this.selector_error = false;
+        this.vision_override = false;
         this.selector = 5;
         
         this.forces = new double[ChiliConstants.kMotorCount];
         this.disable_forces = new double[ChiliConstants.kMotorCount];
         this.forces = ChiliFunctions.fillArrayWithZeros(this.forces);
         this.disable_forces = ChiliFunctions.fillArrayWithZeros(this.disable_forces);
+        this.vision_strafer = new ChiliPID(1, 0, 0);
         
         output = RobotOutput.getInstance();
+        server = VisionServer.getInstance();
         debug = new Debugger(Debugger.Debugs.MESSENGER, false);
     }
     
@@ -135,69 +143,76 @@ public class PatoDrive implements SubComponent {
 		}
 		
 		this.selector_error = false;
+		this.vision_override = driver.getXboxButtonRightTrigger();
 		
-		switch(this.selector) {
-		//Arcade
-		case 0:
-			{
-				double forward = driver.getXboxLeftY();
-				double steer = driver.getXboxLeftX();
-				this.forces = this.arcadeDrive(forward, steer);
-				break;
+		if(!vision_override){
+			switch(this.selector) {
+			//Arcade
+			case 0:
+				{
+					double forward = driver.getXboxLeftY();
+					double steer = driver.getXboxLeftX();
+					this.forces = this.arcadeDrive(forward, steer);
+					break;
+				}
+			//FPS
+			case 1:
+				{
+					double forward = driver.getXboxLeftY();
+					double steer = driver.getXboxRightX();
+					this.forces = this.arcadeDrive(forward, steer);
+					break;
+				}
+			//Tank
+			case 2:
+				{
+					double left = driver.getXboxLeftY();
+					double right = driver.getXboxRightY();
+					this.forces = this.tankDrive(left, right);
+					break;
+				}
+			//Mecanum Arcade
+			case 3:
+				{
+					double ver = driver.getXboxLeftY();
+		    		double rotate = driver.getXboxLeftX();
+		    		double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
+		    		double gyro = sensor.getGyroAngle();   		
+		    		this.forces = this.mecanumDrive(hor, ver, rotate, gyro);				
+					break;
+				}
+			//Mecanum FPS
+			case 4:
+				{
+					double ver = driver.getXboxLeftY();
+		    		double rotate = driver.getXboxRightX();
+		    		double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
+		    		double gyro = sensor.getGyroAngle();   		
+		    		this.forces = this.mecanumDrive(hor, ver, rotate, gyro);
+					break;
+				}
+			//Mecanum Tank
+			case 5:
+				{
+		    		double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
+		    		double ver = (driver.getXboxLeftY() + driver.getXboxRightY()) / 2;
+		    		double rotate = (driver.getXboxLeftY() - driver.getXboxRightY()) / 2;    		
+		    		double gyro = sensor.getGyroAngle();
+		    		this.forces =  this.mecanumDrive(hor, ver, rotate, gyro);
+		    		break;
+				}
+			//Drive Error
+			default:
+				{
+					this.forces = ChiliFunctions.fillArrayWithZeros(this.forces);
+					this.selector_error = true;
+					break;
+				}
 			}
-		//FPS
-		case 1:
-			{
-				double forward = driver.getXboxLeftY();
-				double steer = driver.getXboxRightX();
-				this.forces = this.arcadeDrive(forward, steer);
-				break;
-			}
-		//Tank
-		case 2:
-			{
-				double left = driver.getXboxLeftY();
-				double right = driver.getXboxRightY();
-				this.forces = this.tankDrive(left, right);
-				break;
-			}
-		//Mecanum Arcade
-		case 3:
-			{
-				double ver = driver.getXboxLeftY();
-	    		double rotate = driver.getXboxLeftX();
-	    		double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
-	    		double gyro = sensor.getGyroAngle();   		
-	    		this.forces = this.mecanumDrive(hor, ver, rotate, gyro);				
-				break;
-			}
-		//Mecanum FPS
-		case 4:
-			{
-				double ver = driver.getXboxLeftY();
-	    		double rotate = driver.getXboxRightX();
-	    		double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
-	    		double gyro = sensor.getGyroAngle();   		
-	    		this.forces = this.mecanumDrive(hor, ver, rotate, gyro);
-				break;
-			}
-		//Mecanum Tank
-		case 5:
-			{
-	    		double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
-	    		double ver = (driver.getXboxLeftY() + driver.getXboxRightY()) / 2;
-	    		double rotate = (driver.getXboxLeftY() - driver.getXboxRightY()) / 2;    		
-	    		double gyro = sensor.getGyroAngle();
-	    		this.forces =  this.mecanumDrive(hor, ver, rotate, gyro);
-	    		break;
-			}
-		//Drive Error
-		default:
-			{
-				this.forces = ChiliFunctions.fillArrayWithZeros(this.forces);
-				this.selector_error = true;
-				break;
-			}
+		} else {
+			double error = ChiliConstants.kFrameWidthCenter - server.getX();
+			double correction = vision_strafer.calcPID(error);
+			this.forces = this.mecanumDrive(correction, 0, 0, sensor.getGyroAngle());
 		}
 		
 		debug.println("Mode:", selector);

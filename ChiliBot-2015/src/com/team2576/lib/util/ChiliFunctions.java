@@ -1,5 +1,6 @@
 package com.team2576.lib.util;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -190,6 +191,28 @@ public class ChiliFunctions {
 	   Object temp = vector.elementAt(outer_index);
 	   Vector temp2 = (Vector) temp;
 	   return temp2.elementAt(inner_index); 
+   }
+   
+   /**
+    * Transpose.
+    *
+    * @param array the array
+    * @return the double[][]
+    */
+   public static double[][] transpose(ArrayList<double[]> array) {
+	   if (array == null || array.size() == 0) return null;
+   
+	   int width = array.size();
+	   int height = array.get(0).length;
+
+	   double[][] array_new = new double[height][width];
+
+	   for (int x = 0; x < width; x++) {
+		   for (int y = 0; y < height; y++) {
+			   array_new[y][x] = array.get(x)[y];
+		   }
+	   }
+	   return array_new;
    }
    
    public ChiliFunctions() {}

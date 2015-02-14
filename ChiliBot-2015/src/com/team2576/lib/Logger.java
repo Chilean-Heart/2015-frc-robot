@@ -100,7 +100,7 @@ public class Logger {
 				this.writer.write(String.format(",%.2f", this.server.getX() ));
 				this.writer.write(String.format(",%.2f", this.server.getY() ));
 				this.writer.write(String.format(",%.2f", this.server.getDist() ));
-				this.writer.write(String.format(",%.2f", this.server.getNewCentroid() ));
+				this.writer.write(String.format(",%b", this.server.getNewCentroid() ));
 			} else {
 				this.writer.write(String.format(",%d", -1 ));
 				this.writer.write(String.format(",%d", -1 ));
