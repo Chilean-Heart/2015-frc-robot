@@ -31,7 +31,7 @@ THE SOFTWARE.
 ===============================================
 */
 
-package com.team2576.lib;
+package com.team2576.lib.sensors;
 
 import java.util.Arrays;
 

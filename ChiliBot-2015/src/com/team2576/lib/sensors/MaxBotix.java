@@ -1,4 +1,4 @@
-package com.team2576.lib;
+package com.team2576.lib.sensors;
 
 import com.team2576.lib.util.ChiliConstants;
 

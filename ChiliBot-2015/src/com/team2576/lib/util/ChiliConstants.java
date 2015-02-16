@@ -55,32 +55,20 @@ public class ChiliConstants {
 	public static final byte maxboxtix_channel = 1;
 	//---------------------------------------------
 	//DIGITAL SENSOR CHANNELS
-	public static final byte bot_limit = 1;
-	public static final byte top_limit = 2;
-	public static final byte left_encoder_channelA = 3;
-	public static final byte left_encoder_channelB = 4;
-	public static final byte right_encoder_channelA = 5;
-	public static final byte right_encoder_channelB = 6;
+	public static final byte front_left_encoder = 1;
+	public static final byte rear_left_encoder = 2;
+	public static final byte front_right_encoder = 3;
+	public static final byte rear_right_encoder = 4;
+	public static final byte left_encoder_channelA = 5;
+	public static final byte left_encoder_channelB = 6;
+	public static final byte right_encoder_channelA = 7;
+	public static final byte right_encoder_channelB = 8;
+	public static final byte bot_left_limit = 9;
+	public static final byte bot_right_limit = 10;
+	public static final byte top_left_limit = 11;
+	public static final byte top_right_limit = 12;
 	//---------------------------------------------	
 	public static final boolean kUseGyro = false;
-	//SENSOR VECTOR INDEX
-	public static final byte iGyroAngle = 0;
-	public static final byte iGyroRate = 1;
-	public static final byte iTopLimitState = 2;
-	public static final byte iBotLimitState = 3;
-	public static final byte iPDPTemp = 4;
-	public static final byte iPDPTotalCurrent = 5;
-	public static final byte iPDPTotalEnergy = 6;
-	public static final byte iPDPTotalPower = 7;
-	public static final byte iPDPChannel0 = 8;
-	public static final byte iPDPChannel1 = 9;
-	public static final byte iPDPChannel2 = 10;
-	public static final byte iPDPChannel3 = 11;
-	public static final byte iPDPChannel4 = 12;
-	public static final byte iPDPChannel5 = 13;
-	public static final byte iPDPChannel6 = 14;
-	public static final byte iPDPChannel7 = 15;
-	public static final byte iBatteryVoltage = 16;
 	//---------------------------------------------
 	//---------------------------------------------
 	

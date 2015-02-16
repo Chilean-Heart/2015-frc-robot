@@ -20,7 +20,7 @@ public class DriveStraightTime extends AutoCommands{
 	public boolean update() {
 		if(first_cycle) {
 			super.start_time = super.getTime();
-			super.elapsed_time = this.start_time;
+			super.elapsed_time = super.start_time;
 			super.first_cycle = false;
 		}
 		if((super.elapsed_time - super.start_time) < this.drive_time) {
