@@ -23,9 +23,10 @@ public class DriveFrontLeftArray extends AutoCommands {
 		if(index < data.length) {
 			super.output.setFrontLeftDrive(data[index]);
 			index++;
+			return false;
 		}
 		
-		return false;
+		return true;
 	}
 
 }

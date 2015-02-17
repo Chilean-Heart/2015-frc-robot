@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.team2576.auto.AutoCommands;
 import com.team2576.auto.AutoGenerator;
+import com.team2576.auto.commands.drive.DriveFrontLeftArray;
 import com.team2576.lib.util.ChiliFunctions;
 
 public class AutoPlayback implements AutoRoutines {
@@ -86,7 +87,7 @@ public class AutoPlayback implements AutoRoutines {
 
 	public AutoCommands[] generateSequence() {
 		AutoGenerator commands = new AutoGenerator();
-		//commands.addCommand(new );
+		commands.addCommand(new DriveFrontLeftArray(data[0]));
 		return commands.generateRoutine();
 	}
 
