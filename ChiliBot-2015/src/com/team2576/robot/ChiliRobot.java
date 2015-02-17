@@ -85,8 +85,10 @@ public class ChiliRobot extends IterativeRobot {
     		if(AutoRecorder.record_enabled) recorder.recordAuto();
     		loggy.addLog();
     		kapellmeister.conduct();
-    		SmartDashboard.putNumber("X val", jetson.getX());
-    		SmartDashboard.putNumber("Y val", jetson.getY());
+    		//SmartDashboard.putNumber("X val", jetson.getX());
+    		//SmartDashboard.putNumber("Y val", jetson.getY());
+    		SmartDashboard.putNumber("Gyro Angle", kapellmeister.sensorData.getGyroAngle());
+    		SmartDashboard.putNumber("Selector", PatoDrive.selector);
     	}
     }
     

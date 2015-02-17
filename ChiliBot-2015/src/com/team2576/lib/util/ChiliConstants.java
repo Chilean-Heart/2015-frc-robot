@@ -32,13 +32,13 @@ public class ChiliConstants {
 	//---------------------------------------------
 	//RobotOutput.java CONSTANTS
 	//DRIVE MOTORS
-	public static final byte front_left_motor = 0;
-	public static final byte rear_left_motor = 1;
-	public static final byte front_right_motor = 2;
-	public static final byte rear_right_motor = 3;
+	public static final byte front_left_motor = 1;
+	public static final byte rear_left_motor = 2;
+	public static final byte front_right_motor = 3;
+	public static final byte rear_right_motor = 4;
 	//---------------------------------------------
 	//MECHANISM MOTORS
-	public static final byte left_lifter_motor = 4;
+	public static final byte left_lifter_motor = 0;
 	public static final byte right_lifter_motor = 5;
 	//INFO PACKETS INDEX
 	public static final byte iPatoDriveForces = 0;
@@ -68,7 +68,7 @@ public class ChiliConstants {
 	public static final byte top_left_limit = 11;
 	public static final byte top_right_limit = 12;
 	//---------------------------------------------	
-	public static final boolean kUseGyro = false;
+	public static final boolean kUseGyro = true;
 	//---------------------------------------------
 	//---------------------------------------------
 	

@@ -89,7 +89,7 @@ public class RobotOutput {
 	 * @param x the new front right drive speed
 	 */
 	public void setFrontRightDrive(double x) {
-		this.front_right.set(x);
+		this.front_right.set(-x);
 	}
 
 	//Metodo para fijar potencia del motor derecho trasero
@@ -99,7 +99,7 @@ public class RobotOutput {
 	 * @param x the new rear right drive speed
 	 */
 	public void setRearRightDrive(double x) {
-		this.rear_right.set(x);
+		this.rear_right.set(-x);
 	}
 
 	//Metodo para fijar potencia de los motores izquierdos
@@ -120,8 +120,8 @@ public class RobotOutput {
 	 * @param x the new right drive speed
 	 */
 	public void setRightDrive(double x) {
-		this.front_right.set(x);
-		this.rear_right.set(x);
+		this.front_right.set(-x);
+		this.rear_right.set(-x);
 	}
 
 	//Metodo para fijar velocidades de todos los motores
@@ -136,8 +136,8 @@ public class RobotOutput {
 	public void setDrive(double fl, double rl, double fr, double rr) {
 		this.front_left.set(fl);
 		this.rear_left.set(rl);
-		this.front_right.set(fr);
-		this.rear_right.set(rr);
+		this.front_right.set(-fr);
+		this.rear_right.set(-rr);
 	}
 
 	//Metodo para fijar las velocidades de todos los motores del chasis desde un arreglo
@@ -149,8 +149,8 @@ public class RobotOutput {
 	public void setDriveFromArray(double[] array) {
 		this.front_left.set(array[0]);
 		this.rear_left.set(array[1]);
-		this.front_right.set(array[2]);
-		this.rear_right.set(array[3]);
+		this.front_right.set(-array[2]);
+		this.rear_right.set(-array[3]);
 		this.forces = array.clone();
 	}
 

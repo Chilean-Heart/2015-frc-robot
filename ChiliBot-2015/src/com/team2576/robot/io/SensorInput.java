@@ -1,5 +1,6 @@
 package com.team2576.robot.io;
 
+import com.ni.vision.NIVision.ColorHistogramReport;
 import com.team2576.lib.sensors.ADXL345_I2C_SparkFun;
 import com.team2576.lib.sensors.GyroITG3200;
 import com.team2576.lib.sensors.MaxBotix;
@@ -7,7 +8,6 @@ import com.team2576.lib.sensors.MecanumEncoder;
 import com.team2576.lib.util.ChiliConstants;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -25,7 +25,7 @@ public class SensorInput {
 	private final BuiltInAccelerometer accel;
 	private final Gyro gyro;
 	private final MaxBotix max_sensor;
-	private final DigitalInput limit_bot_left, limit_bot_right, limit_top_left, limit_top_right;
+	//private final DigitalInput limit_bot_left, limit_bot_right, limit_top_left, limit_top_right;
 	private final MecanumEncoder e_front_left, e_rear_left, e_front_right, e_rear_right;
 	private final PowerDistributionPanel pdp;
 	private final Encoder left_encoder, right_encoder;
@@ -45,10 +45,10 @@ public class SensorInput {
 		accel = new BuiltInAccelerometer(Accelerometer.Range.k2G);
 		max_sensor = new MaxBotix(ChiliConstants.maxboxtix_channel);
 		gyro = new Gyro(ChiliConstants.gyro_channel);
-		limit_bot_left = new DigitalInput(ChiliConstants.bot_left_limit);
+		/*limit_bot_left = new DigitalInput(ChiliConstants.bot_left_limit);
 		limit_bot_right = new DigitalInput(ChiliConstants.bot_right_limit);
 		limit_top_left = new DigitalInput(ChiliConstants.top_left_limit);
-		limit_top_right = new DigitalInput(ChiliConstants.top_right_limit);
+		limit_top_right = new DigitalInput(ChiliConstants.top_right_limit);*/
 		pdp = new PowerDistributionPanel();
 		left_encoder = new Encoder(ChiliConstants.left_encoder_channelA, ChiliConstants.left_encoder_channelB, false, Encoder.EncodingType.k4X);
 		right_encoder = new Encoder(ChiliConstants.right_encoder_channelA, ChiliConstants.right_encoder_channelB, false, Encoder.EncodingType.k4X );
@@ -60,6 +60,7 @@ public class SensorInput {
 		e_rear_right = new MecanumEncoder(ChiliConstants.rear_right_encoder);
 		
 		//gyro_i2c.initialize();
+		//gyro_i2c.reset();
 		
 		left_encoder.setDistancePerPulse(ChiliConstants.kDistancePerPulse);
 		right_encoder.setDistancePerPulse(ChiliConstants.kDistancePerPulse);
@@ -86,7 +87,7 @@ public class SensorInput {
 	}
 	
 	public double getI2CAccelY() {
-		return this.accel_i2c.getY();
+		return this.accel_i2c.getY();		
 	}
 	
 	public double getI2CAccelZ() {
@@ -96,7 +97,10 @@ public class SensorInput {
 	//---Gyro Functions---
 	
 	public double getGyroAngle() {
-		return this.gyro.getAngle();
+		if(ChiliConstants.kUseGyro) {
+			return -this.gyro.getAngle();
+		}
+		return 180;
 	}
 	
 	public double getGyroRate() {
@@ -106,6 +110,12 @@ public class SensorInput {
 		return 180;
 	}
 	
+	public void gyroReset() {
+		if(ChiliConstants.kUseGyro) {
+			this.gyro.reset();
+		}
+	}
+	
 	//---I2C Gyro Functions---
 	
 	public double getI2CGyroX() {
@@ -113,7 +123,10 @@ public class SensorInput {
 	}
 	
 	public double getI2CGyroY() {
-		return (double) this.gyro_i2c.getRotationY();
+		if(ChiliConstants.kUseGyro){
+			return (double) this.gyro_i2c.getRotationY();
+		}
+		return 180;
 	}
 	
 	public double getI2CGyroZ() {
@@ -129,7 +142,7 @@ public class SensorInput {
 	}
 	
 	//---Funciones Limits---
-	
+	/*
 	public boolean getTopLeftLimit() {
 		return this.limit_top_left.get();
 	}
@@ -145,7 +158,7 @@ public class SensorInput {
 	public boolean getBotRightLimit() {
 		return this.limit_bot_right.get();
 	}
-	
+	*/
 	//---Funciones PDP---
 	
 	public double getPDPChannelCurrent(int channel) {

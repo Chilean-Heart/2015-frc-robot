@@ -28,6 +28,7 @@ public class DriveStraightTime extends AutoCommands{
 			super.elapsed_time = super.getTime();
 			return false;
 		}
+		super.elapsed_time = super.getTime();
 		return true;
 	}
 }

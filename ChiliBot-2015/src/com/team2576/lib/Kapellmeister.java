@@ -19,7 +19,7 @@ public class Kapellmeister {
 	private static Kapellmeister Konzertmeister;	
 	
 	private DriverInput driverData;
-	private SensorInput sensorData;
+	public SensorInput sensorData;
 	private Debugger debug;
 	
 	private Kapellmeister() {		
@@ -39,7 +39,7 @@ public class Kapellmeister {
 	public void conduct() {		
 		for(int i = 0 ; i < this.virtuosen.size(); i++) {
 			((SubComponent) this.virtuosen.elementAt(i)).update(driverData, sensorData);
-			debug.println("Time", Timer.getFPGATimestamp());
+			//debug.println("Time", Timer.getFPGATimestamp());
 		}
 	}
 

@@ -6,16 +6,11 @@ package com.team2576.auto.commands.stacker;
 */
 
 import com.team2576.auto.AutoCommands;
-import com.team2576.lib.util.ChiliPID;
 
-public class LoadUp extends AutoCommands{
+public class LoadDown extends AutoCommands{
 	
-	double left_count, right_count, prev_left, prev_right;
-	ChiliPID toter_pid;
-	
-	public LoadUp() {
+	public LoadDown() {
 		super.first_cycle = true;
-		toter_pid = new ChiliPID();
 	}
 
 	public boolean update() {
@@ -23,12 +18,9 @@ public class LoadUp extends AutoCommands{
 			super.start_time = super.getTime();
 			super.elapsed_time = super.start_time;
 			super.first_cycle = false;
-			super.sensorData.resetEncoders();
 		}
 		if((super.elapsed_time - super.start_time) < 3){
-			left_count = super.sensorData.getLeftEncodeCount();
-			right_count = super.sensorData.getRightEncoderCount();
-			super.output.setLifters(1);
+			super.output.setLifters(-1);
 			return false;
 		}
 		super.elapsed_time = super.getTime();
