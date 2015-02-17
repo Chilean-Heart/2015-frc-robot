@@ -59,14 +59,14 @@ public class ChiliConstants {
 	public static final byte rear_left_encoder = 2;
 	public static final byte front_right_encoder = 3;
 	public static final byte rear_right_encoder = 4;
-	public static final byte left_encoder_channelA = 5;
-	public static final byte left_encoder_channelB = 6;
-	public static final byte right_encoder_channelA = 7;
-	public static final byte right_encoder_channelB = 8;
-	public static final byte bot_left_limit = 9;
+	public static final byte left_encoder_channelA = 6;
+	public static final byte left_encoder_channelB = 7;
+	public static final byte right_encoder_channelA = 8;
+	public static final byte right_encoder_channelB = 9;
+	/*public static final byte bot_left_limit = 9;
 	public static final byte bot_right_limit = 10;
 	public static final byte top_left_limit = 11;
-	public static final byte top_right_limit = 12;
+	public static final byte top_right_limit = 12;*/
 	//---------------------------------------------	
 	public static final boolean kUseGyro = true;
 	//---------------------------------------------
