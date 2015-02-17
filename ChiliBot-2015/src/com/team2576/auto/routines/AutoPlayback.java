@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import com.team2576.auto.AutoCommands;
 import com.team2576.auto.AutoGenerator;
 import com.team2576.auto.commands.drive.DriveFrontLeftArray;
+import com.team2576.auto.commands.drive.DriveRearLeftArray;
+import com.team2576.auto.commands.drive.DriveFrontRightArray;
+import com.team2576.auto.commands.drive.DriveRearRightArray;
 import com.team2576.lib.util.ChiliFunctions;
 
 public class AutoPlayback implements AutoRoutines {
@@ -88,6 +91,9 @@ public class AutoPlayback implements AutoRoutines {
 	public AutoCommands[] generateSequence() {
 		AutoGenerator commands = new AutoGenerator();
 		commands.addCommand(new DriveFrontLeftArray(data[0]));
+		commands.addCommand(new DriveRearLeftArray(data[1]));
+		commands.addCommand(new DriveFrontRightArray(data[2]));
+		commands.addCommand(new DriveRearRightArray(data[3]));
 		return commands.generateRoutine();
 	}
 
