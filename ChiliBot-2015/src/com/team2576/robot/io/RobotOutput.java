@@ -149,8 +149,8 @@ public class RobotOutput {
 	public void setDriveFromArray(double[] array) {
 		this.front_left.set(array[0]);
 		this.rear_left.set(array[1]);
-		this.front_right.set(-array[2]);
-		this.rear_right.set(-array[3]);
+		this.front_right.set(array[2]);
+		this.rear_right.set(array[3]);
 		this.forces = array.clone();
 	}
 
@@ -171,7 +171,7 @@ public class RobotOutput {
 	}
 	
 	public void setRightLifter(double x){
-		this.right_lifter.set(x);
+		this.right_lifter.set(-x);
 	}
 	
 	public void setLifterForce(double x){

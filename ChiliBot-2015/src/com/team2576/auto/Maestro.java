@@ -50,5 +50,8 @@ public class Maestro {
 	public void setRoutine() {
 		this.auton_mode = this.discipulos.elementAt(this.auton_selector);
 		this.commands = this.auton_mode.generateSequence();
+		for (int i = 0; i < commands.length; i++) {
+			System.out.print(this.commands[i] + ", ");
+		}
 	}
 }

@@ -87,10 +87,10 @@ public class Logger {
 			this.writer.write(String.format(",%.2f", this.sensor.getBatteryVoltage() ));
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPTemp() ));
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPTotalCurrent() ));
-			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(0) ));
-			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(1) ));
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(2) ));
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(3) ));
+			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(12) ));
+			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(13) ));
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(4) ));
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(5) ));
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(6) ));

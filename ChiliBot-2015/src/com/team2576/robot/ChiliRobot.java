@@ -53,7 +53,7 @@ public class ChiliRobot extends IterativeRobot {
 		maestro.addRoutine(new DriveForward());
 		
     	kapellmeister.addTask(chassis, ChiliConstants.iDriveTrain);
-    	kapellmeister.addTask(stacker, ChiliConstants.iStacker);
+    	//kapellmeister.addTask(stacker, ChiliConstants.iStacker);
     	
     	ChiliRobot.vision_systems = jetson.initializeTable();
     }

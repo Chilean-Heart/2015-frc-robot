@@ -20,6 +20,7 @@ public class Toter implements SubComponent {
 	private double left_encoder_rate;
 	private double right_encoder_rate;
 	private double encoder_error;
+	@SuppressWarnings("unused")
 	private double corrector;
 	private ChiliPID lifter_control;
 	
@@ -38,7 +39,7 @@ public class Toter implements SubComponent {
 		this.right_encoder_rate = 0;
 		this.encoder_error = 0;
 		this.corrector = 0;
-		this.lifter_control = new ChiliPID(1, 0, 0);		
+		this.lifter_control = new ChiliPID(0.05, 0, 0.005);		
 		
 		output = RobotOutput.getInstance();		
 	}
@@ -48,6 +49,8 @@ public class Toter implements SubComponent {
 	}
 
 	public boolean update(DriverInput driver, SensorInput sensor) {
+		
+		//Asumir que 0 es abajo
 		
 		this.lifter_force = driver.getMadCatzThrottle();
 		
@@ -59,9 +62,10 @@ public class Toter implements SubComponent {
 		right_encoder_rate = sensor.getRightEncoderRate();
 		encoder_error = left_encoder_rate - right_encoder_rate;
 		corrector = lifter_control.calcPIDInc(encoder_error);
-
-		this.output.setLeftLifter(lifter_force-corrector);
-		this.output.setRightLifter(lifter_force+corrector);
+		
+		this.output.setLeftLifter(lifter_force);
+		this.output.setRightLifter(lifter_force);
+		
 		
 		this.output.setLifterForce(lifter_force);
 		

@@ -1,18 +1,14 @@
 package com.team2576.robot.io;
 
-import com.ni.vision.NIVision.ColorHistogramReport;
-import com.team2576.lib.sensors.ADXL345_I2C_SparkFun;
 import com.team2576.lib.sensors.GyroITG3200;
-import com.team2576.lib.sensors.MaxBotix;
-import com.team2576.lib.sensors.MecanumEncoder;
 import com.team2576.lib.util.ChiliConstants;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
-import edu.wpi.first.wpilibj.Encoder;
 
 /**
 *
@@ -24,13 +20,13 @@ public class SensorInput {
 
 	private final BuiltInAccelerometer accel;
 	private final Gyro gyro;
-	private final MaxBotix max_sensor;
+	//private final MaxBotix max_sensor;
 	//private final DigitalInput limit_bot_left, limit_bot_right, limit_top_left, limit_top_right;
-	private final MecanumEncoder e_front_left, e_rear_left, e_front_right, e_rear_right;
+	//private final MecanumEncoder e_front_left, e_rear_left, e_front_right, e_rear_right;
 	private final PowerDistributionPanel pdp;
 	private final Encoder left_encoder, right_encoder;
 	private final GyroITG3200 gyro_i2c;
-	private final ADXL345_I2C_SparkFun accel_i2c;
+	//private final ADXL345_I2C_SparkFun accel_i2c;
 	
 	private static SensorInput instance;
 	
@@ -43,7 +39,7 @@ public class SensorInput {
 	
 	private SensorInput() {	
 		accel = new BuiltInAccelerometer(Accelerometer.Range.k2G);
-		max_sensor = new MaxBotix(ChiliConstants.maxboxtix_channel);
+		//max_sensor = new MaxBotix(ChiliConstants.maxboxtix_channel);
 		gyro = new Gyro(ChiliConstants.gyro_channel);
 		/*limit_bot_left = new DigitalInput(ChiliConstants.bot_left_limit);
 		limit_bot_right = new DigitalInput(ChiliConstants.bot_right_limit);
@@ -53,14 +49,14 @@ public class SensorInput {
 		left_encoder = new Encoder(ChiliConstants.left_encoder_channelA, ChiliConstants.left_encoder_channelB, false, Encoder.EncodingType.k4X);
 		right_encoder = new Encoder(ChiliConstants.right_encoder_channelA, ChiliConstants.right_encoder_channelB, false, Encoder.EncodingType.k4X );
 		gyro_i2c = new GyroITG3200(I2C.Port.kOnboard);
-		accel_i2c = new ADXL345_I2C_SparkFun(I2C.Port.kOnboard, Accelerometer.Range.k2G);
-		e_front_left = new MecanumEncoder(ChiliConstants.front_left_encoder);
+		//accel_i2c = new ADXL345_I2C_SparkFun(I2C.Port.kOnboard, Accelerometer.Range.k2G);
+		/*e_front_left = new MecanumEncoder(ChiliConstants.front_left_encoder);
 		e_rear_left = new MecanumEncoder(ChiliConstants.rear_left_encoder);
 		e_front_right = new MecanumEncoder(ChiliConstants.front_right_encoder);
-		e_rear_right = new MecanumEncoder(ChiliConstants.rear_right_encoder);
+		e_rear_right = new MecanumEncoder(ChiliConstants.rear_right_encoder);*/
 		
-		//gyro_i2c.initialize();
-		//gyro_i2c.reset();
+		gyro_i2c.initialize();
+		gyro_i2c.reset();
 		
 		left_encoder.setDistancePerPulse(ChiliConstants.kDistancePerPulse);
 		right_encoder.setDistancePerPulse(ChiliConstants.kDistancePerPulse);
@@ -82,7 +78,7 @@ public class SensorInput {
 	
 	//---I2C Accel Functions---
 	
-	public double getI2CAccelX() {
+	/*public double getI2CAccelX() {
 		return this.accel_i2c.getX();
 	}
 	
@@ -92,7 +88,7 @@ public class SensorInput {
 	
 	public double getI2CAccelZ() {
 		return this.accel_i2c.getZ();
-	}
+	}*/
 	
 	//---Gyro Functions---
 	
@@ -118,19 +114,19 @@ public class SensorInput {
 	
 	//---I2C Gyro Functions---
 	
-	public double getI2CGyroX() {
-		return (double) this.gyro_i2c.getRotationX();
+	public short getI2CGyroX() {
+		return this.gyro_i2c.getRotationX();
 	}
 	
-	public double getI2CGyroY() {
+	public short getI2CGyroY() {
 		if(ChiliConstants.kUseGyro){
-			return (double) this.gyro_i2c.getRotationY();
+			return this.gyro_i2c.getRotationY();
 		}
 		return 180;
 	}
 	
-	public double getI2CGyroZ() {
-		return (double) this.gyro_i2c.getRotationZ();
+	public short getI2CGyroZ() {
+		return this.gyro_i2c.getRotationZ();
 	}
 	
 	public void resetI2CGyro() {
@@ -188,14 +184,14 @@ public class SensorInput {
 	//---Funciones MaxBotix---
 	
 	//Devuelve en Inches
-	public double getMaxBotixDistanceIn() {
+	/*public double getMaxBotixDistanceIn() {
 		return this.max_sensor.getInches();
 	}
 		
 	//Idem en mm
 	public double getMaxBotixDistanceCM() {
 		return this.max_sensor.getCentimeters();
-	}
+	}*/
 	
 	//---Funciones de Encoders---
 	//Resets
