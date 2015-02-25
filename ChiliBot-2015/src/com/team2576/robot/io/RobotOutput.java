@@ -16,6 +16,7 @@ public class RobotOutput {
 	//Global and static instance of the RobotOutput class
 	//Instancia global e unica de la clase RobotOutput
 	private static RobotOutput instance;
+	private SensorInput sensor;
 	
 	//Motor Controllers for drive and mechanisms
 	//Controladores de motor para el chasis y los mecanismos
@@ -23,7 +24,7 @@ public class RobotOutput {
 	private final Jaguar left_lifter, right_lifter;
 	
 	private double[] forces = new double[ChiliConstants.kMotorCount];
-	private double lifter_force;
+	public static double left_lifter_force, right_lifter_force;
 
 	//Getter de instancia para asegurarse de la existencia global de un solo objeto
 	/**
@@ -45,7 +46,6 @@ public class RobotOutput {
 	private RobotOutput() {		
 		
 		this.forces = ChiliFunctions.fillArrayWithZeros(this.forces);
-		this.lifter_force = 0;
 		
 		front_left = new Talon(ChiliConstants.front_left_motor);
 		rear_left = new Talon(ChiliConstants.rear_left_motor);
@@ -53,6 +53,8 @@ public class RobotOutput {
 		rear_right = new Talon(ChiliConstants.rear_right_motor);
 		left_lifter = new Jaguar(ChiliConstants.left_lifter_motor);
 		right_lifter = new Jaguar(ChiliConstants.right_lifter_motor);
+		
+		sensor = SensorInput.getInstance();
 		
 		/*front_left.setSafetyEnabled(true);
 		rear_left.setSafetyEnabled(true);
@@ -149,8 +151,8 @@ public class RobotOutput {
 	public void setDriveFromArray(double[] array) {
 		this.front_left.set(array[0]);
 		this.rear_left.set(array[1]);
-		this.front_right.set(array[2]);
-		this.rear_right.set(array[3]);
+		this.front_right.set(-1 * array[2]);
+		this.rear_right.set(-1 * array[3]);
 		this.forces = array.clone();
 	}
 
@@ -160,22 +162,37 @@ public class RobotOutput {
 	 *
 	 * @param x the new lifter speed
 	 */
-	public void setLifters(double x) {
-		this.setLifterForce(x);
-		this.setLeftLifter(x);
-		this.setRightLifter(x);
+	public void setLifters(double left, double right) {
+		this.setLeftLifter(left);
+		this.setRightLifter(right);
 	}
 	
 	public void setLeftLifter(double x){
-		this.left_lifter.set(x);
+		if(sensor.getLeftLimit() && x < 0) {
+			this.left_lifter.set(0);
+			this.setLeftLifterForce(0);
+		} else {
+			this.left_lifter.set(x);
+			this.setLeftLifterForce(x);
+		}
+		
 	}
 	
 	public void setRightLifter(double x){
-		this.right_lifter.set(-x);
+		if(sensor.getRightLimit() && x < 0) {
+			this.right_lifter.set(0);
+			this.setRightLifterForce(0);			
+		} else {
+			this.right_lifter.set(-1 * x);
+			this.setRightLifterForce(-1 * x);
+		}		
 	}
 	
-	public void setLifterForce(double x){
-		this.lifter_force = x;
+	public void setLeftLifterForce(double x){
+		RobotOutput.left_lifter_force = x;
+	}
+	public void setRightLifterForce(double x){
+		RobotOutput.right_lifter_force = x;
 	}
 	
 	
@@ -186,8 +203,11 @@ public class RobotOutput {
 		return this.forces[index];
 	}
 	
-	public double getLifterForce() {
-		return this.lifter_force;
+	public double getLeftLifterForce() {
+		return RobotOutput.left_lifter_force;
+	}
+	public double getRightLifterForce() {
+		return RobotOutput.right_lifter_force;
 	}
 	
 	public void stopAll() {

@@ -93,7 +93,8 @@ public class AutoRecorder {
 			this.writer.write(String.format(",%.2f", this.output.getForces(1) ));
 			this.writer.write(String.format(",%.2f", this.output.getForces(2) ));
 			this.writer.write(String.format(",%.2f", this.output.getForces(3) ));
-			this.writer.write(String.format(",%.2f", this.output.getLifterForce() ));
+			this.writer.write(String.format(",%.2f", this.output.getLeftLifterForce() ));
+			this.writer.write(String.format(",%.2f", this.output.getRightLifterForce() ));
 			this.writer.write(String.format(",%.2f", this.sensor.getBatteryVoltage() ));
 			this.writer.newLine();
 			successful = true;

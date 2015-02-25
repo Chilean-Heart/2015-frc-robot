@@ -12,7 +12,10 @@ import com.team2576.lib.Debugger;
 import com.team2576.lib.Kapellmeister;
 import com.team2576.lib.Logger;
 import com.team2576.lib.VisionServer;
+import com.team2576.lib.VisionServer.GameMode;
 import com.team2576.lib.util.ChiliConstants;
+import com.team2576.robot.io.DriverInput;
+import com.team2576.robot.io.SensorInput;
 import com.team2576.robot.subsystems.PatoDrive;
 import com.team2576.robot.subsystems.Toter;
 
@@ -31,6 +34,8 @@ public class ChiliRobot extends IterativeRobot {
 	Debugger messenger;
 	Logger loggy;
 	AutoRecorder recorder;
+	SensorInput sensor;
+	DriverInput driver;
 	
 	private boolean teleop_first_time, auto_finished;
 	private double auto_timer;
@@ -47,13 +52,15 @@ public class ChiliRobot extends IterativeRobot {
 		jetson = VisionServer.getInstance();
 		loggy = Logger.getInstance();
 		recorder = AutoRecorder.getInstance();
+		sensor = SensorInput.getInstance();
+		driver = DriverInput.getInstance();
 		
 		messenger = new Debugger(Debugger.Debugs.MESSENGER, ChiliConstants.kDefaultDebugState);
 		
 		maestro.addRoutine(new DriveForward());
 		
     	kapellmeister.addTask(chassis, ChiliConstants.iDriveTrain);
-    	//kapellmeister.addTask(stacker, ChiliConstants.iStacker);
+    	kapellmeister.addTask(stacker, ChiliConstants.iStacker);
     	
     	ChiliRobot.vision_systems = jetson.initializeTable();
     }
@@ -61,6 +68,7 @@ public class ChiliRobot extends IterativeRobot {
     public void autonomousInit() {
     	maestro.setRoutine();
     	this.auto_timer = Timer.getFPGATimestamp();
+    	jetson.setMode(GameMode.AUTO);
     }
 
     public void autonomousPeriodic() {
@@ -69,15 +77,16 @@ public class ChiliRobot extends IterativeRobot {
     	}
     }
 
-    public void teleopInit() {    	
+    public void teleopInit() {
     	messenger.println("Finished teleopInit in", Timer.getFPGATimestamp());
     	loggy.openLog();
     	if(AutoRecorder.record_enabled) recorder.openRecording();
+    	jetson.setMode(GameMode.TELE);
     }
     
     public void teleopPeriodic() {    	
     	if(this.teleop_first_time) {
-    		messenger.println("Made it to the loop in", Timer.getFPGATimestamp());
+    		messenger.println("Made it to the loop in", Timer.getFPGATimestamp());    		
     		this.teleop_first_time = false;
     	}
     	
@@ -97,9 +106,18 @@ public class ChiliRobot extends IterativeRobot {
     	loggy.closeLog();
     	kapellmeister.silence();
     	if(AutoRecorder.record_enabled) recorder.closeRecording();
+    	sensor.resetLeftEncoder();
+    	sensor.resetRightEncoder();
     }
     
     public void disabledPeriodic() {
-    	
+    	SmartDashboard.putNumber("ENC Left", sensor.getLeftEncoderRaw());
+    	SmartDashboard.putNumber("ENC Right", sensor.getRightEncoderRaw());
+    	SmartDashboard.putBoolean("Limit Left", sensor.getLeftLimit());
+    	SmartDashboard.putBoolean("Limit Right", sensor.getRightLimit());
+    	SmartDashboard.putNumber("Gyro disabled", sensor.getGyroAngle());
+    	if(driver.getXboxButtonY()){
+    		sensor.gyroInit();
+    	}
     }
 }

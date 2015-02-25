@@ -5,6 +5,8 @@ package com.team2576.robot.subsystems;
 * @author PatoLucash
 */
 
+import java.util.Vector;
+
 import com.team2576.lib.Debugger;
 import com.team2576.lib.VisionServer;
 import com.team2576.lib.util.ChiliConstants;
@@ -21,8 +23,11 @@ public class PatoDrive implements SubComponent {
 	
 	public static int selector;
 	private boolean selector_error, vision_override;
+	private boolean first_strafe;
+	private double first_gyro_state, gyroCorrect, accelYCorrect, accelAvr;
     private double drive_toggle_marker;
     private double[] forces, disable_forces;
+    private Vector<Double> accelY = new Vector<Double>(4);
     
     private ChiliPID vision_strafer;
     
@@ -43,21 +48,22 @@ public class PatoDrive implements SubComponent {
         this.drive_toggle_marker = Timer.getFPGATimestamp();
         this.selector_error = false;
         this.vision_override = false;
+        this.first_strafe = false;
         PatoDrive.selector = 5;
         
         this.forces = new double[ChiliConstants.kMotorCount];
         this.disable_forces = new double[ChiliConstants.kMotorCount];
         this.forces = ChiliFunctions.fillArrayWithZeros(this.forces);
         this.disable_forces = ChiliFunctions.fillArrayWithZeros(this.disable_forces);
-        this.vision_strafer = new ChiliPID(0.2, 0, 0);
+        this.vision_strafer = new ChiliPID(0.01, 0, 0, 5);
+        this.vision_strafer.setReference(ChiliConstants.kFrameWidthCenter);
         
         output = RobotOutput.getInstance();
         server = VisionServer.getInstance();
         debug = new Debugger(Debugger.Debugs.MESSENGER, false);
     }
     
-    @SuppressWarnings("unused")
-	private double[] mecanumDriveWpi(double x, double y, double rotation, double gyroAngle) {
+    private double[] mecanumDriveWpi(double x, double y, double rotation, double gyroAngle) {
     	double xIn = x;
         double yIn = y;
         // Negate y for the joystick.
@@ -77,6 +83,72 @@ public class PatoDrive implements SubComponent {
         
         return wheelSpeeds;
 
+    }
+    
+    private double[] mecanumDriveWpi(double x, double y, double rotation, double gyroAngle, 
+    		double gyroDrift, double accelXDrift, double accelYDrift) {
+    	
+    	double xIn = x;
+        double yIn = y;
+        // Negate y for the joystick.
+        yIn = -yIn;
+        
+        /*
+        this.accelY.add(accelYDrift);
+        if(accelY.size() > 4) {
+        	accelY.clear();
+        }
+        for (int i = 0; i < accelY.size(); i++) {
+        	accelAvr += accelY.elementAt(i);
+		}
+        accelAvr /= accelY.size();*/
+    	
+    	if(Math.abs(x) > ChiliConstants.kStrafeThreshold && !first_strafe) {
+    		first_strafe = true;
+    		first_gyro_state = gyroDrift;
+    	} else if (Math.abs(x) > ChiliConstants.kStrafeThreshold && first_strafe) {
+    		gyroCorrect = (Math.abs(gyroDrift - first_gyro_state)) * ChiliConstants.kPatoGyroP * (gyroDrift < 0 ? -1 : 1);
+    		accelYCorrect = (accelYDrift < 0 ? 1 : -1) * accelYDrift * ChiliConstants.kPatoAccelYP;
+    		y += accelYCorrect;
+    		rotation += gyroCorrect;
+    	} else if (Math.abs(x) < ChiliConstants.kStrafeThreshold) {
+    		first_strafe = false;
+    	}   	
+    	
+        // Compenstate for gyro angle.
+        /*double rotated[] = ChiliFunctions.rotateVector(xIn, yIn, gyroAngle);
+        xIn = rotated[0];
+        yIn = rotated[1];*/ 
+        
+        System.out.println("X: " + xIn + ", Y: " + yIn);
+
+        double wheelSpeeds[] = new double[4];
+        wheelSpeeds[0] = (xIn + yIn + rotation);
+        wheelSpeeds[2] = -xIn + yIn - rotation;
+        wheelSpeeds[1] = -xIn + yIn + rotation;
+        wheelSpeeds[3] = xIn + yIn - rotation;
+        
+        System.out.print("PRENORM: FL Force: " + forces[0]);
+		System.out.print(" ,PRENORM: RL Force: " + forces[1]);
+		System.out.print(" ,PRENORM: FR Force: " + forces[2]);
+		System.out.println(" ,PRENORM: RR Force: " + forces[3]);
+
+        ChiliFunctions.normalize(wheelSpeeds);
+        
+        System.out.print("POSTNORM: FL Force: " + forces[0]);
+		System.out.print(" ,POSTNORM: RL Force: " + forces[1]);
+		System.out.print(" ,POSTNORM: FR Force: " + forces[2]);
+		System.out.println(" ,POSTNORM: RR Force: " + forces[3]);
+        
+        SmartDashboard.putNumber("gyroCorrect", gyroCorrect);
+    	SmartDashboard.putNumber("error", gyroDrift - first_gyro_state);
+    	SmartDashboard.putNumber("First Gyro", first_gyro_state);
+    	SmartDashboard.putBoolean("Strafing", first_strafe);
+        SmartDashboard.putNumber("Rotate", rotation);
+        SmartDashboard.putNumber("Accel X", accelXDrift);
+        SmartDashboard.putNumber("Accel Y", accelYDrift);
+        SmartDashboard.putNumber("Y Correct", accelYCorrect);
+        return wheelSpeeds;
     }
     
 	private double[] mecanumDrive(double hor, double ver, double rotate, double gyro) {
@@ -164,18 +236,18 @@ public class PatoDrive implements SubComponent {
 		debug.println("Toggle:", drive_toggle_marker);
 
 		//Trigger change in drive mode
-		if(driver.getXboxButtonLeftTrigger() && ( (Timer.getFPGATimestamp() - this.drive_toggle_marker) > ChiliConstants.kTimeBetweenToggle) ) {
+		/*if(driver.getXboxButtonLeftTrigger() && ( (Timer.getFPGATimestamp() - this.drive_toggle_marker) > ChiliConstants.kTimeBetweenToggle) ) {
 			debug.println("Got in the changer");
 			PatoDrive.selector++;
 			if(PatoDrive.selector > (ChiliConstants.kDriveTypes)) {
-				selector = 0;
+				PatoDrive.selector = 0;
 			}
 			this.drive_toggle_marker = Timer.getFPGATimestamp();
-		}
+		}*/
 		
 		if(driver.getXboxButtonX()) {
 			sensor.gyroReset();
-		}
+		}		
 		
 		this.selector_error = false;
 		this.vision_override = driver.getXboxButtonRightTrigger();
@@ -213,13 +285,13 @@ public class PatoDrive implements SubComponent {
 				{
 					double ver = driver.getXboxLeftY();
 		    		double rotate = driver.getXboxLeftX();
-		    		double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
+		    		double hor = (driver.getXboxLeftTrigger() - driver.getXboxRightTrigger()) * -1;
 		    		double gyro = sensor.getGyroAngle();   		
 		    		SmartDashboard.putNumber("Ver", ver);
 		    		SmartDashboard.putNumber("Hor", hor);
 		    		SmartDashboard.putNumber("Rotate", rotate);
 		    		SmartDashboard.putNumber("Gyro", gyro);
-		    		this.forces = this.mecanumDriveWpi(rotate, ver, hor, gyro);				
+		    		this.forces = this.mecanumDrive(rotate, ver, hor, gyro);				
 					break;
 				}
 			//Mecanum FPS
@@ -227,7 +299,7 @@ public class PatoDrive implements SubComponent {
 				{
 					double ver = driver.getXboxLeftY();
 		    		double rotate = driver.getXboxRightX();
-		    		double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
+		    		double hor = (driver.getXboxLeftTrigger() - driver.getXboxRightTrigger()) * -1;
 		    		double gyro = sensor.getGyroAngle();   	
 		    		SmartDashboard.putNumber("Ver", ver);
 		    		SmartDashboard.putNumber("Hor", hor);
@@ -239,15 +311,22 @@ public class PatoDrive implements SubComponent {
 			//Mecanum Tank
 			case 5:
 				{
-		    		double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
+					double hor = (driver.getXboxLeftTrigger() - driver.getXboxRightTrigger()) * -1;
+		        	double rotate = (( (driver.getXboxRightY() * -1) + (driver.getXboxLeftY() * 1)) / 2);
+		        	double ver = (( (driver.getXboxRightY() * -1) - (driver.getXboxLeftY() * 1)) / 2);
+		        	
+		        	
+		    		/*double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
 		    		double rotate = (driver.getXboxLeftY() + driver.getXboxRightY()) / 2;
-		    		double ver = (driver.getXboxLeftY() - driver.getXboxRightY()) / 2;    		
-		    		double gyro = sensor.getGyroAngle();
-		    		SmartDashboard.putNumber("Ver", ver);
-		    		SmartDashboard.putNumber("Hor", hor);
-		    		SmartDashboard.putNumber("Rotate", rotate);
-		    		SmartDashboard.putNumber("Gyro", gyro);
-		    		this.forces =  this.mecanumDrive(hor, ver, rotate, gyro);
+		    		double ver = (driver.getXboxLeftY() - driver.getXboxRightY()) / 2;*/	
+		    		
+		        	double gyro = sensor.getGyroAngle();
+		    		System.out.print("Ver: " + ver);
+		    		System.out.print(", Hor: " + hor);
+		    		System.out.print(", Rotate: " + rotate);
+		    		System.out.println(", Gyro: " + gyro);
+		    		
+		    		this.forces =  this.mecanumDriveWpi(hor, ver, rotate, 0, sensor.getGyroAngle(), sensor.getAccelX(), sensor.getAccelY());
 		    		break;
 				}
 				
@@ -271,13 +350,19 @@ public class PatoDrive implements SubComponent {
 		} else {
 			double error = ChiliConstants.kFrameWidthCenter - server.getX();
 			SmartDashboard.putNumber("Error: ", error);
-			double correction = vision_strafer.calcPIDInc(error);
+			//double correction = vision_strafer.calcPID(error);
+			double correction = error * 0.01;
 			SmartDashboard.putNumber("Correction: ", correction);
-			this.forces = this.mecanumDrive(error * 0.08, 0, 0, 0);
+			this.forces = this.mecanumDriveWpi(correction, 0, 0, 0);
 			for (int i = 0; i < this.forces.length; i++) {
 				System.out.println(this.forces[i]);
 			}
 		}
+		
+		System.out.print("FL Force: " + forces[0]);
+		System.out.print(" ,RL Force: " + forces[1]);
+		System.out.print(" ,FR Force: " + forces[2]);
+		System.out.println(" ,RR Force: " + forces[3]);
 		
 		debug.println("Mode:", selector);
 		

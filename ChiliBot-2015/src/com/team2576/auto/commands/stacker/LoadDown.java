@@ -20,7 +20,7 @@ public class LoadDown extends AutoCommands{
 			super.first_cycle = false;
 		}
 		if((super.elapsed_time - super.start_time) < 3){
-			super.output.setLifters(-1);
+			super.output.setLifters(-1, -1);
 			return false;
 		}
 		super.elapsed_time = super.getTime();

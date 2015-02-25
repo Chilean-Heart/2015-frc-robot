@@ -4,6 +4,7 @@ import com.team2576.lib.sensors.GyroITG3200;
 import com.team2576.lib.util.ChiliConstants;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.I2C;
@@ -21,7 +22,7 @@ public class SensorInput {
 	private final BuiltInAccelerometer accel;
 	private final Gyro gyro;
 	//private final MaxBotix max_sensor;
-	//private final DigitalInput limit_bot_left, limit_bot_right, limit_top_left, limit_top_right;
+	private final DigitalInput limit_left, limit_right;
 	//private final MecanumEncoder e_front_left, e_rear_left, e_front_right, e_rear_right;
 	private final PowerDistributionPanel pdp;
 	private final Encoder left_encoder, right_encoder;
@@ -38,6 +39,8 @@ public class SensorInput {
 	}
 	
 	private SensorInput() {	
+		limit_left = new DigitalInput(ChiliConstants.left_limit);
+		limit_right = new DigitalInput(ChiliConstants.right_limit);
 		accel = new BuiltInAccelerometer(Accelerometer.Range.k2G);
 		//max_sensor = new MaxBotix(ChiliConstants.maxboxtix_channel);
 		gyro = new Gyro(ChiliConstants.gyro_channel);
@@ -46,8 +49,8 @@ public class SensorInput {
 		limit_top_left = new DigitalInput(ChiliConstants.top_left_limit);
 		limit_top_right = new DigitalInput(ChiliConstants.top_right_limit);*/
 		pdp = new PowerDistributionPanel();
-		left_encoder = new Encoder(ChiliConstants.left_encoder_channelA, ChiliConstants.left_encoder_channelB, false, Encoder.EncodingType.k4X);
-		right_encoder = new Encoder(ChiliConstants.right_encoder_channelA, ChiliConstants.right_encoder_channelB, false, Encoder.EncodingType.k4X );
+		left_encoder = new Encoder(ChiliConstants.left_encoder_channelA, ChiliConstants.left_encoder_channelB, false);
+		right_encoder = new Encoder(ChiliConstants.right_encoder_channelA, ChiliConstants.right_encoder_channelB, true);
 		gyro_i2c = new GyroITG3200(I2C.Port.kOnboard);
 		//accel_i2c = new ADXL345_I2C_SparkFun(I2C.Port.kOnboard, Accelerometer.Range.k2G);
 		/*e_front_left = new MecanumEncoder(ChiliConstants.front_left_encoder);
@@ -57,6 +60,7 @@ public class SensorInput {
 		
 		gyro_i2c.initialize();
 		gyro_i2c.reset();
+		gyro.initGyro();
 		
 		left_encoder.setDistancePerPulse(ChiliConstants.kDistancePerPulse);
 		right_encoder.setDistancePerPulse(ChiliConstants.kDistancePerPulse);
@@ -112,6 +116,12 @@ public class SensorInput {
 		}
 	}
 	
+	public void gyroInit() {
+		if(ChiliConstants.kUseGyro) {
+			this.gyro.initGyro();
+		}
+	}
+	
 	//---I2C Gyro Functions---
 	
 	public short getI2CGyroX() {
@@ -138,15 +148,15 @@ public class SensorInput {
 	}
 	
 	//---Funciones Limits---
+	
+	public boolean getLeftLimit() {
+		return this.limit_left.get();
+	}
+	
+	public boolean getRightLimit() {
+		return this.limit_right.get();
+	}
 	/*
-	public boolean getTopLeftLimit() {
-		return this.limit_top_left.get();
-	}
-	
-	public boolean getBotLeftLimit() {
-		return this.limit_bot_left.get();
-	}
-	
 	public boolean getTopRightLimit() {
 		return this.limit_top_right.get();
 	}
@@ -212,6 +222,12 @@ public class SensorInput {
 	}
 	public double getRightEncoderRate(){
 		return this.right_encoder.getRate();
+	}
+	public double getLeftEncoderRaw(){
+		return this.left_encoder.getRaw();
+	}
+	public double getRightEncoderRaw(){
+		return this.right_encoder.getRaw();
 	}
 	//Cuantas Cuentas lleva cada encoder
 	public double getLeftEncodeCount(){

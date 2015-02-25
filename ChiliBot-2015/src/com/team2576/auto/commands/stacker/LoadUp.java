@@ -28,7 +28,7 @@ public class LoadUp extends AutoCommands{
 		if((super.elapsed_time - super.start_time) < 3){
 			left_count = super.sensorData.getLeftEncodeCount();
 			right_count = super.sensorData.getRightEncoderCount();
-			super.output.setLifters(1);
+			super.output.setLifters(1, 1);
 			return false;
 		}
 		super.elapsed_time = super.getTime();

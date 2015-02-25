@@ -16,6 +16,11 @@ public class VisionServer implements Servers{
 	
 	private Vector<Object> data;
 	
+	public enum GameMode {
+		AUTO,
+		TELE
+	};
+	
 	/**
 	 * Gets the single instance of VisionServer.
 	 *
@@ -47,6 +52,7 @@ public class VisionServer implements Servers{
 	 * @return true, if successful
 	 */
 	public boolean initializeTable() {
+		this.data.add(ChiliConstants.iX, ChiliConstants.kFrameWidthCenter);
 		try {
 			table.putBoolean(ChiliConstants.kStartKey, true);
 			table.putBoolean(ChiliConstants.kVisionClientConnected, false);
@@ -65,11 +71,21 @@ public class VisionServer implements Servers{
 		} catch (TableKeyNotDefinedException err){
 			err.printStackTrace();
 			confirmation = false;
-			return false;
+			return confirmation;
 		}
 		return confirmation;
 	}
 	
+	public boolean setMode(VisionServer.GameMode type) {
+		boolean isYellow = (type == VisionServer.GameMode.AUTO) ? true : false;
+		try {
+			table.putBoolean(ChiliConstants.kAutoMode, isYellow);
+		} catch (TableKeyNotDefinedException err) {
+			err.printStackTrace();
+			return false;
+		}		
+		return true;
+	}
 
 	/**
 	 * Gets the data.
@@ -91,19 +107,37 @@ public class VisionServer implements Servers{
 	}
 	
 	public double getX() {
-		return (double) this.data.elementAt(ChiliConstants.iX);
+		double x;
+		try{
+			x =  (double) this.data.elementAt(ChiliConstants.iX);
+		} catch (TableKeyNotDefinedException err){
+			err.printStackTrace();
+			x = -1;
+		} return x;
 	}
 	
 	public double getY() {
-		return (double) this.data.elementAt(ChiliConstants.iY);
+		try{
+			return (double) this.data.elementAt(ChiliConstants.iY);
+		} catch (TableKeyNotDefinedException err){
+			err.printStackTrace();
+		} return -1;
 	}
 	
 	public double getDist() {
-		return (double) this.data.elementAt(ChiliConstants.iD);
+		try{
+			return (double) this.data.elementAt(ChiliConstants.iD);
+		} catch (TableKeyNotDefinedException err){
+			err.printStackTrace();
+		} return -1;
 	}
 	
 	public boolean getNewCentroid() {
-		return (boolean) this.data.elementAt(ChiliConstants.iN);
+		try{
+			return (boolean) this.data.elementAt(ChiliConstants.iN);
+		} catch (TableKeyNotDefinedException err){
+			err.printStackTrace();
+		} return false;
 	}
 
 }

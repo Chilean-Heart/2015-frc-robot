@@ -16,7 +16,6 @@ public class ChiliConstants {
 	public static final double kInchToCm = 2.54;
 	public static final double kVoltsPerInch = kMaxBotixSuppliedVoltage / 512;
 	public static final double kVoltsPerCm = kVoltsPerInch * kInchToCm;
-	public static final double kDistancePerPulse = 1;
 	public static final double kAutoTime = 15.0;
 	public static final String kDataTable = "vision";
 	public static final int kRetryConnectionInterval = 50;
@@ -24,7 +23,17 @@ public class ChiliConstants {
 	public static final int kFrameWidth = 320;
 	public static final int kFrameHeight = 240;
 	public static final int kFrameWidthCenter = kFrameWidth / 2;
-	//---------------------------------------------
+	public static final double kCmPerPulse = (5 * Math.PI) / (497 * (35 / 22)); //0.01985628074585401174209382659252
+    public static final double kMaxDist = 10.0;
+    public static final double kMaxPulse = kMaxDist / kCmPerPulse; //aprox 500
+    public static final double kDistancePerPulse = ChiliConstants.kCmPerPulse;
+    public static final double kToterTimeThreshold = 1;
+    public static final double kPatoGyroMaxDist = 30;
+    public static final double kPatoGyroP = 1 / kPatoGyroMaxDist;
+    public static final double kStrafeThreshold = 0.05;
+    public static final double kPatoAccelYP = 0.5;
+    
+    //---------------------------------------------
 	//---------------------------------------------
 	
 	//---------------------------------------------
@@ -38,8 +47,8 @@ public class ChiliConstants {
 	public static final byte rear_right_motor = 3;
 	//---------------------------------------------
 	//MECHANISM MOTORS
-	public static final byte left_lifter_motor = 8;
-	public static final byte right_lifter_motor = 9;
+	public static final byte left_lifter_motor = 9;
+	public static final byte right_lifter_motor = 8;
 	//INFO PACKETS INDEX
 	public static final byte iPatoDriveForces = 0;
 	public static final byte iFrontLeftForce = 0;
@@ -59,16 +68,16 @@ public class ChiliConstants {
 	public static final byte rear_left_encoder = 2;
 	public static final byte front_right_encoder = 3;
 	public static final byte rear_right_encoder = 4;
-	public static final byte left_encoder_channelA = 6;
-	public static final byte left_encoder_channelB = 7;
-	public static final byte right_encoder_channelA = 8;
-	public static final byte right_encoder_channelB = 9;
-	/*public static final byte bot_left_limit = 9;
-	public static final byte bot_right_limit = 10;
-	public static final byte top_left_limit = 11;
-	public static final byte top_right_limit = 12;*/
+	public static final byte left_encoder_channelA = 8;
+	public static final byte left_encoder_channelB = 9;
+	public static final byte right_encoder_channelA = 6;
+	public static final byte right_encoder_channelB = 7;
+	public static final byte left_limit = 5;
+	public static final byte right_limit = 4;
+	//public static final byte top_left_limit = 11;
+	//public static final byte top_right_limit = 12;
 	//---------------------------------------------	
-	public static final boolean kUseGyro = false;
+	public static final boolean kUseGyro = true;
 	//---------------------------------------------
 	//---------------------------------------------
 	
@@ -108,6 +117,7 @@ public class ChiliConstants {
 	public static final int kAmountKeys = 4;
 	public static final String kStartKey = "connection_state";
 	public static final String kVisionClientConnected = "vclient_connected";
+	public static final String kAutoMode = "auto";
 	public static final String[] iTablesIndex = {
 		"X", "Y", "centroid_new", "dist"
 	};

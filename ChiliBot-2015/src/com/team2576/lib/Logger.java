@@ -32,8 +32,8 @@ public class Logger {
 	private SensorInput sensor;
 	private VisionServer server;
 	
-	private String loggables = "time,frontLeftForce,rearLeftForce,frontRightForce,rearRightForce,winchForce,"
-							 + "batteryVoltage,pdpTemp,pdpTotalCurrent,current0,current1,current2,current3,"
+	private String loggables = "time,frontLeftForce,rearLeftForce,frontRightForce,rearRightForce,leftLifterForce,"
+							 + "rightLifterForce,batteryVoltage,pdpTemp,pdpTotalCurrent,current0,current1,current2,current3,"
 							 + "current4,current5,current6,current7,x,y,dist,newCentroid";
 	
 	public static Logger getInstance() {
@@ -83,7 +83,8 @@ public class Logger {
 			this.writer.write(String.format(",%.2f", this.output.getForces(1) ));
 			this.writer.write(String.format(",%.2f", this.output.getForces(2) ));
 			this.writer.write(String.format(",%.2f", this.output.getForces(3) ));
-			this.writer.write(String.format(",%.2f", this.output.getLifterForce() ));
+			this.writer.write(String.format(",%.2f", this.output.getLeftLifterForce() ));
+			this.writer.write(String.format(",%.2f", this.output.getRightLifterForce() ));
 			this.writer.write(String.format(",%.2f", this.sensor.getBatteryVoltage() ));
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPTemp() ));
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPTotalCurrent() ));

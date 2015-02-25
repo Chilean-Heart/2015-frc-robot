@@ -54,7 +54,7 @@ public class DriverInput {
 	}
 	
 	public double getXboxRightY() {
-		return ChiliFunctions.deadBand(this.xbox_controller.getRawAxis(ChiliConstants.iRightYAxis), ChiliConstants.kAxisThreshold) * -ChiliConstants.kYAxisInvert;
+		return ChiliFunctions.deadBand(this.xbox_controller.getRawAxis(ChiliConstants.iRightYAxis), ChiliConstants.kAxisThreshold) * ChiliConstants.kYAxisInvert;
 	}	
 	
 	public boolean getXboxButton(int button_code) {
