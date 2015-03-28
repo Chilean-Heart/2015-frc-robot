@@ -5,8 +5,6 @@ package com.team2576.robot.subsystems;
 * @author PatoLucash
 */
 
-import java.util.Vector;
-
 import com.team2576.lib.Debugger;
 import com.team2576.lib.VisionServer;
 import com.team2576.lib.util.ChiliConstants;
@@ -24,10 +22,9 @@ public class PatoDrive implements SubComponent {
 	public static int selector;
 	private boolean selector_error, vision_override;
 	private boolean first_strafe;
-	private double first_gyro_state, gyroCorrect, accelYCorrect, accelAvr;
+	private double first_gyro_state, gyroCorrect, accelYCorrect;
     private double drive_toggle_marker;
     private double[] forces, disable_forces;
-    private Vector<Double> accelY = new Vector<Double>(4);
     
     private ChiliPID vision_strafer;
     
@@ -85,7 +82,7 @@ public class PatoDrive implements SubComponent {
 
     }
     
-    private double[] mecanumDriveWpi(double x, double y, double rotation, double gyroAngle, 
+    public double[] mecanumDriveWpi(double x, double y, double rotation, double gyroAngle, 
     		double gyroDrift, double accelXDrift, double accelYDrift) {
     	
     	double xIn = x;
@@ -93,16 +90,6 @@ public class PatoDrive implements SubComponent {
         // Negate y for the joystick.
         yIn = -yIn;
         
-        /*
-        this.accelY.add(accelYDrift);
-        if(accelY.size() > 4) {
-        	accelY.clear();
-        }
-        for (int i = 0; i < accelY.size(); i++) {
-        	accelAvr += accelY.elementAt(i);
-		}
-        accelAvr /= accelY.size();*/
-    	
     	if(Math.abs(x) > ChiliConstants.kStrafeThreshold && !first_strafe) {
     		first_strafe = true;
     		first_gyro_state = gyroDrift;
@@ -128,14 +115,14 @@ public class PatoDrive implements SubComponent {
         wheelSpeeds[1] = -xIn + yIn + rotation;
         wheelSpeeds[3] = xIn + yIn - rotation;
         
-        System.out.print("PRENORM: FL Force: " + forces[0]);
+        /*System.out.print("PRENORM: FL Force: " + forces[0]);
 		System.out.print(" ,PRENORM: RL Force: " + forces[1]);
 		System.out.print(" ,PRENORM: FR Force: " + forces[2]);
-		System.out.println(" ,PRENORM: RR Force: " + forces[3]);
+		System.out.println(" ,PRENORM: RR Force: " + forces[3]);*/
 
         ChiliFunctions.normalize(wheelSpeeds);
         
-        System.out.print("POSTNORM: FL Force: " + forces[0]);
+        /*System.out.print("POSTNORM: FL Force: " + forces[0]);
 		System.out.print(" ,POSTNORM: RL Force: " + forces[1]);
 		System.out.print(" ,POSTNORM: FR Force: " + forces[2]);
 		System.out.println(" ,POSTNORM: RR Force: " + forces[3]);
@@ -147,7 +134,7 @@ public class PatoDrive implements SubComponent {
         SmartDashboard.putNumber("Rotate", rotation);
         SmartDashboard.putNumber("Accel X", accelXDrift);
         SmartDashboard.putNumber("Accel Y", accelYDrift);
-        SmartDashboard.putNumber("Y Correct", accelYCorrect);
+        SmartDashboard.putNumber("Y Correct", accelYCorrect);*/
         return wheelSpeeds;
     }
     
@@ -315,6 +302,23 @@ public class PatoDrive implements SubComponent {
 		        	double rotate = (( (driver.getXboxRightY() * -1) + (driver.getXboxLeftY() * 1)) / 2);
 		        	double ver = (( (driver.getXboxRightY() * -1) - (driver.getXboxLeftY() * 1)) / 2);
 		        	
+		        	if(driver.getXboxButtonLeftTrigger()) {
+		        		if(hor > 0) {
+		        			hor = hor * hor;
+		        		} else {
+		        			hor = hor * hor * -1;
+		        		}
+		        		if(ver > 0) {
+		        			ver = ver * ver;
+		        		} else {
+		        			ver = ver * ver * -1;
+		        		}
+		        		if(rotate > 0) {
+		        			rotate = rotate * rotate;
+		        		} else {
+		        			rotate = rotate * rotate * -1;
+		        		}
+		        	}
 		        	
 		    		/*double hor = driver.getXboxRightTrigger() - driver.getXboxLeftTrigger();
 		    		double rotate = (driver.getXboxLeftY() + driver.getXboxRightY()) / 2;

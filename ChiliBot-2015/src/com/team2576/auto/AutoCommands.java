@@ -22,7 +22,9 @@ public abstract class AutoCommands {
 	protected boolean first_cycle;
 	
 	protected AutoCommands() {
-		
+		output = RobotOutput.getInstance();
+		driverData = DriverInput.getInstance();
+		sensorData = SensorInput.getInstance();
 	}
 	
 	protected double getTime() {

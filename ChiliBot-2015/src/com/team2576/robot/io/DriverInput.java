@@ -17,6 +17,7 @@ public class DriverInput {
 	private final Joystick xbox_controller;
 	private final Joystick logitech_joy;
 	private final Joystick mad_catz;
+	private final Joystick xbox_secondary;
 	
 	public static DriverInput getInstance() {
 		if(instance == null) {
@@ -29,7 +30,20 @@ public class DriverInput {
 		xbox_controller = new Joystick(ChiliConstants.iXboxJoystick);
 		logitech_joy = new Joystick(ChiliConstants.iLogitech);
 		mad_catz = new Joystick(ChiliConstants.iMadCatz);
+		xbox_secondary = new Joystick(ChiliConstants.iXboxSecondary);
 	}	
+	
+	public double getXboxSecondaryLeftY() {
+		return ChiliFunctions.deadBand(this.xbox_secondary.getRawAxis(ChiliConstants.iLeftYAxis), ChiliConstants.kAxisThreshold) * ChiliConstants.kYAxisInvert;
+	}
+	
+	public double getXboxSecondaryRightY() {
+		return ChiliFunctions.deadBand(this.xbox_secondary.getRawAxis(ChiliConstants.iRightYAxis), ChiliConstants.kAxisThreshold) * ChiliConstants.kYAxisInvert;
+	}
+	
+	public boolean getXboxSecondaryButtonRightTrigger() {
+		return this.xbox_secondary.getRawButton(6);
+	}
 	
 	
 	

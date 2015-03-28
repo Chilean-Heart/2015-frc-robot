@@ -20,6 +20,7 @@ public class Toter implements SubComponent {
 	private boolean correct = false;
 	private boolean first_cycle = true;
 	private double time_flag;
+	private boolean first_static = false;
 	
 	private static Toter instance;
 	private RobotOutput output;
@@ -62,13 +63,25 @@ public class Toter implements SubComponent {
 			first_cycle = false;
 		}
 		
-		this.lifter_force = driver.getLogitechY();
+		this.lifter_force = driver.getXboxSecondaryRightY();
 		this.left_encoder_raw = sensor.getLeftEncoderRaw();
     	this.right_encoder_raw = sensor.getRightEncoderRaw();
+    	
+    	SmartDashboard.putNumber("CDCH LEFT ENCODER", left_encoder_raw);
+    	SmartDashboard.putNumber("CDCH RIGHT ENCODER", right_encoder_raw);
 		
+    	//SmartDashboard.putNumber("ALERT", value);
+    	
 		if(toter_error) {
 			return false;
 		}
+		
+		/*if(lifter_force < 0.1 || lifter_force > -0.1){
+			first_static = true;
+			if(first_static) {
+				
+			}
+		} first_static = false;*/
 		
 		double dif = Math.abs(left_encoder_raw - right_encoder_raw);
 		
@@ -86,16 +99,21 @@ public class Toter implements SubComponent {
     	SmartDashboard.putBoolean("Left limit", sensor.getLeftLimit());
     	SmartDashboard.putBoolean("Right limit", sensor.getRightLimit());
     	SmartDashboard.putNumber("Time flag", time_flag);*/
+		
+		if(driver.getXboxSecondaryButtonRightTrigger()) {
+			this.output.setLifters(driver.getXboxSecondaryLeftY(), driver.getXboxSecondaryRightY());
+			return true;
+		}
     	
     	if(sensor.getLeftLimit() && !sensor.getRightLimit() && (time_dif > ChiliConstants.kToterTimeThreshold)) {
-    		this.output.setRightLifter(-0.4);
+    		this.output.setRightLifter(-0.6);
     		this.output.setLeftLifter(0);    		
     		correct = true;
     		//System.out.println("a, " + time_dif);
     	} 
     	if(sensor.getRightLimit() && !sensor.getLeftLimit() && (time_dif > ChiliConstants.kToterTimeThreshold)) {    		
     		this.output.setRightLifter(0);
-    		this.output.setLeftLifter(-0.4);
+    		this.output.setLeftLifter(-0.6);
     		correct = true;
     		//System.out.println("b, " + time_dif);
     	}

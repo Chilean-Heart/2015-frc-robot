@@ -106,10 +106,10 @@ public class VisionServer implements Servers{
 		return this.data;		
 	}
 	
-	public double getX() {
-		double x;
+	public int getX() {
+		int x;
 		try{
-			x =  (double) this.data.elementAt(ChiliConstants.iX);
+			x =  (int) this.data.elementAt(ChiliConstants.iX);
 		} catch (TableKeyNotDefinedException err){
 			err.printStackTrace();
 			x = -1;
@@ -117,27 +117,33 @@ public class VisionServer implements Servers{
 	}
 	
 	public double getY() {
+		double y;
 		try{
-			return (double) this.data.elementAt(ChiliConstants.iY);
+			y =  (double) this.data.elementAt(ChiliConstants.iY);
 		} catch (TableKeyNotDefinedException err){
 			err.printStackTrace();
-		} return -1;
+			y = -1;
+		} return y;
 	}
 	
 	public double getDist() {
+		double dist;
 		try{
-			return (double) this.data.elementAt(ChiliConstants.iD);
+			dist =  (double) this.data.elementAt(ChiliConstants.iD);
 		} catch (TableKeyNotDefinedException err){
 			err.printStackTrace();
-		} return -1;
+			dist = -1;
+		} return dist;
 	}
 	
 	public boolean getNewCentroid() {
+		boolean centroid;
 		try{
-			return (boolean) this.data.elementAt(ChiliConstants.iN);
+			centroid = (boolean) this.data.elementAt(ChiliConstants.iN);
 		} catch (TableKeyNotDefinedException err){
 			err.printStackTrace();
-		} return false;
+			centroid = false;
+		} return centroid;
 	}
 
 }

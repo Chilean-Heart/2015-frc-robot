@@ -11,8 +11,8 @@ import com.team2576.auto.commands.drive.DriveStraightTime;
 
 public class DriveForward implements AutoRoutines{
 
-	private final double time_to_drive = 2;
-	private final double force_to_drive = 0.6;
+	private final double time_to_drive = 1;
+	private final double force_to_drive = 1.0;
 	
 	public AutoCommands[] generateSequence() {
 		AutoGenerator commmands = new AutoGenerator();

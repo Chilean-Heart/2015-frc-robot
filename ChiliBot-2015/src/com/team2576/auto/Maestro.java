@@ -28,10 +28,20 @@ public class Maestro {
 				ChiliConstants.kStandardVectorSize,
 				ChiliConstants.kStandardVectorIncrement);
 	}
+	
+	public void reset() {
+		this.finished = false;
+		for (int i = 0; i < all_done.length; i++) {
+			all_done[i] = false;
+		}
+	}
 
 	public boolean conduct() {
 		for (int i = 0; i < this.commands.length; i++) {
-			this.all_done[i] = this.commands[i].update();
+			if(commands[i] instanceof AutoCommands) {
+				//System.out.println("Yep");
+				this.all_done[i] = this.commands[i].update();
+			}
 		}
 		for (int j = 0; j < this.all_done.length; j++) {
 			this.finished = all_done[j];
@@ -50,6 +60,7 @@ public class Maestro {
 	public void setRoutine() {
 		this.auton_mode = this.discipulos.elementAt(this.auton_selector);
 		this.commands = this.auton_mode.generateSequence();
+		this.all_done = new boolean[commands.length];
 		for (int i = 0; i < commands.length; i++) {
 			System.out.print(this.commands[i] + ", ");
 		}

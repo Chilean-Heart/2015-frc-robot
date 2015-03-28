@@ -138,8 +138,8 @@ public class RobotOutput {
 	public void setDrive(double fl, double rl, double fr, double rr) {
 		this.front_left.set(fl);
 		this.rear_left.set(rl);
-		this.front_right.set(-fr);
-		this.rear_right.set(-rr);
+		this.front_right.set(-1 * fr);
+		this.rear_right.set(-1 * rr);
 	}
 
 	//Metodo para fijar las velocidades de todos los motores del chasis desde un arreglo
@@ -222,7 +222,7 @@ public class RobotOutput {
 	public void setAllDrives(double x) {
 		this.front_left.set(x);
 		this.rear_left.set(x);
-		this.front_right.set(x);
-		this.rear_right.set(x);
+		this.front_right.set(-1 * x);
+		this.rear_right.set(-1 * x);
 	}
 }

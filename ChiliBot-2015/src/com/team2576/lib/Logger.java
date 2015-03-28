@@ -98,7 +98,7 @@ public class Logger {
 			this.writer.write(String.format(",%.2f", this.sensor.getPDPChannelCurrent(7) ));
 			if(ChiliRobot.vision_systems && this.server.awaitClient()){
 				this.server.getData();
-				this.writer.write(String.format(",%.2f", this.server.getX() ));
+				//this.writer.write(String.format(",%d", this.server.getX() ));
 				this.writer.write(String.format(",%.2f", this.server.getY() ));
 				this.writer.write(String.format(",%.2f", this.server.getDist() ));
 				this.writer.write(String.format(",%b", this.server.getNewCentroid() ));

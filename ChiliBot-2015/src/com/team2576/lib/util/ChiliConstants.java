@@ -103,6 +103,7 @@ public class ChiliConstants {
 	public static final byte iXboxJoystick = 0;
 	public static final byte iLogitech = 1;
 	public static final byte iMadCatz = 2;
+	public static final byte iXboxSecondary = 3;
 	//---------------------------------------------
 	//DEADBAND THRESHOLDSi
 	public static final double kAxisThreshold = 0.2;
