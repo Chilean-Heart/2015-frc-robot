@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.Talon;
 
 /**
 *
-* @author Lucashhh
+* @author Lucas
 */
 
 public class RobotOutput {
@@ -54,6 +54,8 @@ public class RobotOutput {
 		left_lifter = new Jaguar(ChiliConstants.left_lifter_motor);
 		right_lifter = new Jaguar(ChiliConstants.right_lifter_motor);
 		
+		//Sensor object for some cheating.
+		//Objecto de sensor. "Trampa" para obtener ciertos valores.
 		sensor = SensorInput.getInstance();
 		
 		/*front_left.setSafetyEnabled(true);
@@ -167,35 +169,56 @@ public class RobotOutput {
 		this.setRightLifter(right);
 	}
 	
+	//Metodo para asignar velocidad a motor izquierdo del ascensor
+	/**
+	 * Sets the left lifter speed.
+	 *
+	 * @param x the new left lifter
+	 */
 	public void setLeftLifter(double x){
-		if(sensor.getLeftLimit() && x < 0) {
-			this.left_lifter.set(0);
-			this.setLeftLifterForce(0);
-		} else {
-			this.left_lifter.set(x);
-			this.setLeftLifterForce(x);
-		}
+		this.left_lifter.set(x);
+		this.setLeftLifterForce(x);
 		
 	}
 	
+	//Metodo para asignar velocidad a motor derecho del ascensor
+	/**
+	 * Sets the right lifter speed.
+	 *
+	 * @param x the new right lifter
+	 */
 	public void setRightLifter(double x){
-		if(sensor.getRightLimit() && x < 0) {
-			this.right_lifter.set(0);
-			this.setRightLifterForce(0);			
-		} else {
-			this.right_lifter.set(-1 * x);
-			this.setRightLifterForce(-1 * x);
-		}		
+		this.right_lifter.set(-1 * x);
+		this.setRightLifterForce(-1 * x);		
 	}
 	
+	//Actualiza el valor del motor izquierdo del ascensor.
+	/**
+	 * Updates the left lifter force.
+	 *
+	 * @param x the new left lifter force
+	 */
 	public void setLeftLifterForce(double x){
 		RobotOutput.left_lifter_force = x;
 	}
+	
+	//Actualiza el valor del motor derecho del ascensor.
+	/**
+	 * Sets the right lifter force.
+	 *
+	 * @param x the new right lifter force
+	 */
 	public void setRightLifterForce(double x){
 		RobotOutput.right_lifter_force = x;
 	}
 	
-	
+	//Retorna valores de los motores del chasis
+	/**
+	 * Gets the forces from drive motors.
+	 *
+	 * @param index Index value of forces
+	 * @return The speed in said index
+	 */
 	public double getForces(int index) {
 		if (index > this.forces.length) {
 			return -1;
@@ -203,13 +226,31 @@ public class RobotOutput {
 		return this.forces[index];
 	}
 	
+	//Retorna el valor del motor izquierdo del ascensor.
+	/**
+	 * Gets the left lifter force.
+	 *
+	 * @return the left lifter force
+	 */
 	public double getLeftLifterForce() {
 		return RobotOutput.left_lifter_force;
 	}
+	
+	//Retorna el valor del motor derecho del ascensor.
+	/**
+	 * Gets the right lifter force.
+	 *
+	 * @return the right lifter force
+	 */
 	public double getRightLifterForce() {
 		return RobotOutput.right_lifter_force;
 	}
 	
+	/*
+	 * Stop all motors.
+	 * 
+	 * Detiene todos los motores
+	 */
 	public void stopAll() {
 		this.front_left.set(0);
 		this.rear_left.set(0);
@@ -219,6 +260,12 @@ public class RobotOutput {
 		this.right_lifter.set(0);
 	}
 	
+	//Configura todos los motores del chasis a la misma velocidad.
+	/**
+	 * Sets the all the drive motors.
+	 *
+	 * @param x Speed for all motors
+	 */
 	public void setAllDrives(double x) {
 		this.front_left.set(x);
 		this.rear_left.set(x);

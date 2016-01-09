@@ -2,7 +2,7 @@ package com.team2576.lib.util;
 
 /**
 *
-* @author Samarithan
+* @author Lucas
 */
  
 public class ChiliConstants {
@@ -33,19 +33,19 @@ public class ChiliConstants {
     public static final double kStrafeThreshold = 0.05;
     public static final double kPatoAccelYP = 0.5;
     
-    //---------------------------------------------
-	//---------------------------------------------
+    //---------------------------------------------//
+	//---------------------------------------------//
 	
-	//---------------------------------------------
-	//--------------TELEOP CONSTANTS---------------
-	//---------------------------------------------
+	//---------------------------------------------//
+	//--------------TELEOP CONSTANTS---------------//
+	//---------------------------------------------//
 	//RobotOutput.java CONSTANTS
 	//DRIVE MOTORS
 	public static final byte front_left_motor = 0;
 	public static final byte rear_left_motor = 1;
 	public static final byte front_right_motor = 2;
 	public static final byte rear_right_motor = 3;
-	//---------------------------------------------
+	//---------------------------------------------//
 	//MECHANISM MOTORS
 	public static final byte left_lifter_motor = 9;
 	public static final byte right_lifter_motor = 8;
@@ -55,14 +55,14 @@ public class ChiliConstants {
 	public static final byte iRearLeftForce = 1;
 	public static final byte iFrontRightForce = 2;
 	public static final byte iRearRightForce = 3;
-	//---------------------------------------------
-	//---------------------------------------------
+	//---------------------------------------------//
+	//---------------------------------------------//
 	
 	//SensorInput.java CONSTANTS
 	//ANALOG SENSOR CHANNELS
 	public static final byte gyro_channel = 0;
 	public static final byte maxboxtix_channel = 1;
-	//---------------------------------------------
+	//---------------------------------------------//
 	//DIGITAL SENSOR CHANNELS
 	public static final byte front_left_encoder = 1;
 	public static final byte rear_left_encoder = 2;
@@ -76,10 +76,10 @@ public class ChiliConstants {
 	public static final byte right_limit = 4;
 	//public static final byte top_left_limit = 11;
 	//public static final byte top_right_limit = 12;
-	//---------------------------------------------	
+	//---------------------------------------------//
 	public static final boolean kUseGyro = true;
-	//---------------------------------------------
-	//---------------------------------------------
+	//---------------------------------------------//
+	//---------------------------------------------//
 	
 	//DriverInput.java
 	//XBOX READINGS INDEX
@@ -91,24 +91,24 @@ public class ChiliConstants {
 	public static final byte iRightYAxis = 5;
 	public static final byte iXboxButtons = 6;
 	public static final byte iXboxDriveTrigger = 7;
-	//---------------------------------------------
+	//---------------------------------------------//
 	//JOYSTICK READINGS INDEX
 	public static final byte iXAxis = 0;
 	public static final byte iYAxis = 1;
 	public static final byte iZAxis = 2;
 	public static final byte iZCatzAxis = 3;
 	public static final byte iThrottle = 3;	
-	//---------------------------------------------
+	//---------------------------------------------//
 	//CONTROLLER INDEX
 	public static final byte iXboxJoystick = 0;
 	public static final byte iLogitech = 1;
 	public static final byte iMadCatz = 2;
 	public static final byte iXboxSecondary = 3;
-	//---------------------------------------------
+	//---------------------------------------------//
 	//DEADBAND THRESHOLDSi
 	public static final double kAxisThreshold = 0.2;
-	//---------------------------------------------
-	//---------------------------------------------
+	//---------------------------------------------//
+	//---------------------------------------------//
 	
 	//ChiliServer.java
 	//KEY CONSTANTS
@@ -129,8 +129,8 @@ public class ChiliConstants {
 	public static final byte iY = 1;
 	public static final byte iN = 2;
 	public static final byte iD = 3;
-	//---------------------------------------------
-	//---------------------------------------------
+	//---------------------------------------------//
+	//---------------------------------------------//
 	
 	//Kapellmeister.java
 	//SUBSYSTEM INDEX POSITIONING
@@ -139,8 +139,8 @@ public class ChiliConstants {
 	public static final byte iStacker = 1;
 	//DEBUGGER STATE
 	public static final boolean kDefaultDebugState = true;
-	//---------------------------------------------
-	//---------------------------------------------
+	//---------------------------------------------//
+	//---------------------------------------------//
 	
 	//PatoDrive.java
 	//CLASS CONSTANTS
@@ -148,20 +148,20 @@ public class ChiliConstants {
 	public static final double kTimeBetweenToggle = 0.25;
 	public static final double kNoGyroDegrees = 180;
 	public static final byte kMotorCount = 4;
-	//---------------------------------------------
-	//---------------------------------------------
+	//---------------------------------------------//
+	//---------------------------------------------//
 	
-	//---------------------------------------------
-	//--------------AUTO CONSTANTS-----------------
-	//---------------------------------------------
+	//---------------------------------------------//
+	//--------------AUTO CONSTANTS-----------------//
+	//---------------------------------------------//
 	//com.team2576.auto.commands.drive
 	//INFO PACKETS INDEX
 	public static final byte iAFrontLeftForce = 0;
 	public static final byte iARearLeftForce = 1;
 	public static final byte iAFrontRightForce = 2;
 	public static final byte iARearRightForce = 3;	
-	//---------------------------------------------
-	//---------------------------------------------
+	//---------------------------------------------//
+	//---------------------------------------------//
 	
 	public ChiliConstants() {}
 }

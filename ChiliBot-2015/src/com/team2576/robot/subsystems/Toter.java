@@ -1,8 +1,11 @@
 package com.team2576.robot.subsystems;
 
 /**
+* Tote lifting mechanism subsystem.
+* 
+* Subsistema de mecanismo de alzado de totes.
 *
-* @author Bender
+* @author Lucas
 */
 
 import com.team2576.robot.io.*;
@@ -11,7 +14,7 @@ import com.team2576.lib.util.ChiliConstants;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-@SuppressWarnings("unused")
+
 public class Toter implements SubComponent {
 	
 	private int totes;
@@ -20,16 +23,10 @@ public class Toter implements SubComponent {
 	private boolean correct = false;
 	private boolean first_cycle = true;
 	private double time_flag;
-	private boolean first_static = false;
-	
 	private static Toter instance;
 	private RobotOutput output;
 	
 	private double left_encoder_raw, right_encoder_raw;
-	//private double encoder_error;
-	private double corrector;
-	//private ChiliPID lifter_control;
-	
 	public static Toter getInstance() {
 		if(instance == null) {
 			instance = new Toter();
@@ -37,19 +34,28 @@ public class Toter implements SubComponent {
 		return instance;
 	}
 	
+	/**
+	 * Instantiates a new toter class object.
+	 * 
+	 * Contructor para un nuevo objeto de clase toter.
+	 */
 	private Toter() {
 		
 		this.totes = 0;
 		this.lifter_force = 0;
 		this.left_encoder_raw = 0;
 		this.right_encoder_raw = 0;
-		//this.encoder_error = 0;
-		this.corrector = 0;
-		//this.lifter_control = new ChiliPID(0.05, 0, 0.005);		
 		time_flag = Timer.getFPGATimestamp();
 		output = RobotOutput.getInstance();		
 	}
 	
+	/** NOT IMPLEMENTED
+	 * Gets the amount of totes in the lift.
+	 * 
+	 * Retorna el numero de totes en el ascensor.
+	 *
+	 * @return the number of totes
+	 */
 	public int getTotes() {
 		return this.totes;
 	}
@@ -57,32 +63,29 @@ public class Toter implements SubComponent {
 	public boolean update(DriverInput driver, SensorInput sensor) {
 		
 		//Asumir que 0 es abajo
+		//Asume that 0 is the encoder count value at a lower position.
 		
 		if(first_cycle){
 			time_flag = Timer.getFPGATimestamp();
 			first_cycle = false;
 		}
 		
-		this.lifter_force = driver.getXboxSecondaryRightY();
+		//Obtain joystick values.
+		//Obtener valores de joystick.
+		//this.lifter_force = driver.getXboxSecondaryRightY();
+		this.lifter_force = driver.getLogitechY();
 		this.left_encoder_raw = sensor.getLeftEncoderRaw();
     	this.right_encoder_raw = sensor.getRightEncoderRaw();
     	
     	SmartDashboard.putNumber("CDCH LEFT ENCODER", left_encoder_raw);
     	SmartDashboard.putNumber("CDCH RIGHT ENCODER", right_encoder_raw);
-		
-    	//SmartDashboard.putNumber("ALERT", value);
     	
 		if(toter_error) {
 			return false;
 		}
 		
-		/*if(lifter_force < 0.1 || lifter_force > -0.1){
-			first_static = true;
-			if(first_static) {
-				
-			}
-		} first_static = false;*/
-		
+		//Calculates values for motors
+		//Calcula valor para los motores.
 		double dif = Math.abs(left_encoder_raw - right_encoder_raw);
 		
 		double regulate = 1 - (Math.min(dif, ChiliConstants.kMaxPulse) / ChiliConstants.kMaxPulse);
@@ -90,16 +93,9 @@ public class Toter implements SubComponent {
 		
 		double time_dif = Timer.getFPGATimestamp() - time_flag;
 		
-		/*SmartDashboard.putNumber("Left Raw", left_encoder_raw);
-    	SmartDashboard.putNumber("Right Raw", right_encoder_raw);
-    	SmartDashboard.putNumber("Move", lifter_force);
-    	SmartDashboard.putNumber("Regulate", regulate);
-    	SmartDashboard.putNumber("difference", dif);
-    	SmartDashboard.putBoolean("Correct", correct);
-    	SmartDashboard.putBoolean("Left limit", sensor.getLeftLimit());
-    	SmartDashboard.putBoolean("Right limit", sensor.getRightLimit());
-    	SmartDashboard.putNumber("Time flag", time_flag);*/
 		
+		//Read driver inputs to control lift with manual or automatic levelling controls.
+		//Lee entradas del driver para controlar el ascensor de manera manual o con nivelacion automatica.
 		if(driver.getXboxSecondaryButtonRightTrigger()) {
 			this.output.setLifters(driver.getXboxSecondaryLeftY(), driver.getXboxSecondaryRightY());
 			return true;
@@ -109,25 +105,23 @@ public class Toter implements SubComponent {
     		this.output.setRightLifter(-0.6);
     		this.output.setLeftLifter(0);    		
     		correct = true;
-    		//System.out.println("a, " + time_dif);
     	} 
     	if(sensor.getRightLimit() && !sensor.getLeftLimit() && (time_dif > ChiliConstants.kToterTimeThreshold)) {    		
     		this.output.setRightLifter(0);
     		this.output.setLeftLifter(-0.6);
     		correct = true;
-    		//System.out.println("b, " + time_dif);
     	}
     	if(sensor.getRightLimit() && sensor.getLeftLimit()) {
     		time_flag = Timer.getFPGATimestamp();
     		sensor.resetRightEncoder();
     		sensor.resetLeftEncoder();
     		correct = false;
-    		//System.out.println("c");
     	} else if (!sensor.getRightLimit() && !sensor.getLeftLimit()) {
     		correct = false;
-    		//System.out.println("d");
     	}
 		
+    	//Corrects the difference of heights between both sides.
+    	//Corrige la diferencia de altura entre ambos lados.
     	if(!correct){    		
 			if(this.lifter_force > 0){
 	        	if(this.left_encoder_raw > this.right_encoder_raw) {
@@ -179,21 +173,11 @@ public class Toter implements SubComponent {
 		//SmartDashboard.putNumber("Right power", RobotOutput.right_lifter_force);
 		
 		
-		/*
-		left_encoder_rate = sensor.getLeftEncoderRate();
-		right_encoder_rate = sensor.getRightEncoderRate();
-		encoder_error = left_encoder_rate - right_encoder_rate;
-		corrector = lifter_control.calcPID(encoder_error);
-		
-		this.output.setLeftLifter(lifter_force);
-		this.output.setRightLifter(lifter_force);
-		
-		
-		this.output.setLifterForce(lifter_force);*/
-		
 		return true;
 	}
 	
+	//Stops the motors
+	//Detiene los motores
 	public void disable() {
 		this.toter_error = false;
 		this.output.setLifters(0, 0);

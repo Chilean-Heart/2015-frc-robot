@@ -12,25 +12,40 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 /**
-*
-* @author C3-PO
-*/
+ * The Class SensorInput. Similar to DriverInput, but instead in charge of overlooking all sensors on the robot.
+ * It includes the RoboRIO's build in accelerometer, an external FRC gyro, 2 limit switches, the Power Distribution
+ * Panel (with the temperature and current draw sensors), 2 encoders on the lift motors and an I2C Sparkfun Gyro.
+ * 
+ * La Clase SensorInput. Similar a DriverInput, pero en vez de se encarga de supervisar todos los sensores en el robot.
+ * Inluye el accelerometro integrado del RoboRIO, un giroscopio externo de FRC, 2 sensores limite de carrera, el Panel 
+ * de Distribucion de Poder (con sensores de temperatura y corriente), 2 encoders en los motores del ascensor y un 
+ * giroscopio I2C de Sparkfun.
+ *
+ * @author Lucas
+ */
 
 public class SensorInput {
 	
 
 	private final BuiltInAccelerometer accel;
 	private final Gyro gyro;
-	//private final MaxBotix max_sensor;
 	private final DigitalInput limit_left, limit_right;
-	//private final MecanumEncoder e_front_left, e_rear_left, e_front_right, e_rear_right;
 	private final PowerDistributionPanel pdp;
 	private final Encoder left_encoder, right_encoder;
 	private final GyroITG3200 gyro_i2c;
-	//private final ADXL345_I2C_SparkFun accel_i2c;
 	
+	/** 
+	 * Unique instance of object.
+	 * 
+	 * Instancia unica del objeto.
+	 */
 	private static SensorInput instance;
 	
+	/**
+	 * Generates a single, static instance of the SensorInput class to allow universal and unique access to all sensors
+	 *
+	 * @return single instance of SensorInput
+	 */
 	public static SensorInput getInstance() {
 		if(instance == null) {
 			instance = new SensorInput();
@@ -38,25 +53,18 @@ public class SensorInput {
 		return instance;
 	}
 	
+	/**
+	 * Instantiates the Sensor Input module to read all sensors connected to the roboRIO.
+	 */
 	private SensorInput() {	
 		limit_left = new DigitalInput(ChiliConstants.left_limit);
 		limit_right = new DigitalInput(ChiliConstants.right_limit);
 		accel = new BuiltInAccelerometer(Accelerometer.Range.k2G);
-		//max_sensor = new MaxBotix(ChiliConstants.maxboxtix_channel);
 		gyro = new Gyro(ChiliConstants.gyro_channel);
-		/*limit_bot_left = new DigitalInput(ChiliConstants.bot_left_limit);
-		limit_bot_right = new DigitalInput(ChiliConstants.bot_right_limit);
-		limit_top_left = new DigitalInput(ChiliConstants.top_left_limit);
-		limit_top_right = new DigitalInput(ChiliConstants.top_right_limit);*/
 		pdp = new PowerDistributionPanel();
 		left_encoder = new Encoder(ChiliConstants.left_encoder_channelA, ChiliConstants.left_encoder_channelB, false);
 		right_encoder = new Encoder(ChiliConstants.right_encoder_channelA, ChiliConstants.right_encoder_channelB, true);
 		gyro_i2c = new GyroITG3200(I2C.Port.kOnboard);
-		//accel_i2c = new ADXL345_I2C_SparkFun(I2C.Port.kOnboard, Accelerometer.Range.k2G);
-		/*e_front_left = new MecanumEncoder(ChiliConstants.front_left_encoder);
-		e_rear_left = new MecanumEncoder(ChiliConstants.rear_left_encoder);
-		e_front_right = new MecanumEncoder(ChiliConstants.front_right_encoder);
-		e_rear_right = new MecanumEncoder(ChiliConstants.rear_right_encoder);*/
 		
 		gyro_i2c.initialize();
 		gyro_i2c.reset();
@@ -68,6 +76,12 @@ public class SensorInput {
 	
 	//---Inner Accel Functions---
 	
+	
+	/**
+	 * Gets the accel x.
+	 *
+	 * @return the accel x
+	 */
 	public double getAccelX() {
 		return this.accel.getX();
 	}
